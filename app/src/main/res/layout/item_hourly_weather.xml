@@ -38,8 +38,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="5dp"
             android:scaleType="fitCenter"
-            android:contentDescription="@string/weather_icon"
-            tools:src="@drawable/ic_weather_default" />
+            tools:src="@drawable/ic_weather_default"/>
 
         <!-- Nhiệt độ -->
         <TextView
