@@ -1,0 +1,84 @@
+package com.example.weather.data.repository
+
+import com.example.weather.BuildConfig
+import com.example.weather.data.api.RetrofitClient
+import com.example.weather.data.api.WeatherApiService
+import com.example.weather.data.model.ForecastResponse
+import com.example.weather.data.model.WeatherResponse
+import com.example.weather.utils.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
+/**
+ * Repository trong mô hình MVVM chịu trách nhiệm quản lý nguồn dữ liệu thời tiết (Local/Remote).
+ * Tách biệt hoàn toàn tầng dữ liệu khỏi ViewModel và UI.
+ */
+class WeatherRepository(
+    private val apiService: WeatherApiService = RetrofitClient.weatherApiService,
+    private val apiKey: String = BuildConfig.OPEN_WEATHER_API_KEY
+) {
+
+    /**
+     * Lấy dữ liệu thời tiết hiện tại cho thành phố
+     */
+    suspend fun getCurrentWeather(cityName: String): Resource<WeatherResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.getCurrentWeather(
+                    cityName = cityName,
+                    apiKey = apiKey
+                )
+                if (response.isSuccessful && response.body() != null) {
+                    Resource.Success(response.body()!!)
+                } else {
+                    Resource.Error("Lỗi từ máy chủ: ${response.code()} ${response.message()}")
+                }
+            } catch (e: Exception) {
+                Resource.Error(e.localizedMessage ?: "Đã xảy ra lỗi kết nối mạng", e)
+            }
+        }
+    }
+
+    /**
+     * Lấy dữ liệu thời tiết hiện tại theo toạ độ GPS
+     */
+    suspend fun getCurrentWeatherByCoords(lat: Double, lon: Double): Resource<WeatherResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.getCurrentWeatherByCoords(
+                    lat = lat,
+                    lon = lon,
+                    apiKey = apiKey
+                )
+                if (response.isSuccessful && response.body() != null) {
+                    Resource.Success(response.body()!!)
+                } else {
+                    Resource.Error("Lỗi từ máy chủ: ${response.code()} ${response.message()}")
+                }
+            } catch (e: Exception) {
+                Resource.Error(e.localizedMessage ?: "Đã xảy ra lỗi kết nối mạng", e)
+            }
+        }
+    }
+
+    /**
+     * Lấy dự báo 5 ngày cho thành phố
+     */
+    suspend fun getForecast(cityName: String): Resource<ForecastResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.getForecast(
+                    cityName = cityName,
+                    apiKey = apiKey
+                )
+                if (response.isSuccessful && response.body() != null) {
+                    Resource.Success(response.body()!!)
+                } else {
+                    Resource.Error("Lỗi từ máy chủ: ${response.code()} ${response.message()}")
+                }
+            } catch (e: Exception) {
+                Resource.Error(e.localizedMessage ?: "Đã xảy ra lỗi kết nối mạng", e)
+            }
+        }
+    }
+}

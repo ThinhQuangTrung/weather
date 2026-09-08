@@ -1,0 +1,43 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    
+    <!-- Sun Glow Rays -->
+    <path
+        android:fillColor="#FBBF24"
+        android:pathData="M65,18 L67,18 L67,24 L65,24 Z" />
+    <path
+        android:fillColor="#FBBF24"
+        android:pathData="M81.5,24.8 L82.9,26.2 L78.7,30.4 L77.3,29 Z" />
+    <path
+        android:fillColor="#FBBF24"
+        android:pathData="M88,41 L88,43 L82,43 L82,41 Z" />
+    <path
+        android:fillColor="#FBBF24"
+        android:pathData="M82.9,57.8 L81.5,59.2 L77.3,55 L78.7,53.6 Z" />
+    <path
+        android:fillColor="#FBBF24"
+        android:pathData="M48.5,24.8 L49.9,26.2 L45.7,30.4 L44.3,29 Z" />
+        
+    <!-- Sun Body -->
+    <path
+        android:fillColor="#F59E0B"
+        android:pathData="M66,42m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0" />
+
+    <!-- Cloud Shadow -->
+    <path
+        android:fillColor="#D8E2EC"
+        android:pathData="M32,67 C23.2,67 16,59.8 16,51 C16,42.8 22.3,36 30.3,35.1 C33.3,26.5 41.5,20.5 51,20.5 C62.3,20.5 71.6,29.1 72.8,40.1 C78,41.4 82,46.2 82,52 C82,58.6 76.6,64 70,64 L32,64 Z" />
+
+    <!-- Main Cloud Body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M32,64 C23.7,64 17,57.3 17,49 C17,41.3 22.9,35 30.5,34.1 C33.3,25.8 41.3,20 50.5,20 C61.3,20 70.2,28.2 71.3,38.8 C76.3,40.1 80,44.6 80,50 C80,56.6 74.6,62 68,62 L32,62 Z" />
+
+    <!-- Raindrop -->
+    <path
+        android:fillColor="#0284C7"
+        android:pathData="M50,68 C50,68 44,76 44,80 C44,83.3 46.7,86 50,86 C53.3,86 56,83.3 56,80 C56,76 50,68 50,68 Z" />
+</vector>

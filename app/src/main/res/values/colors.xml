@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <!-- Background -->
+    <color name="bg_main">#F8FAFC</color>
+    
+    <!-- App Brand Colors -->
+    <color name="brand_title">#0A4D80</color>
+    <color name="brand_subtitle">#1E293B</color>
+    <color name="brand_section_title">#64748B</color>
+    <color name="brand_page_counter">#0284C7</color>
+    
+    <!-- Card Colors -->
+    <color name="card_bg">#FFFFFF</color>
+    <color name="card_border">#F1F5F9</color>
+    <color name="card_title">#0F172A</color>
+    <color name="card_desc">#64748B</color>
+    
+    <!-- Stat Item Colors -->
+    <color name="stat_primary">#0284C7</color>
+    <color name="stat_secondary">#D97706</color>
+    <color name="stat_teal">#0D9488</color>
+    
+    <!-- Badges & Tags -->
+    <color name="badge_blue_bg">#E0EDFF</color>
+    <color name="badge_blue_icon">#0284C7</color>
+    <color name="badge_orange_bg">#FFEDD5</color>
+    <color name="badge_orange_icon">#EA580C</color>
+    <color name="badge_teal_bg">#CCFBF1</color>
+    <color name="badge_teal_icon">#0D9488</color>
+    
+    <color name="tag_gray_bg">#E2E8F0</color>
+    <color name="tag_gray_text">#475569</color>
+    <color name="tag_orange_bg">#FFEDD5</color>
+    <color name="tag_orange_text">#C2410C</color>
+    <color name="tag_teal_bg">#CCFBF1</color>
+    <color name="tag_teal_text">#0F766E</color>
+    
+    <!-- Indicators -->
+    <color name="dot_active">#005B94</color>
+    <color name="dot_inactive">#CBD5E1</color>
+    
+    <!-- Buttons & Footer -->
+    <color name="btn_primary_bg">#005B94</color>
+    <color name="btn_primary_pressed">#004775</color>
+    <color name="btn_primary_text">#FFFFFF</color>
+    <color name="footer_text">#94A3B8</color>
+    
+    <!-- Home Screen Tokens -->
+    <color name="home_bg">#F8FAFC</color>
+    <color name="unit_toggle_bg">#E0F2FE</color>
+    <color name="unit_toggle_active">#0284C7</color>
+    <color name="unit_toggle_text_active">#FFFFFF</color>
+    <color name="unit_toggle_text_inactive">#475569</color>
+    
+    <color name="hero_gradient_top">#E0F2FE</color>
+    <color name="hero_gradient_bottom">#FFF4E6</color>
+    <color name="hero_pill_bg">#40FFFFFF</color>
+    <color name="hero_pill_border">#B9E6FE</color>
+    <color name="hero_temp_color">#0F172A</color>
+    <color name="hero_temp_unit">#0284C7</color>
+    <color name="hero_card_text_secondary">#475569</color>
+    
+    <color name="telemetry_card_bg">#FFFFFF</color>
+    <color name="telemetry_card_border">#F1F5F9</color>
+    <color name="telemetry_title">#64748B</color>
+    <color name="telemetry_value">#0F172A</color>
+    <color name="telemetry_subtitle">#64748B</color>
+    
+    <color name="badge_humidity_bg">#E0F2FE</color>
+    <color name="badge_humidity_icon">#0284C7</color>
+    <color name="badge_wind_bg">#E0F2FE</color>
+    <color name="badge_wind_icon">#0284C7</color>
+    <color name="badge_vis_bg">#E0F2FE</color>
+    <color name="badge_vis_icon">#0284C7</color>
+    <color name="badge_press_bg">#E0F2FE</color>
+    <color name="badge_press_icon">#0284C7</color>
+    
+    <color name="pill_humidity_bg">#E0F2FE</color>
+    <color name="pill_humidity_text">#0369A1</color>
+    <color name="pill_wind_bg">#E0F2FE</color>
+    <color name="pill_wind_text">#0284C7</color>
+    <color name="pill_vis_bg">#F0FDF4</color>
+    <color name="pill_vis_text">#16A34A</color>
+    <color name="pill_press_bg">#FEF3C7</color>
+    <color name="pill_press_text">#B45309</color>
+    
+    <color name="progress_track">#E2E8F0</color>
+    <color name="progress_humidity">#0284C7</color>
+    
+    <color name="sun_arc">#FBBF24</color>
+    <color name="sun_badge_bg">#FEF3C7</color>
+    <color name="sun_badge_icon">#D97706</color>
+    <color name="moon_badge_bg">#F1F5F9</color>
+    <color name="moon_badge_icon">#64748B</color>
+    
+    <!-- Bottom Nav -->
+    <color name="bottom_nav_bg">#FFFFFF</color>
+    <color name="bottom_nav_border">#F1F5F9</color>
+    <color name="bottom_nav_active_pill">#DDF2FE</color>
+    <color name="bottom_nav_active_tint">#0284C7</color>
+    <color name="bottom_nav_inactive_tint">#64748B</color>
+</resources>

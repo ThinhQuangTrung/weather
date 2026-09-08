@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Thời Tiết</string>
+    <string name="app_subtitle">Dự báo thời tiết thông minh</string>
+    <string name="section_core_features">TÍNH NĂNG CỐT LÕI</string>
+    <string name="page_counter_format">%1$d / %2$d</string>
+    
+    <!-- Card 1 -->
+    <string name="card1_tag">Trạng thái</string>
+    <string name="card1_title">Thời tiết thời gian thực</string>
+    <string name="card1_desc">Theo dõi nhiệt độ hiện tại, độ ẩm không khí, tốc độ gió và chỉ số UV với cập nhật tức thì từ cảm biến và OpenWeatherMap API.</string>
+    <string name="card1_stat1">14 km/h Gió</string>
+    <string name="card1_stat2">68% Ẩm</string>
+    <string name="card1_stat3">UV 4</string>
+    
+    <!-- Card 2 -->
+    <string name="card2_tag">Mưa &amp; Biểu đồ</string>
+    <string name="card2_title">Dự báo 5 ngày / 3 giờ</string>
+    <string name="card2_desc">Lên kế hoạch tuần hoàn hảo với biểu đồ xu hướng nhiệt độ và các mốc thời gian 3 tiếng trực quan dạng danh sách trượt mượt mà.</string>
+    <string name="card2_stat1">Giám sát</string>
+    <string name="card2_stat2">Xu hướng nhiệt độ</string>
+    <string name="card2_stat3">Xác suất mưa</string>
+    
+    <!-- Card 3 -->
+    <string name="card3_tag">GPS Toàn cầu</string>
+    <string name="card3_title">Tìm kiếm &amp; Lưu yêu thích</string>
+    <string name="card3_desc">Tra cứu thời tiết tại bất kỳ địa danh nào trên thế giới với thông tin chi tiết và dữ liệu cập nhật theo thời gian thực.</string>
+    <string name="card3_stat1">Toàn cầu</string>
+    <string name="card3_stat2">GPS Tự động</string>
+    <string name="card3_stat3">Đa thành phố</string>
+    
+    <!-- Button & Footer -->
+    <string name="btn_start_now">Bắt đầu ngay</string>
+    <string name="footer_version">v1.0.0 • Open Source</string>
+</resources>
