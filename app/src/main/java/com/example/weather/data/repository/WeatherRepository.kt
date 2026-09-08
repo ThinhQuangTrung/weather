@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 /**
- * Repository trong mô hình MVVM chịu trách nhiệm quản lý nguồn dữ liệu thời tiết (Local/Remote).
+ * Repository chịu trách nhiệm quản lý nguồn dữ liệu thời tiết (Local/Remote).
  * Tách biệt hoàn toàn tầng dữ liệu khỏi ViewModel và UI.
  */
 class WeatherRepository(

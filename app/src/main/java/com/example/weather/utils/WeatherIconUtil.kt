@@ -75,16 +75,6 @@ object WeatherIconUtil {
     /**
      * Chuyển đổi độ góc gió thành chuỗi hướng gió tiếng Việt
      */
-    fun getWindDirectionText(deg: Int): String {
-        val directions = arrayOf(
-            "Hướng Bắc", "Hướng Đông Bắc", "Hướng Đông", "Hướng Đông - Đông Nam",
-            "Hướng Nam", "Hướng Tây Nam", "Hướng Tây", "Hướng Tây Bắc"
-        )
-        val normalized = ((deg % 360) + 360) % 360
-        val index = (((normalized + 22.5) / 45).toInt()) % 8
-        return directions[index]
-    }
-
     /**
      * Chuyển đổi độ góc gió thành ký hiệu quốc tế ngắn (ví dụ: 120° ESE)
      */

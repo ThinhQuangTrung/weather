@@ -13,7 +13,6 @@ import com.example.weather.utils.Resource
 import kotlinx.coroutines.launch
 
 /**
- * ViewModel trong mô hình MVVM:
  * - Lưu giữ và quản lý State (Trạng thái UI, Danh sách onboarding, Thời tiết thời gian thực).
  * - Sống sót qua các sự kiện cấu hình (Configuration changes như xoay màn hình).
  * - Giao tiếp với Repository để tải dữ liệu bất đồng bộ qua Coroutines.

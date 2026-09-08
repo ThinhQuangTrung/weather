@@ -16,7 +16,6 @@ import com.example.weather.ui.search.SearchSavedFragment
 /**
  * HomeActivity:
  * - Activity chính chứa Bottom Navigation và FragmentContainerView.
- * - Tuân thủ mô hình MVVM, sử dụng ViewBinding toàn diện (không dùng findViewById).
  * - Điều hướng mượt mà giữa các Fragment: HomeFragment, ForecastFragment, SearchSavedFragment.
  */
 class HomeActivity : AppCompatActivity() {
@@ -39,7 +38,9 @@ class HomeActivity : AppCompatActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             binding.fragmentContainer.setPadding(0, systemBars.top, 0, 0)
-            binding.bottomNavContainer.setPadding(0, 0, 0, systemBars.bottom)
+//            binding.bottomNavContainer.setPadding(0, 0, 0, systemBars.bottom)
+            binding.bottomNavContainer.setPadding(0, 0, 0, 0
+            )
             insets
         }
 

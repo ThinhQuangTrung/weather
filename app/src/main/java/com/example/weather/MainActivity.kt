@@ -15,14 +15,13 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weather.databinding.ActivityMainBinding
+import com.example.weather.ui.home.HomeActivity
 import com.example.weather.ui.main.MainViewModel
 import com.example.weather.ui.onboarding.OnboardingAdapter
 import com.example.weather.utils.Resource
 import kotlin.math.abs
 
 /**
- * MainActivity tuân thủ kiến trúc MVVM:
- * - Sử dụng ViewBinding toàn diện (không dùng findViewById).
  * - Tách biệt logic vào MainViewModel.
  * - Lắng nghe và cập nhật UI thông qua LiveData Observer.
  */
@@ -33,8 +32,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var onboardingAdapter: OnboardingAdapter
     private lateinit var dots: Array<View>
 
+    private val prefs by lazy {
+        getSharedPreferences("app_prefs", MODE_PRIVATE)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val isOnboardingCompleted =
+            prefs.getBoolean("onboarding_completed", false)
+
+        if (isOnboardingCompleted) {
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
+            return
+        }
         enableEdgeToEdge()
 
         // Khởi tạo ViewBinding
@@ -60,8 +71,27 @@ class MainActivity : AppCompatActivity() {
         )
 
         binding.btnGetStarted.setOnClickListener {
-            val intent = Intent(this, com.example.weather.ui.home.HomeActivity::class.java)
-            startActivity(intent)
+            val currentPage = binding.viewPagerFeatures.currentItem
+            val totalPages = onboardingAdapter.itemCount
+
+            if (currentPage < totalPages - 1) {
+                // Chuyển sang slide tiếp theo
+                binding.viewPagerFeatures.setCurrentItem(currentPage + 1, true)
+            } else {
+                //kiemr tra đã xem Onboarding
+                getSharedPreferences("app_prefs", MODE_PRIVATE)
+                    .edit()
+                    .putBoolean("onboarding_completed", true)
+                    .apply()
+
+                // Đã ở slide cuối → vào Home
+                val intent = Intent(
+                    this,
+                    com.example.weather.ui.home.HomeActivity::class.java
+                )
+                startActivity(intent)
+                finish()
+            }
         }
     }
 

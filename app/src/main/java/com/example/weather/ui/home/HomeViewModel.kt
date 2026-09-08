@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.weather.data.location.LocationManager
 import com.example.weather.data.model.WeatherResponse
 import com.example.weather.data.repository.WeatherRepository
 import com.example.weather.utils.Resource
@@ -15,16 +16,22 @@ enum class TemperatureUnit {
     FAHRENHEIT
 }
 
+enum class LocationDialogType {
+    OPEN_APP_SETTINGS,   // cấp quyền và dẫn vào Cài đặt ứng dụng
+    ENABLE_GPS_SETTINGS  // bật GPS và dẫn vào Cài đặt GPS
+}
+
 /**
- * ViewModel cho màn hình Home:
- * - Quản lý trạng thái nạp dữ liệu thời tiết thực tế từ API.
+ * - Quản lý trạng thái nạp dữ liệu thời tiết thực tế từ API (theo GPS hoặc Tên thành phố).
+ * - Xử lý logic cấp quyền vị trí và điều hướng dữ liệu theo mô hình MVVM.
  * - Quản lý việc chuyển đổi đơn vị đo nhiệt độ (°C / °F).
  * - Quản lý trạng thái yêu thích (Favorite/Saved).
  * - Cung cấp dữ liệu sống (LiveData) để HomeFragment lắng nghe và cập nhật giao diện.
  */
 class HomeViewModel @JvmOverloads constructor(
     application: Application,
-    private val weatherRepository: WeatherRepository = WeatherRepository()
+    private val weatherRepository: WeatherRepository = WeatherRepository(),
+    private val locationManager: LocationManager = LocationManager(application)
 ) : AndroidViewModel(application) {
 
     private val _weatherState = MutableLiveData<Resource<WeatherResponse>>()
@@ -36,17 +43,79 @@ class HomeViewModel @JvmOverloads constructor(
     private val _isFavorite = MutableLiveData<Boolean>(false)
     val isFavorite: LiveData<Boolean> = _isFavorite
 
-    private var currentCity: String = "Hanoi"
+    private val _userMessage = MutableLiveData<String?>()
+    val userMessage: LiveData<String?> = _userMessage
 
-    init {
+    private val _showLocationDialog = MutableLiveData<LocationDialogType?>()
+    val showLocationDialog: LiveData<LocationDialogType?> = _showLocationDialog
+
+    private var currentCity: String = "Hanoi"
+    private var currentCoordinates: Pair<Double, Double>? = null
+
+    /**
+     * Tải thời tiết theo vị trí GPS hiện tại của người dùng
+     */
+    fun fetchWeatherByCurrentLocation() {
+        viewModelScope.launch {
+            if (!locationManager.hasLocationPermission()) {
+                _showLocationDialog.value = LocationDialogType.OPEN_APP_SETTINGS
+                loadWeather(currentCity)
+                return@launch
+            }
+
+            if (!locationManager.isLocationEnabled()) {
+                _showLocationDialog.value = LocationDialogType.ENABLE_GPS_SETTINGS
+                loadWeather(currentCity)
+                return@launch
+            }
+
+            _weatherState.value = Resource.Loading
+
+            val location = locationManager.getCurrentLocation()
+            if (location != null) {
+                currentCoordinates = Pair(location.latitude, location.longitude)
+                val result = weatherRepository.getCurrentWeatherByCoords(
+                    lat = location.latitude,
+                    lon = location.longitude
+                )
+                _weatherState.value = result
+            } else {
+                // Fallback khi không lấy được GPS (ví dụ giả lập hoặc mất tín hiệu)
+                _userMessage.value = "Không thể lấy toạ độ GPS, hiển thị thời tiết mặc định"
+                loadWeather(currentCity)
+            }
+        }
+    }
+
+    /**
+     * Xử lý khi người dùng đồng ý cấp quyền vị trí
+     */
+    fun onPermissionGranted() {
+        dismissLocationDialog()
+        fetchWeatherByCurrentLocation()
+    }
+
+    /**
+     * Xử lý khi người dùng từ chối cấp quyền vị trí
+     */
+    fun onPermissionDenied() {
+        _showLocationDialog.value = LocationDialogType.OPEN_APP_SETTINGS
         loadWeather(currentCity)
     }
 
     /**
-     * Tải dữ liệu thời tiết cho một thành phố
+     * Đóng hộp thoại thông báo cài đặt
+     */
+    fun dismissLocationDialog() {
+        _showLocationDialog.value = null
+    }
+
+    /**
+     * Tải dữ liệu thời tiết cho một thành phố cụ thể
      */
     fun loadWeather(cityName: String = currentCity) {
         currentCity = cityName
+        currentCoordinates = null
         viewModelScope.launch {
             _weatherState.value = Resource.Loading
             val result = weatherRepository.getCurrentWeather(cityName)
@@ -55,11 +124,25 @@ class HomeViewModel @JvmOverloads constructor(
     }
 
     /**
-     * Tải lại dữ liệu thời tiết
+     * Tải lại dữ liệu thời tiết hiện tại
      */
     fun refresh() {
-        loadWeather(currentCity)
+        val coords = currentCoordinates
+        if (coords != null && locationManager.hasLocationPermission()) {
+            viewModelScope.launch {
+                _weatherState.value = Resource.Loading
+                val result = weatherRepository.getCurrentWeatherByCoords(coords.first, coords.second)
+                _weatherState.value = result
+            }
+        } else {
+            loadWeather(currentCity)
+        }
     }
+
+    /**
+     * Kiểm tra xem đã có dữ liệu vị trí toạ độ GPS chưa
+     */
+    fun hasCurrentCoordinates(): Boolean = currentCoordinates != null
 
     /**
      * Chuyển đổi đơn vị nhiệt độ giữa °C và °F
@@ -75,5 +158,12 @@ class HomeViewModel @JvmOverloads constructor(
      */
     fun toggleFavorite() {
         _isFavorite.value = !(_isFavorite.value ?: false)
+    }
+
+    /**
+     * Xóa thông báo sau khi UI đã hiển thị
+     */
+    fun clearUserMessage() {
+        _userMessage.value = null
     }
 }
