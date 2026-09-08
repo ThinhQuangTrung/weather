@@ -41,6 +41,9 @@ android {
 }
 
 dependencies {
+    //Dịnh vị Location
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
@@ -54,6 +57,7 @@ dependencies {
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.play.services.location)
 
     // Retrofit & OkHttp
     implementation(libs.retrofit)

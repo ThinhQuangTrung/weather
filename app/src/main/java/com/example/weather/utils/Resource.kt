@@ -2,7 +2,6 @@ package com.example.weather.utils
 
 /**
  * Lớp Sealed Class đóng gói trạng thái dữ liệu (Loading, Success, Error)
- * theo chuẩn kiến trúc MVVM.
  */
 sealed class Resource<out T> {
     data class Success<out T>(val data: T) : Resource<T>()

@@ -9,7 +9,7 @@ import com.example.weather.data.model.OnboardingItem
 import com.example.weather.databinding.ItemOnboardingCardBinding
 
 /**
- * Adapter hiển thị các thẻ onboarding bằng ViewBinding (thay thế hoàn toàn findViewById)
+ * Adapter hiển thị các thẻ onboarding bằng
  */
 class OnboardingAdapter(
     private var items: List<OnboardingItem> = emptyList()

@@ -1,25 +1,33 @@
 package com.example.weather.ui.home
 
+import android.Manifest
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.weather.R
+import com.example.weather.data.location.LocationManager
 import com.example.weather.data.model.WeatherResponse
 import com.example.weather.databinding.FragmentHomeBinding
 import com.example.weather.utils.Resource
 import com.example.weather.utils.WeatherIconUtil
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.Locale
 
 /**
- * HomeFragment trong mô hình MVVM:
- * - Sử dụng ViewBinding toàn diện (không dùng findViewById).
  * - Kết nối dữ liệu với HomeViewModel và cập nhật giao diện theo LiveData.
+ * - Quản lý việc yêu cầu cấp quyền vị trí khi khởi chạy và xử lý kết quả cấp quyền.
+ * - Hiển thị hộp thoại nổi dẫn trực tiếp vào Cài đặt khi chưa được cấp quyền hoặc GPS tắt.
  * - Hiển thị toàn bộ thông số thời tiết chi tiết, nạp icon động từ OpenWeatherMap CDN qua Glide.
  */
 class HomeFragment : Fragment() {
@@ -28,6 +36,23 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var viewModel: HomeViewModel
+    private var activeDialog: AlertDialog? = null
+
+    /**
+     * Launcher xin quyền vị trí chuẩn Android Jetpack Activity Result API
+     */
+    private val locationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        val fineLocationGranted = permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
+        val coarseLocationGranted = permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
+
+        if (fineLocationGranted || coarseLocationGranted) {
+            viewModel.onPermissionGranted()
+        } else {
+            viewModel.onPermissionDenied()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +69,33 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         setupListeners()
         observeViewModel()
+
+        // Kiểm tra và xin cấp quyền vị trí ngay khi vào màn hình thời tiết
+        checkAndRequestLocationPermission()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Tự động làm mới thời tiết theo GPS khi người dùng cấp quyền/bật GPS từ Cài đặt trở về app
+        if (LocationManager.hasLocationPermission(requireContext()) && !viewModel.hasCurrentCoordinates()) {
+            viewModel.fetchWeatherByCurrentLocation()
+        }
+    }
+
+    /**
+     * Kiểm tra quyền vị trí và yêu cầu cấp quyền nếu chưa có
+     */
+    private fun checkAndRequestLocationPermission() {
+        if (LocationManager.hasLocationPermission(requireContext())) {
+            viewModel.fetchWeatherByCurrentLocation()
+        } else {
+            locationPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
     }
 
     private fun setupListeners() {
@@ -60,7 +112,12 @@ class HomeFragment : Fragment() {
         }
 
         binding.btnSettings.setOnClickListener {
-            Toast.makeText(requireContext(), "Cài đặt ứng dụng", Toast.LENGTH_SHORT).show()
+            openAppSettings()
+        }
+
+        // Bấm vào thẻ vị trí để cập nhật lại thời tiết theo GPS hiện tại hoặc xin quyền nếu chưa có
+        binding.cardLocation.setOnClickListener {
+            checkAndRequestLocationPermission()
         }
     }
 
@@ -87,7 +144,6 @@ class HomeFragment : Fragment() {
 
         viewModel.tempUnit.observe(viewLifecycleOwner) { unit ->
             updateUnitToggleUI(unit)
-            // Cập nhật lại số liệu nhiệt độ khi đổi đơn vị
             val currentState = viewModel.weatherState.value
             if (currentState is Resource.Success) {
                 bindWeatherData(currentState.data)
@@ -105,6 +161,86 @@ class HomeFragment : Fragment() {
                 )
             }
         }
+
+        viewModel.userMessage.observe(viewLifecycleOwner) { message ->
+            if (!message.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                viewModel.clearUserMessage()
+            }
+        }
+
+        // Quan sát sự kiện hiển thị thông báo nổi đi tới Cài đặt
+        viewModel.showLocationDialog.observe(viewLifecycleOwner) { dialogType ->
+            activeDialog?.dismiss()
+            when (dialogType) {
+                LocationDialogType.OPEN_APP_SETTINGS -> showAppSettingsDialog()
+                LocationDialogType.ENABLE_GPS_SETTINGS -> showEnableGpsDialog()
+                null -> {}
+            }
+        }
+    }
+
+    /**
+     * Hiển thị hộp thoại nổi thông báo người dùng vào Cài đặt để cấp quyền vị trí
+     */
+    private fun showAppSettingsDialog() {
+        activeDialog = MaterialAlertDialogBuilder(requireContext())
+            .setIcon(R.drawable.ic_location)
+            .setTitle("Yêu cầu quyền vị trí")
+            .setMessage("Ứng dụng cần quyền truy cập vị trí để cung cấp thông tin thời tiết chính xác tại nơi bạn.\n\nVui lòng nhấn \"Mở Cài đặt\" để bật quyền vị trí cho ứng dụng.")
+            .setCancelable(false)
+            .setPositiveButton("Mở Cài đặt") { dialog, _ ->
+                dialog.dismiss()
+                viewModel.dismissLocationDialog()
+                openAppSettings()
+            }
+            .setNegativeButton("Để sau") { dialog, _ ->
+                dialog.dismiss()
+                viewModel.dismissLocationDialog()
+            }
+            .show()
+    }
+
+    /**
+     * Hiển thị hộp thoại nổi thông báo người dùng bật dịch vụ GPS của thiết bị
+     */
+    private fun showEnableGpsDialog() {
+        activeDialog = MaterialAlertDialogBuilder(requireContext())
+            .setIcon(R.drawable.ic_location)
+            .setTitle("Bật định vị (GPS)")
+            .setMessage("Dịch vụ định vị GPS trên thiết bị của bạn đang tắt. Hãy bật GPS để tự động cập nhật thời tiết tại vị trí hiện tại của bạn.")
+            .setCancelable(false)
+            .setPositiveButton("Bật GPS") { dialog, _ ->
+                dialog.dismiss()
+                viewModel.dismissLocationDialog()
+                openGpsSettings()
+            }
+            .setNegativeButton("Để sau") { dialog, _ ->
+                dialog.dismiss()
+                viewModel.dismissLocationDialog()
+            }
+            .show()
+    }
+
+    /**
+     * Mở trực tiếp màn hình Cài đặt ứng dụng trong hệ thống
+     */
+    private fun openAppSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            data = Uri.fromParts("package", requireContext().packageName, null)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        startActivity(intent)
+    }
+
+    /**
+     * Mở trực tiếp màn hình Cài đặt Định vị (GPS) trong hệ thống
+     */
+    private fun openGpsSettings() {
+        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        startActivity(intent)
     }
 
     private fun updateUnitToggleUI(unit: TemperatureUnit) {
@@ -149,7 +285,7 @@ class HomeFragment : Fragment() {
         val descEn = condition?.description?.replaceFirstChar { it.uppercase() } ?: "Clear Sky"
         binding.tvConditionDescription.text = "$descVi • $descEn"
 
-        // Tải Icon OpenWeatherMap CDN qua Glide
+        // Icon OpenWeatherMap
         val iconCode = condition?.icon ?: "01d"
         Glide.with(this)
             .load(WeatherIconUtil.getIconUrl4x(iconCode))
@@ -244,6 +380,8 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        activeDialog?.dismiss()
+        activeDialog = null
         _binding = null
     }
 
