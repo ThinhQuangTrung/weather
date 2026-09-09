@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">আবহাওয়া</string>
+    <string name="app_subtitle">স্মার্ট আবহাওয়ার পূর্বাভাস</string>
+    <string name="section_core_features">মূল বৈশিষ্ট্য</string>
+    <string name="page_counter_format">%1$d / %2$d</string>
+    
+    <string name="select_language">ভাষা নির্বাচন করুন</string>
+    <string name="language_default_suffix"> (ডিফল্ট)</string>
+    <string name="search_language">ভাষা অনুসন্ধান করুন…</string>
+
+    <string name="card1_tag">অবস্থা</string>
+    <string name="card1_title">রিয়েল-টাইম আবহাওয়া</string>
+    <string name="card1_desc">বর্তমান তাপমাত্রা, আর্দ্রতা, বাতাসের গতি এবং ইউভি ইনডেক্স সরাসরি দেখুন।</string>
+    <string name="card1_stat1">14 কিমি/ঘ বাতাস</string>
+    <string name="card1_stat2">68% আর্দ্রতা</string>
+    <string name="card1_stat3">UV 4</string>
+    
+    <string name="card2_tag">বৃষ্টি ও পূর্বাভাস</string>
+    <string name="card2_title">৫ দিন / ৩ ঘণ্টার পূর্বাভাস</string>
+    <string name="card2_desc">তাপমাত্রার চার্ট এবং ৩ ঘণ্টার পূর্বাভাস দিয়ে সপ্তাহের পরিকল্পনা করুন।</string>
+    <string name="card2_stat1">পর্যবেক্ষণ</string>
+    <string name="card2_stat2">তাপমাত্রা ট্রেন্ড</string>
+    <string name="card2_stat3">বৃষ্টির সম্ভাবনা</string>
+    
+    <string name="card3_tag">গ্লোবাল জিপিএস</string>
+    <string name="card3_title">অনুসন্ধান ও প্রিয় স্থান</string>
+    <string name="card3_desc">বিশ্বের যে কোনো স্থানের সঠিক আবহাওয়ার তথ্য তাৎক্ষণিকভাবে জানুন।</string>
+    <string name="card3_stat1">গ্লোবাল</string>
+    <string name="card3_stat2">অটো জিপিএস</string>
+    <string name="card3_stat3">একাধিক শহর</string>
+    
+    <string name="btn_start_now">এখনই শুরু করুন</string>
+    <string name="btn_continue">চালিয়ে যান</string>
+    <string name="btn_next">পরবর্তী</string>
+    <string name="btn_skip">এড়িয়ে যান</string>
+    <string name="footer_version">v1.0.0 • ওপেন সোর্স</string>
+
+    <string name="weather_setup_title">আবহাওয়া সেটিংস</string>
+    <string name="weather_setup_subtitle">হোম স্ক্রিনে প্রদর্শনের জন্য প্যারামিটার নির্বাচন করুন</string>
+    <string name="param_temperature">তাপমাত্রা</string>
+    <string name="param_temperature_desc">বর্তমান তাপমাত্রা, অনুভূত তাপমাত্রা এবং সর্বোচ্চ/সর্বনিম্ন</string>
+    <string name="param_humidity">আর্দ্রতা</string>
+    <string name="param_humidity_desc">বাতাসের আপেক্ষিক আর্দ্রতা এবং শিশিরাঙ্ক</string>
+    <string name="param_wind">বাতাস</string>
+    <string name="param_wind_desc">বাতাসের গতি এবং অভিমুখ</string>
+    <string name="param_visibility">দৃশ্যমানতা</string>
+    <string name="param_visibility_desc">দৃশ্যমানতার দূরত্ব ও স্বচ্ছতার মূল্যায়ন</string>
+    <string name="param_pressure">বায়ুচাপ</string>
+    <string name="param_pressure_desc">বায়ুমণ্ডলীয় চাপ (hPa) এবং atm সমতুল্য</string>
+    <string name="param_air_quality">বাতাসের মান</string>
+    <string name="param_air_quality_desc">বায়ু গুণমান সূচক (AQI) এবং স্বাস্থ্য পরামর্শ</string>
+
+    <string name="home_title">হোম</string>
+    <string name="telemetry_section_title">বিস্তারিত সূচক</string>
+    <string name="air_quality_title">বাতাসের মান (AQI)</string>
+    <string name="aqi_good">ভালো</string>
+    <string name="aqi_fair">সন্তোষজনক</string>
+    <string name="aqi_moderate">সহনীয়</string>
+    <string name="aqi_poor">খারাপ</string>
+    <string name="aqi_very_poor">খুব খারাপ</string>
+    <string name="aqi_good_desc">বাতাসের মান সন্তোষজনক এবং স্বাস্থ্যের কোনো ঝুঁকি নেই।</string>
+    <string name="aqi_fair_desc">বাতাসের মান অধিকাংশ মানুষের জন্য গ্রহণযোগ্য।</string>
+    <string name="aqi_moderate_desc">সংবেদনশীল ব্যক্তিরা সামান্য লক্ষণ অনুভব করতে পারেন।</string>
+    <string name="aqi_poor_desc">সংবেদনশীল গোষ্ঠীর স্বাস্থ্যের ক্ষতি হতে পারে।</string>
+    <string name="aqi_very_poor_desc">স্বাস্থ্য সতর্কতা: বাইরে বের হওয়া সীমিত করুন।</string>
+
+    <string name="settings_title">সেটিংস</string>
+    <string name="settings_language">ভাষা</string>
+    <string name="settings_theme">থিম</string>
+    <string name="settings_unit">তাপমাত্রার একক</string>
+    <string name="settings_weather_setup">আবহাওয়া উইজেট কাস্টমাইজ করুন</string>
+</resources>

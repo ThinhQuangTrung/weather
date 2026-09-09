@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Погода</string>
+    <string name="app_subtitle">Умный прогноз погоды</string>
+    <string name="section_core_features">ОСНОВНЫЕ ВОЗМОЖНОСТИ</string>
+    <string name="page_counter_format">%1$d / %2$d</string>
+    
+    <string name="select_language">Выберите язык</string>
+    <string name="language_default_suffix"> (По умолчанию)</string>
+    <string name="search_language">Поиск языка…</string>
+
+    <string name="card1_tag">Статус</string>
+    <string name="card1_title">Погода в реальном времени</string>
+    <string name="card1_desc">Отслеживайте температуру, влажность, скорость ветра и УФ-индекс в реальном времени.</string>
+    <string name="card1_stat1">14 км/ч Ветер</string>
+    <string name="card1_stat2">68% Влажн.</string>
+    <string name="card1_stat3">UV 4</string>
+    
+    <string name="card2_tag">Осадки и графики</string>
+    <string name="card2_title">Прогноз на 5 дней / 3 часа</string>
+    <string name="card2_desc">Планируйте неделю с графиками температурных трендов и прогнозами каждые 3 часа.</string>
+    <string name="card2_stat1">Мониторинг</string>
+    <string name="card2_stat2">Тренд темп.</string>
+    <string name="card2_stat3">Вероятн. дождя</string>
+    
+    <string name="card3_tag">Глобальный GPS</string>
+    <string name="card3_title">Поиск и избранное</string>
+    <string name="card3_desc">Узнавайте погоду в любой точке мира с подробными актуальными данными.</string>
+    <string name="card3_stat1">Глобально</string>
+    <string name="card3_stat2">Авто GPS</string>
+    <string name="card3_stat3">Мульти-города</string>
+    
+    <string name="btn_start_now">Начать</string>
+    <string name="btn_continue">Продолжить</string>
+    <string name="btn_next">Далее</string>
+    <string name="btn_skip">Пропустить</string>
+    <string name="footer_version">v1.0.0 • Открытый исходный код</string>
+
+    <string name="weather_setup_title">Настройка погоды</string>
+    <string name="weather_setup_subtitle">Выберите параметры для отображения на главном экране</string>
+    <string name="param_temperature">Температура</string>
+    <string name="param_temperature_desc">Текущая температура, ощущается как и диапазон</string>
+    <string name="param_humidity">Влажность</string>
+    <string name="param_humidity_desc">Относительная влажность воздуха и точка росы</string>
+    <string name="param_wind">Ветер</string>
+    <string name="param_wind_desc">Скорость и направление ветра</string>
+    <string name="param_visibility">Видимость</string>
+    <string name="param_visibility_desc">Дальность видимости и оценка условий</string>
+    <string name="param_pressure">Давление</string>
+    <string name="param_pressure_desc">Атмосферное давление (гПа) и эквивалент в атм</string>
+    <string name="param_air_quality">Качество воздуха</string>
+    <string name="param_air_quality_desc">Индекс качества воздуха (AQI) и рекомендации</string>
+
+    <string name="home_title">Главная</string>
+    <string name="telemetry_section_title">Подробные показатели</string>
+    <string name="air_quality_title">Качество воздуха (AQI)</string>
+    <string name="aqi_good">Хорошо</string>
+    <string name="aqi_fair">Удовлетворительно</string>
+    <string name="aqi_moderate">Умеренно</string>
+    <string name="aqi_poor">Плохо</string>
+    <string name="aqi_very_poor">Очень плохо</string>
+    <string name="aqi_good_desc">Качество воздуха удовлетворительное, угрозы нет.</string>
+    <string name="aqi_fair_desc">Качество воздуха приемлемо для большинства людей.</string>
+    <string name="aqi_moderate_desc">Чувствительные люди могут испытывать легкие симптомы.</string>
+    <string name="aqi_poor_desc">Может оказывать влияние на здоровье чувствительных групп.</string>
+    <string name="aqi_very_poor_desc">Предупреждение: избегайте активностей на открытом воздухе.</string>
+
+    <string name="settings_title">Настройки</string>
+    <string name="settings_language">Язык</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_unit">Единица температуры</string>
+    <string name="settings_weather_setup">Настройка виджетов погоды</string>
+</resources>

@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">날씨</string>
+    <string name="app_subtitle">스마트 날씨 예보</string>
+    <string name="section_core_features">핵심 기능</string>
+    <string name="page_counter_format">%1$d / %2$d</string>
+    
+    <string name="select_language">언어 선택</string>
+    <string name="language_default_suffix"> (기본값)</string>
+    <string name="search_language">언어 검색…</string>
+
+    <string name="card1_tag">상태</string>
+    <string name="card1_title">실시간 날씨</string>
+    <string name="card1_desc">현재 기온, 습도, 풍속 및 자외선 지수를 실시간으로 확인하세요.</string>
+    <string name="card1_stat1">14 km/h 바람</string>
+    <string name="card1_stat2">68% 습도</string>
+    <string name="card1_stat3">UV 4</string>
+    
+    <string name="card2_tag">강수 &amp; 그래프</string>
+    <string name="card2_title">5일 / 3시간 예보</string>
+    <string name="card2_desc">기온 추세 그래프와 3시간 단위 시각 예보로 완벽한 일정을 계획하세요.</string>
+    <string name="card2_stat1">모니터링</string>
+    <string name="card2_stat2">기온 추세</string>
+    <string name="card2_stat3">강수 확률</string>
+    
+    <string name="card3_tag">글로벌 GPS</string>
+    <string name="card3_title">검색 &amp; 즐겨찾기 저장</string>
+    <string name="card3_desc">전 세계 모든 지역의 날씨 정보를 상세하고 정확하게 검색하세요.</string>
+    <string name="card3_stat1">글로벌</string>
+    <string name="card3_stat2">자동 GPS</string>
+    <string name="card3_stat3">다중 도시</string>
+    
+    <string name="btn_start_now">지금 시작</string>
+    <string name="btn_continue">계속</string>
+    <string name="btn_next">다음</string>
+    <string name="btn_skip">건너뛰기</string>
+    <string name="footer_version">v1.0.0 • 오픈 소스</string>
+
+    <string name="weather_setup_title">날씨 설정</string>
+    <string name="weather_setup_subtitle">홈 화면에 표시할 날씨 정보를 선택하세요</string>
+    <string name="param_temperature">기온</string>
+    <string name="param_temperature_desc">현재 기온, 체감 온도 및 최고/최저 기온</string>
+    <string name="param_humidity">습도</string>
+    <string name="param_humidity_desc">상대 습도 백분율 및 이슬점</string>
+    <string name="param_wind">바람</string>
+    <string name="param_wind_desc">풍속 및 방향 각도</string>
+    <string name="param_visibility">가시거리</string>
+    <string name="param_visibility_desc">시야 거리 및 대기 선명도 평가</string>
+    <string name="param_pressure">기압</string>
+    <string name="param_pressure_desc">대기압 (hPa) 및 표준 기압 (atm)</string>
+    <string name="param_air_quality">공기질</string>
+    <string name="param_air_quality_desc">공기질 지수 (AQI) 및 건강 주의 단계</string>
+
+    <string name="home_title">홈</string>
+    <string name="telemetry_section_title">상세 지표</string>
+    <string name="air_quality_title">공기질 (AQI)</string>
+    <string name="aqi_good">좋음</string>
+    <string name="aqi_fair">보통</string>
+    <string name="aqi_moderate">주의</string>
+    <string name="aqi_poor">나쁨</string>
+    <string name="aqi_very_poor">매우 나쁨</string>
+    <string name="aqi_good_desc">공기질이 매우 양호하며 야외 활동에 안전합니다.</string>
+    <string name="aqi_fair_desc">대부분의 사람들에게 적합한 수준입니다.</string>
+    <string name="aqi_moderate_desc">민감한 분은 가벼운 증상이 발생할 수 있습니다.</string>
+    <string name="aqi_poor_desc">민감군 건강에 악영향을 줄 수 있습니다.</string>
+    <string name="aqi_very_poor_desc">건강 경보: 야외 활동을 최대한 자제하세요.</string>
+
+    <string name="settings_title">설정</string>
+    <string name="settings_language">언어</string>
+    <string name="settings_theme">테마</string>
+    <string name="settings_unit">온도 단위</string>
+    <string name="settings_weather_setup">날씨 위젯 사용자 지정</string>
+</resources>

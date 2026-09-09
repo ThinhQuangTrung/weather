@@ -9,12 +9,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 /**
- * SettingsViewModel trong mô hình MVVM:
  * - Quản lý và lưu trữ cài đặt người dùng (Ngôn ngữ, Giao diện Theme Sáng/Tối/Hệ thống, Đơn vị nhiệt độ).
- * - Lưu trạng thái bền vững vào SharedPreferences.
+ * - Lưu trạng thái  SharedPreferences.
  * - Phát ra LiveData để UI cập nhật tức thì.
  */
-class SettingsViewModel @JvmOverloads constructor(
+class SettingsViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 

@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Cuaca</string>
+    <string name="app_subtitle">Prakiraan cuaca cerdas</string>
+    <string name="section_core_features">FITUR UTAMA</string>
+    <string name="page_counter_format">%1$d / %2$d</string>
+    
+    <string name="select_language">Pilih Bahasa</string>
+    <string name="language_default_suffix"> (Bawaan)</string>
+    <string name="search_language">Cari bahasa…</string>
+
+    <string name="card1_tag">Status</string>
+    <string name="card1_title">Cuaca Real-time</string>
+    <string name="card1_desc">Pantau suhu saat ini, kelembapan, kecepatan angin, dan indeks UV secara langsung.</string>
+    <string name="card1_stat1">14 km/j Angin</string>
+    <string name="card1_stat2">68% Lembap</string>
+    <string name="card1_stat3">UV 4</string>
+    
+    <string name="card2_tag">Hujan &amp; Tren</string>
+    <string name="card2_title">Prakiraan 5 Hari / 3 Jam</string>
+    <string name="card2_desc">Rencanakan minggu Anda dengan grafik tren suhu dan prakiraan visual 3 jam.</string>
+    <string name="card2_stat1">Pemantauan</string>
+    <string name="card2_stat2">Tren Suhu</string>
+    <string name="card2_stat3">Peluang Hujan</string>
+    
+    <string name="card3_tag">GPS Global</string>
+    <string name="card3_title">Cari &amp; Simpan Favorit</string>
+    <string name="card3_desc">Cari cuaca di mana saja di seluruh dunia dengan data yang akurat dan terkini.</string>
+    <string name="card3_stat1">Global</string>
+    <string name="card3_stat2">Auto GPS</string>
+    <string name="card3_stat3">Banyak Kota</string>
+    
+    <string name="btn_start_now">Mulai Sekarang</string>
+    <string name="btn_continue">Lanjutkan</string>
+    <string name="btn_next">Berikutnya</string>
+    <string name="btn_skip">Lewati</string>
+    <string name="footer_version">v1.0.0 • Open Source</string>
+
+    <string name="weather_setup_title">Pengaturan Cuaca</string>
+    <string name="weather_setup_subtitle">Pilih parameter untuk ditampilkan di layar utama</string>
+    <string name="param_temperature">Suhu</string>
+    <string name="param_temperature_desc">Suhu saat ini, terasa seperti, dan rentang suhu</string>
+    <string name="param_humidity">Kelembapan</string>
+    <string name="param_humidity_desc">Persentase kelembapan relatif dan titik embun</string>
+    <string name="param_wind">Angin</string>
+    <string name="param_wind_desc">Kecepatan dan arah mata angin</string>
+    <string name="param_visibility">Jarak Pandang</string>
+    <string name="param_visibility_desc">Jarak pandang dan tingkat kejernihan udara</string>
+    <string name="param_pressure">Tekanan Udara</string>
+    <string name="param_pressure_desc">Tekanan atmosfer (hPa) dan ekuivalen atm</string>
+    <string name="param_air_quality">Kualitas Udara</string>
+    <string name="param_air_quality_desc">Indeks Kualitas Udara (AQI) dan saran kesehatan</string>
+
+    <string name="home_title">Beranda</string>
+    <string name="telemetry_section_title">Parameter Rinci</string>
+    <string name="air_quality_title">Kualitas Udara (AQI)</string>
+    <string name="aqi_good">Baik</string>
+    <string name="aqi_fair">Sedang</string>
+    <string name="aqi_moderate">Cukup</string>
+    <string name="aqi_poor">Buruk</string>
+    <string name="aqi_very_poor">Sangat Buruk</string>
+    <string name="aqi_good_desc">Kualitas udara sangat baik dan tidak berisiko bagi kesehatan.</string>
+    <string name="aqi_fair_desc">Kualitas udara dapat diterima bagi sebagian besar orang.</string>
+    <string name="aqi_moderate_desc">Kelompok sensitif mungkin mengalami gejala ringan.</string>
+    <string name="aqi_poor_desc">Dapat memengaruhi kesehatan kelompok sensitif.</string>
+    <string name="aqi_very_poor_desc">Peringatan kesehatan: batasi aktivitas di luar ruangan.</string>
+
+    <string name="settings_title">Pengaturan</string>
+    <string name="settings_language">Bahasa</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_unit">Satuan Suhu</string>
+    <string name="settings_weather_setup">Sesuaikan Widget Cuaca</string>
+</resources>

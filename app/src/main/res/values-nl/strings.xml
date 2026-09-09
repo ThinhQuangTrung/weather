@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Weer</string>
+    <string name="app_subtitle">Slimme weersvoorspelling</string>
+    <string name="section_core_features">KERNFUNCTIES</string>
+    <string name="page_counter_format">%1$d / %2$d</string>
+    
+    <string name="select_language">Taal selecteren</string>
+    <string name="language_default_suffix"> (Standaard)</string>
+    <string name="search_language">Zoek taal…</string>
+
+    <string name="card1_tag">Status</string>
+    <string name="card1_title">Actueel weer</string>
+    <string name="card1_desc">Volg huidige temperatuur, luchtvochtigheid, windsnelheid en UV-index in realtime.</string>
+    <string name="card1_stat1">14 km/u Wind</string>
+    <string name="card1_stat2">68% Vocht</string>
+    <string name="card1_stat3">UV 4</string>
+    
+    <string name="card2_tag">Regen &amp; Trends</string>
+    <string name="card2_title">5-daagse / 3-uurs voorspelling</string>
+    <string name="card2_desc">Plan uw week met temperatuurgrafieken en visuele 3-uurs voorspellingen.</string>
+    <string name="card2_stat1">Monitoring</string>
+    <string name="card2_stat2">Temp-trend</string>
+    <string name="card2_stat3">Regenkans</string>
+    
+    <string name="card3_tag">Wereldwijde GPS</string>
+    <string name="card3_title">Zoeken &amp; Favorieten opslaan</string>
+    <string name="card3_desc">Bekijk het weer overal ter wereld met gedetailleerde gegevens.</string>
+    <string name="card3_stat1">Wereldwijd</string>
+    <string name="card3_stat2">Auto GPS</string>
+    <string name="card3_stat3">Meerdere steden</string>
+    
+    <string name="btn_start_now">Nu beginnen</string>
+    <string name="btn_continue">Doorgaan</string>
+    <string name="btn_next">Volgende</string>
+    <string name="btn_skip">Overslaan</string>
+    <string name="footer_version">v1.0.0 • Open Source</string>
+
+    <string name="weather_setup_title">Weerinstellingen</string>
+    <string name="weather_setup_subtitle">Selecteer parameters voor het startscherm</string>
+    <string name="param_temperature">Temperatuur</string>
+    <string name="param_temperature_desc">Huidige temperatuur, gevoelstemperatuur en bereik</string>
+    <string name="param_humidity">Luchtvochtigheid</string>
+    <string name="param_humidity_desc">Relatieve luchtvochtigheid en dauwpunt</string>
+    <string name="param_wind">Wind</string>
+    <string name="param_wind_desc">Windsnelheid en windrichting in graden</string>
+    <string name="param_visibility">Zicht</string>
+    <string name="param_visibility_desc">Zichtafstand en beoordeling</string>
+    <string name="param_pressure">Luchtdruk</string>
+    <string name="param_pressure_desc">Atmosferische druk (hPa) en atm equivalent</string>
+    <string name="param_air_quality">Luchtkwaliteit</string>
+    <string name="param_air_quality_desc">Luchtkwaliteitsindex (AQI) en gezondheidsadvies</string>
+
+    <string name="home_title">Start</string>
+    <string name="telemetry_section_title">Gedetailleerde parameters</string>
+    <string name="air_quality_title">Luchtkwaliteit (AQI)</string>
+    <string name="aqi_good">Goed</string>
+    <string name="aqi_fair">Redelijk</string>
+    <string name="aqi_moderate">Matig</string>
+    <string name="aqi_poor">Slecht</string>
+    <string name="aqi_very_poor">Zeer slecht</string>
+    <string name="aqi_good_desc">De luchtkwaliteit is bevredigend en levert geen risico op.</string>
+    <string name="aqi_fair_desc">De luchtkwaliteit is acceptabel voor de meeste mensen.</string>
+    <string name="aqi_moderate_desc">Gevoelige groepen kunnen lichte symptomen ervaren.</string>
+    <string name="aqi_poor_desc">Kan ongemak veroorzaken bij gevoelige groepen.</string>
+    <string name="aqi_very_poor_desc">Gezondheidswaarschuwing: ernstige effecten voor iedereen.</string>
+
+    <string name="settings_title">Instellingen</string>
+    <string name="settings_language">Taal</string>
+    <string name="settings_theme">Thema</string>
+    <string name="settings_unit">Temperatuureenheid</string>
+    <string name="settings_weather_setup">Weerwidgets aanpassen</string>
+</resources>

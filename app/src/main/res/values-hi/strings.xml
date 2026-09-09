@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">मौसम</string>
+    <string name="app_subtitle">स्मार्ट मौसम पूर्वानुमान</string>
+    <string name="section_core_features">मुख्य विशेषताएं</string>
+    <string name="page_counter_format">%1$d / %2$d</string>
+    
+    <string name="select_language">भाषा चुनें</string>
+    <string name="language_default_suffix"> (डिफ़ॉल्ट)</string>
+    <string name="search_language">भाषा खोजें…</string>
+
+    <string name="card1_tag">स्थिति</string>
+    <string name="card1_title">वास्तविक समय का मौसम</string>
+    <string name="card1_desc">वर्तमान तापमान, आर्द्रता, हवा की गति और यूवी सूचकांक को ट्रैक करें।</string>
+    <string name="card1_stat1">14 किमी/घंटा हवा</string>
+    <string name="card1_stat2">68% नमी</string>
+    <string name="card1_stat3">UV 4</string>
+    
+    <string name="card2_tag">बारिश और रुझान</string>
+    <string name="card2_title">5 दिन / 3 घंटे का पूर्वानुमान</string>
+    <string name="card2_desc">तापमान रुझान चार्ट और 3 घंटे के विज़ुअल पूर्वानुमान के साथ सप्ताह की योजना बनाएं।</string>
+    <string name="card2_stat1">निगरानी</string>
+    <string name="card2_stat2">तापमान रुझान</string>
+    <string name="card2_stat3">बारिश की संभावना</string>
+    
+    <string name="card3_tag">ग्लोबल जीपीएस</string>
+    <string name="card3_title">खोजें और पसंदीदा सहेजें</string>
+    <string name="card3_desc">सटीक और वास्तविक समय के डेटा के साथ दुनिया भर में कहीं भी मौसम देखें।</string>
+    <string name="card3_stat1">वैश्विक</string>
+    <string name="card3_stat2">ऑटो जीपीएस</string>
+    <string name="card3_stat3">कई शहर</string>
+    
+    <string name="btn_start_now">शुरू करें</string>
+    <string name="btn_continue">जारी रखें</string>
+    <string name="btn_next">आगे</string>
+    <string name="btn_skip">छोड़ें</string>
+    <string name="footer_version">v1.0.0 • ओपन सोर्स</string>
+
+    <string name="weather_setup_title">मौसम सेटअप</string>
+    <string name="weather_setup_subtitle">होम स्क्रीन पर प्रदर्शित करने के लिए पैरामीटर चुनें</string>
+    <string name="param_temperature">तापमान</string>
+    <string name="param_temperature_desc">वर्तमान तापमान, महसूस तापमान और अधिकतम/न्यूनतम</string>
+    <string name="param_humidity">नमी</string>
+    <string name="param_humidity_desc">सापेक्षिक आर्द्रता प्रतिशत और ओस बिंदु</string>
+    <string name="param_wind">हवा</string>
+    <string name="param_wind_desc">हवा की गति और दिशा</string>
+    <string name="param_visibility">दृश्यता</string>
+    <string name="param_visibility_desc">दृश्यता दूरी और स्थिति मूल्यांकन</string>
+    <string name="param_pressure">दबाव</string>
+    <string name="param_pressure_desc">वायुमंडलीय दबाव (hPa) और atm समतुल्य</string>
+    <string name="param_air_quality">वायु गुणवत्ता</string>
+    <string name="param_air_quality_desc">वायु गुणवत्ता सूचकांक (AQI) और स्वास्थ्य सलाह</string>
+
+    <string name="home_title">होम</string>
+    <string name="telemetry_section_title">विस्तृत पैरामीटर</string>
+    <string name="air_quality_title">वायु गुणवत्ता (AQI)</string>
+    <string name="aqi_good">अच्छा</string>
+    <string name="aqi_fair">संतोषजनक</string>
+    <string name="aqi_moderate">मध्यम</string>
+    <string name="aqi_poor">खराब</string>
+    <string name="aqi_very_poor">बहुत खराब</string>
+    <string name="aqi_good_desc">वायु गुणवत्ता संतोषजनक है और कोई जोखिम नहीं है।</string>
+    <string name="aqi_fair_desc">वायु गुणवत्ता अधिकांश लोगों के लिए स्वीकार्य है।</string>
+    <string name="aqi_moderate_desc">संवेदनशील लोगों को हल्के लक्षण हो सकते हैं।</string>
+    <string name="aqi_poor_desc">संवेदनशील समूहों के स्वास्थ्य को प्रभावित कर सकता है।</string>
+    <string name="aqi_very_poor_desc">स्वास्थ्य चेतावनी: सभी पर गंभीर प्रभाव हो सकते हैं।</string>
+
+    <string name="settings_title">सेटिंग्स</string>
+    <string name="settings_language">भाषा</string>
+    <string name="settings_theme">थीम</string>
+    <string name="settings_unit">तापमान इकाई</string>
+    <string name="settings_weather_setup">मौसम विजेट अनुकूलित करें</string>
+</resources>

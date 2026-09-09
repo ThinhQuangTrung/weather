@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Clima</string>
+    <string name="app_subtitle">Previsão do tempo inteligente</string>
+    <string name="section_core_features">RECURSOS PRINCIPAIS</string>
+    <string name="page_counter_format">%1$d / %2$d</string>
+    
+    <string name="select_language">Selecionar idioma</string>
+    <string name="language_default_suffix"> (Padrão)</string>
+    <string name="search_language">Buscar idioma…</string>
+
+    <string name="card1_tag">Status</string>
+    <string name="card1_title">Clima em tempo real</string>
+    <string name="card1_desc">Acompanhe temperatura, umidade, velocidade do vento e índice UV em tempo real.</string>
+    <string name="card1_stat1">14 km/h Vento</string>
+    <string name="card1_stat2">68% Umidade</string>
+    <string name="card1_stat3">UV 4</string>
+    
+    <string name="card2_tag">Chuva &amp; Gráficos</string>
+    <string name="card2_title">Previsão de 5 dias / 3 horas</string>
+    <string name="card2_desc">Planeje sua semana com gráficos de tendência e previsões a cada 3 horas.</string>
+    <string name="card2_stat1">Monitoramento</string>
+    <string name="card2_stat2">Tendência Temp</string>
+    <string name="card2_stat3">Prob. Chuva</string>
+    
+    <string name="card3_tag">GPS Global</string>
+    <string name="card3_title">Pesquisar &amp; Salvar favoritos</string>
+    <string name="card3_desc">Consulte o clima em qualquer lugar do mundo com dados atualizados em tempo real.</string>
+    <string name="card3_stat1">Global</string>
+    <string name="card3_stat2">GPS Automático</string>
+    <string name="card3_stat3">Multicidades</string>
+    
+    <string name="btn_start_now">Começar agora</string>
+    <string name="btn_continue">Continuar</string>
+    <string name="btn_next">Avançar</string>
+    <string name="btn_skip">Pular</string>
+    <string name="footer_version">v1.0.0 • Open Source</string>
+
+    <string name="weather_setup_title">Configuração do Clima</string>
+    <string name="weather_setup_subtitle">Selecione os parâmetros a exibir na tela inicial</string>
+    <string name="param_temperature">Temperatura</string>
+    <string name="param_temperature_desc">Temperatura atual, sensação térmica e limites</string>
+    <string name="param_humidity">Umidade</string>
+    <string name="param_humidity_desc">Umidade relativa do ar e ponto de orvalho</string>
+    <string name="param_wind">Vento</string>
+    <string name="param_wind_desc">Velocidade e direção do vento em graus</string>
+    <string name="param_visibility">Visibilidade</string>
+    <string name="param_visibility_desc">Distância de visibilidade e nitidez</string>
+    <string name="param_pressure">Pressão</string>
+    <string name="param_pressure_desc">Pressão atmosférica (hPa) e equivalente em atm</string>
+    <string name="param_air_quality">Qualidade do ar</string>
+    <string name="param_air_quality_desc">Índice de qualidade do ar (IQA) e recomendações</string>
+
+    <string name="home_title">Início</string>
+    <string name="telemetry_section_title">Parâmetros detalhados</string>
+    <string name="air_quality_title">Qualidade do ar (IQA)</string>
+    <string name="aqi_good">Boa</string>
+    <string name="aqi_fair">Razoável</string>
+    <string name="aqi_moderate">Moderada</string>
+    <string name="aqi_poor">Ruim</string>
+    <string name="aqi_very_poor">Muito ruim</string>
+    <string name="aqi_good_desc">A qualidade do ar é satisfatória e não apresenta riscos.</string>
+    <string name="aqi_fair_desc">A qualidade do ar é aceitável para a maioria das pessoas.</string>
+    <string name="aqi_moderate_desc">Grupos sensíveis podem ter sintomas leves.</string>
+    <string name="aqi_poor_desc">Pode causar desconforto a pessoas sensíveis.</string>
+    <string name="aqi_very_poor_desc">Alerta de saúde: todos podem sofrer efeitos graves.</string>
+
+    <string name="settings_title">Configurações</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_unit">Unidade de temperatura</string>
+    <string name="settings_weather_setup">Personalizar widgets de clima</string>
+</resources>

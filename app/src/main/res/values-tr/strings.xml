@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">Hava Durumu</string>
+    <string name="app_subtitle">Akıllı hava durumu tahmini</string>
+    <string name="section_core_features">TEMEL ÖZELLİKLER</string>
+    <string name="page_counter_format">%1$d / %2$d</string>
+    
+    <string name="select_language">Dil Seçin</string>
+    <string name="language_default_suffix"> (Varsayılan)</string>
+    <string name="search_language">Dil ara…</string>
+
+    <string name="card1_tag">Durum</string>
+    <string name="card1_title">Gerçek Zamanlı Hava Durumu</string>
+    <string name="card1_desc">Mevcut sıcaklık, nem, rüzgar hızı ve UV indeksini anlık takip edin.</string>
+    <string name="card1_stat1">14 km/s Rüzgar</string>
+    <string name="card1_stat2">68% Nem</string>
+    <string name="card1_stat3">UV 4</string>
+    
+    <string name="card2_tag">Yağmur &amp; Grafikler</string>
+    <string name="card2_title">5 Günlük / 3 Saatlik Tahmin</string>
+    <string name="card2_desc">Sıcaklık trend grafikleri ve 3 saatlik tahminlerle haftanızı planlayın.</string>
+    <string name="card2_stat1">İzleme</string>
+    <string name="card2_stat2">Sıcaklık Trendi</string>
+    <string name="card2_stat3">Yağmur Olasılığı</string>
+    
+    <string name="card3_tag">Küresel GPS</string>
+    <string name="card3_title">Ara &amp; Favorilere Kaydet</string>
+    <string name="card3_desc">Dünyanın her yerindeki hava durumunu anlık ve doğru verilerle öğrenin.</string>
+    <string name="card3_stat1">Küresel</string>
+    <string name="card3_stat2">Otomatik GPS</string>
+    <string name="card3_stat3">Çoklu Şehir</string>
+    
+    <string name="btn_start_now">Şimdi Başla</string>
+    <string name="btn_continue">Devam Et</string>
+    <string name="btn_next">İleri</string>
+    <string name="btn_skip">Geç</string>
+    <string name="footer_version">v1.0.0 • Açık Kaynak</string>
+
+    <string name="weather_setup_title">Hava Durumu Ayarları</string>
+    <string name="weather_setup_subtitle">Ana ekranda gösterilecek parametreleri seçin</string>
+    <string name="param_temperature">Sıcaklık</string>
+    <string name="param_temperature_desc">Mevcut sıcaklık, hissedilen ve en yüksek/düşük</string>
+    <string name="param_humidity">Nem</string>
+    <string name="param_humidity_desc">Bağıl nem oranı ve çiy noktası</string>
+    <string name="param_wind">Rüzgar</string>
+    <string name="param_wind_desc">Rüzgar hızı ve yön açısı</string>
+    <string name="param_visibility">Görüş Mesafesi</string>
+    <string name="param_visibility_desc">Görüş uzaklığı ve berraklık durumu</string>
+    <string name="param_pressure">Basınç</string>
+    <string name="param_pressure_desc">Atmosferik basınç (hPa) ve atm eşdeğeri</string>
+    <string name="param_air_quality">Hava Kalitesi</string>
+    <string name="param_air_quality_desc">Hava Kalitesi İndeksi (AQI) ve sağlık önerileri</string>
+
+    <string name="home_title">Ana Sayfa</string>
+    <string name="telemetry_section_title">Ayrıntılı Göstergeler</string>
+    <string name="air_quality_title">Hava Kalitesi (AQI)</string>
+    <string name="aqi_good">İyi</string>
+    <string name="aqi_fair">Orta</string>
+    <string name="aqi_moderate">Hassas</string>
+    <string name="aqi_poor">Kötü</string>
+    <string name="aqi_very_poor">Çok Kötü</string>
+    <string name="aqi_good_desc">Hava kalitesi tatmin edici ve risk taşımamaktadır.</string>
+    <string name="aqi_fair_desc">Hava kalitesi çoğu kişi için kabul edilebilirdir.</string>
+    <string name="aqi_moderate_desc">Hassas gruplar hafif belirtiler yaşayabilir.</string>
+    <string name="aqi_poor_desc">Hassas grupların sağlığını olumsuz etkileyebilir.</string>
+    <string name="aqi_very_poor_desc">Sağlık uyarısı: açık hava aktivitelerinden kaçının.</string>
+
+    <string name="settings_title">Ayarlar</string>
+    <string name="settings_language">Dil</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_unit">Sıcaklık Birimi</string>
+    <string name="settings_weather_setup">Hava Durumu Bileşenlerini Özelleştir</string>
+</resources>

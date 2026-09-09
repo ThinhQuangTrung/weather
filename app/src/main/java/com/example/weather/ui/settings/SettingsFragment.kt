@@ -55,12 +55,11 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        // Nút quay lại màn hình trước
         binding.btnBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
-        // Chọn Ngôn ngữ -> Mở LanguageActivity theo mẫu thiết kế
+        // Chọn Ngôn ngữ
         binding.layoutLanguage.setOnClickListener {
             val intent = com.example.weather.ui.language.LanguageActivity.createIntent(
                 requireContext(),
@@ -90,8 +89,28 @@ class SettingsFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.language.observe(viewLifecycleOwner) { lang ->
-            binding.tvLanguageValue.text = if (lang == "en") "English" else "Tiếng Việt"
+        val currentLang = com.example.weather.utils.LocaleHelper.getLanguage(requireContext())
+        binding.tvLanguageValue.text = when (currentLang.lowercase()) {
+            "vi" -> "Tiếng Việt"
+            "en" -> "English"
+            "de" -> "Deutsch (German)"
+            "fr" -> "Français (French)"
+            "es" -> "Español (Spanish)"
+            "it" -> "Italiano (Italian)"
+            "nl" -> "Nederlands (Dutch)"
+            "pt" -> "Português (Portuguese)"
+            "pt-br" -> "Português do Brasil"
+            "ar" -> "العربية (Arabic)"
+            "ko" -> "한국어 (Korean)"
+            "ja" -> "日本語 (Japanese)"
+            "hi" -> "हिन्दी (Hindi)"
+            "id", "in" -> "Bahasa Indonesia"
+            "zh", "zh-cn" -> "简体中文 (Chinese)"
+            "zh-tw" -> "繁體中文 (Chinese Trad.)"
+            "ru" -> "Русский (Russian)"
+            "tr" -> "Türkçe (Turkish)"
+            "bn" -> "বাংলা (Bengali)"
+            else -> "English"
         }
 
         viewModel.theme.observe(viewLifecycleOwner) { theme ->
@@ -105,22 +124,6 @@ class SettingsFragment : Fragment() {
         viewModel.unit.observe(viewLifecycleOwner) { unit ->
             binding.tvUnitValue.text = if (unit == "fahrenheit") "Độ F (°F)" else "Độ C (°C)"
         }
-    }
-
-    private fun showLanguageDialog() {
-        val languages = arrayOf("Tiếng Việt", "English")
-        val currentLang = viewModel.language.value
-        val checkedItem = if (currentLang == "en") 1 else 0
-
-        AlertDialog.Builder(requireContext())
-            .setTitle("Chọn ngôn ngữ")
-            .setSingleChoiceItems(languages, checkedItem) { dialog, which ->
-                val selected = if (which == 1) "en" else "vi"
-                viewModel.setLanguage(selected)
-                dialog.dismiss()
-            }
-            .setNegativeButton("Hủy", null)
-            .show()
     }
 
     private fun showThemeDialog() {
@@ -163,8 +166,14 @@ class SettingsFragment : Fragment() {
             .show()
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as? com.example.weather.ui.home.HomeActivity)?.setBottomNavVisibility(false)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        (activity as? com.example.weather.ui.home.HomeActivity)?.setBottomNavVisibility(true)
         _binding = null
     }
 

@@ -14,7 +14,7 @@ import com.example.weather.ui.forecast.ForecastFragment
 /**
  * HomeActivity:
  * - Activity chính chứa Bottom Navigation và FragmentContainerView.
- * - Điều hướng mượt mà giữa các Fragment: HomeFragment, ForecastFragment, SearchSavedFragment.
+ * - Điều hướng mượt mà giữa các Fragment: HomeFragment, ForecastFragment
  */
 class HomeActivity : AppCompatActivity() {
 
@@ -47,6 +47,18 @@ class HomeActivity : AppCompatActivity() {
 
         setupFragments(savedInstanceState)
         setupBottomNavigation()
+        setupBackStackListener()
+    }
+
+    private fun setupBackStackListener() {
+        supportFragmentManager.addOnBackStackChangedListener {
+            val hasBackStack = supportFragmentManager.backStackEntryCount > 0
+            setBottomNavVisibility(!hasBackStack)
+        }
+    }
+
+    fun setBottomNavVisibility(visible: Boolean) {
+        binding.bottomNavContainer.visibility = if (visible) android.view.View.VISIBLE else android.view.View.GONE
     }
 
     private fun setupFragments(savedInstanceState: Bundle?) {

@@ -18,9 +18,7 @@ class WeatherRepository(
     private val apiKey: String = BuildConfig.OPEN_WEATHER_API_KEY
 ) {
 
-    /**
-     * Lấy dữ liệu thời tiết hiện tại cho thành phố
-     */
+// Sư lý dữ liệu hiện tai của thành phố
     suspend fun getCurrentWeather(cityName: String): Resource<WeatherResponse> {
         return withContext(Dispatchers.IO) {
             try {
@@ -38,10 +36,7 @@ class WeatherRepository(
             }
         }
     }
-
-    /**
-     * Lấy dữ liệu thời tiết hiện tại theo toạ độ GPS
-     */
+// lấy dữ liệu thời tiết và cùng vs thằng gps Location API dã lấy ở viewmoder
     suspend fun getCurrentWeatherByCoords(lat: Double, lon: Double): Resource<WeatherResponse> {
         return withContext(Dispatchers.IO) {
             try {
