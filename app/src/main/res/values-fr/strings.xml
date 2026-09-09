@@ -1,25 +1,80 @@
 <resources>
     <string name="app_name">Météo</string>
-    <string name="app_subtitle">Prévisions météo intelligentes</string>
+    <string name="app_subtitle">Prévisions météorologiques intelligentes</string>
+    <string name="section_core_features">FONCTIONNALITÉS PRINCIPALES</string>
+    <string name="page_counter_format">%1$d / %2$d</string>
+
+    <!-- Language Selection -->
     <string name="select_language">Choisir la langue</string>
     <string name="language_default_suffix"> (Par défaut)</string>
-    <string name="btn_start_now">Commencer</string>
+    <string name="search_language">Rechercher une langue…</string>
+
+    <!-- Card 1 -->
+    <string name="card1_tag">État</string>
+    <string name="card1_title">Météo en temps réel</string>
+    <string name="card1_desc">Suivez la température actuelle, l’humidité de l’air, la vitesse du vent et l’indice UV avec des mises à jour instantanées provenant des capteurs et de l’API OpenWeatherMap.</string>
+    <string name="card1_stat1">14 km/h Vent</string>
+    <string name="card1_stat2">68 % Humidité</string>
+    <string name="card1_stat3">UV 4</string>
+
+    <!-- Card 2 -->
+    <string name="card2_tag">Pluie &amp; Graphiques</string>
+    <string name="card2_title">Prévisions sur 5 jours / 3 heures</string>
+    <string name="card2_desc">Planifiez votre semaine avec un graphique des tendances de température et des horaires de 3 heures présentés dans une liste à défilement fluide.</string>
+    <string name="card2_stat1">Surveillance</string>
+    <string name="card2_stat2">Tendance de température</string>
+    <string name="card2_stat3">Probabilité de pluie</string>
+
+    <!-- Card 3 -->
+    <string name="card3_tag">GPS mondial</string>
+    <string name="card3_title">Rechercher &amp; Enregistrer les favoris</string>
+    <string name="card3_desc">Consultez la météo de n’importe quel endroit dans le monde avec des informations détaillées et des données mises à jour en temps réel.</string>
+    <string name="card3_stat1">Mondial</string>
+    <string name="card3_stat2">GPS automatique</string>
+    <string name="card3_stat3">Plusieurs villes</string>
+
+    <!-- Buttons & Actions -->
+    <string name="btn_start_now">Commencer maintenant</string>
     <string name="btn_continue">Continuer</string>
+    <string name="btn_next">Suivant</string>
+    <string name="btn_skip">Ignorer</string>
+    <string name="footer_version">v1.0.0 • Open Source</string>
+
+    <!-- Weather Setup Screen -->
     <string name="weather_setup_title">Configuration météo</string>
-    <string name="weather_setup_subtitle">Sélectionnez les paramètres à afficher</string>
+    <string name="weather_setup_subtitle">Sélectionnez les paramètres que vous souhaitez suivre sur l’écran d’accueil</string>
     <string name="param_temperature">Température</string>
-    <string name="param_temperature_desc">Température actuelle et ressentie</string>
+    <string name="param_temperature_desc">Température actuelle, température ressentie et températures maximale et minimale</string>
     <string name="param_humidity">Humidité</string>
-    <string name="param_humidity_desc">Humidité relative et point de rosée</string>
+    <string name="param_humidity_desc">Pourcentage d’humidité relative de l’air et point de rosée</string>
     <string name="param_wind">Vent</string>
-    <string name="param_wind_desc">Vitesse et direction du vent</string>
+    <string name="param_wind_desc">Vitesse et direction actuelles du vent</string>
     <string name="param_visibility">Visibilité</string>
-    <string name="param_visibility_desc">Distance de visibilité et conditions</string>
+    <string name="param_visibility_desc">Distance de visibilité et qualité de la visibilité</string>
     <string name="param_pressure">Pression</string>
-    <string name="param_pressure_desc">Pression atmosphérique (hPa)</string>
-    <string name="param_air_quality">Qualité de l\'air</string>
-    <string name="param_air_quality_desc">Indice de qualité de l\'air (IQA)</string>
+    <string name="param_pressure_desc">Pression atmosphérique (hPa) et pression standard en atm</string>
+    <string name="param_air_quality">Qualité de l’air</string>
+    <string name="param_air_quality_desc">Indice de qualité de l’air (AQI) et niveau d’alerte sanitaire</string>
+
+    <!-- Home & Telemetry -->
     <string name="home_title">Accueil</string>
-    <string name="telemetry_section_title">Paramètres détaillés</string>
-    <string name="air_quality_title">Qualité de l\'air (IQA)</string>
+    <string name="telemetry_section_title">Indicateurs détaillés</string>
+    <string name="air_quality_title">Qualité de l’air (AQI)</string>
+    <string name="aqi_good">Bonne</string>
+    <string name="aqi_fair">Acceptable</string>
+    <string name="aqi_moderate">Modérée</string>
+    <string name="aqi_poor">Mauvaise</string>
+    <string name="aqi_very_poor">Très mauvaise</string>
+    <string name="aqi_good_desc">Qualité de l’air idéale, sans danger pour toutes les activités en plein air.</string>
+    <string name="aqi_fair_desc">Qualité de l’air acceptable pour la plupart des personnes.</string>
+    <string name="aqi_moderate_desc">Les personnes sensibles peuvent ressentir de légers symptômes.</string>
+    <string name="aqi_poor_desc">Peut avoir des effets sur la santé des personnes sensibles.</string>
+    <string name="aqi_very_poor_desc">Alerte sanitaire urgente : limitez autant que possible les sorties à l’extérieur.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Paramètres</string>
+    <string name="settings_language">Langue</string>
+    <string name="settings_theme">Apparence</string>
+    <string name="settings_unit">Unité de température</string>
+    <string name="settings_weather_setup">Personnaliser les paramètres météo</string>
 </resources>

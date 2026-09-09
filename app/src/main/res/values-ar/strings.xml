@@ -1,72 +1,81 @@
+
 <resources>
     <string name="app_name">الطقس</string>
     <string name="app_subtitle">توقعات الطقس الذكية</string>
     <string name="section_core_features">الميزات الأساسية</string>
     <string name="page_counter_format">%1$d / %2$d</string>
-    
+
+    <!-- Language Selection -->
     <string name="select_language">اختر اللغة</string>
-    <string name="language_default_suffix"> (الافتراضي)</string>
+    <string name="language_default_suffix"> (افتراضي)</string>
     <string name="search_language">البحث عن لغة…</string>
 
+    <!-- Card 1 -->
     <string name="card1_tag">الحالة</string>
     <string name="card1_title">الطقس في الوقت الفعلي</string>
-    <string name="card1_desc">تتبع درجة الحرارة والرطوبة وسرعة الرياح ومؤشر الأشعة فوق البنفسجية.</string>
+    <string name="card1_desc">تابع درجة الحرارة الحالية والرطوبة وسرعة الرياح ومؤشر الأشعة فوق البنفسجية مع تحديثات فورية من المستشعرات وواجهة OpenWeatherMap API.</string>
     <string name="card1_stat1">14 كم/س رياح</string>
     <string name="card1_stat2">68% رطوبة</string>
-    <string name="card1_stat3">UV 4</string>
-    
-    <string name="card2_tag">الأمطار والتوقعات</string>
-    <string name="card2_title">توقعات 5 أيام / 3 ساعات</string>
-    <string name="card2_desc">خطط لأسبوعك مع الرسوم البيانية لتوقعات درجات الحرارة وفرص هطول الأمطار.</string>
+    <string name="card1_stat3">مؤشر UV 4</string>
+
+    <!-- Card 2 -->
+    <string name="card2_tag">الأمطار والمخططات</string>
+    <string name="card2_title">توقعات 5 أيام / كل 3 ساعات</string>
+    <string name="card2_desc">خطط لأسبوعك بشكل مثالي باستخدام مخطط اتجاهات درجات الحرارة والفترات الزمنية كل 3 ساعات في قائمة منزلقة وسلسة.</string>
     <string name="card2_stat1">مراقبة</string>
-    <string name="card2_stat2">اتجاه الحرارة</string>
-    <string name="card2_stat3">احتمال المطر</string>
-    
+    <string name="card2_stat2">اتجاهات درجة الحرارة</string>
+    <string name="card2_stat3">احتمالية هطول الأمطار</string>
+
+    <!-- Card 3 -->
     <string name="card3_tag">GPS عالمي</string>
     <string name="card3_title">البحث وحفظ المفضلة</string>
-    <string name="card3_desc">ابحث عن الطقس في أي مكان بالعالم ببيانات دقيقة ومحدثة لحظيًا.</string>
+    <string name="card3_desc">ابحث عن حالة الطقس في أي مكان حول العالم مع معلومات مفصلة وبيانات محدثة في الوقت الفعلي.</string>
     <string name="card3_stat1">عالمي</string>
     <string name="card3_stat2">GPS تلقائي</string>
     <string name="card3_stat3">مدن متعددة</string>
-    
+
+    <!-- Buttons & Actions -->
     <string name="btn_start_now">ابدأ الآن</string>
     <string name="btn_continue">متابعة</string>
     <string name="btn_next">التالي</string>
     <string name="btn_skip">تخطي</string>
     <string name="footer_version">v1.0.0 • مفتوح المصدر</string>
 
+    <!-- Weather Setup Screen -->
     <string name="weather_setup_title">إعدادات الطقس</string>
-    <string name="weather_setup_subtitle">حدد المعلمات التي تريد عرضها على الشاشة الرئيسية</string>
+    <string name="weather_setup_subtitle">اختر المعلومات التي تريد متابعتها على الشاشة الرئيسية</string>
     <string name="param_temperature">درجة الحرارة</string>
-    <string name="param_temperature_desc">درجة الحرارة الحالية والمحسوسة والمدى الأقصى/الأدنى</string>
+    <string name="param_temperature_desc">درجة الحرارة الحالية ودرجة الحرارة المحسوسة وأعلى وأدنى درجة حرارة</string>
     <string name="param_humidity">الرطوبة</string>
-    <string name="param_humidity_desc">الرطوبة النسبية ونقطة الندى</string>
+    <string name="param_humidity_desc">نسبة الرطوبة النسبية في الهواء ونقطة الندى</string>
     <string name="param_wind">الرياح</string>
-    <string name="param_wind_desc">سرعة الرياح والاتجاه بالدرجات</string>
-    <string name="param_visibility">الرؤية</string>
-    <string name="param_visibility_desc">مسافة الرؤية ومستوى الوضوح</string>
-    <string name="param_pressure">الضغط الجوي</string>
-    <string name="param_pressure_desc">الضغط الجوي (hPa) وما يعادله بـ atm</string>
+    <string name="param_wind_desc">سرعة الرياح واتجاهها الحالي</string>
+    <string name="param_visibility">مدى الرؤية</string>
+    <string name="param_visibility_desc">مسافة الرؤية وتقييم جودة الرؤية</string>
+    <string name="param_pressure">الضغط</string>
+    <string name="param_pressure_desc">الضغط الجوي (hPa) والضغط القياسي بوحدة atm</string>
     <string name="param_air_quality">جودة الهواء</string>
     <string name="param_air_quality_desc">مؤشر جودة الهواء (AQI) ومستوى التحذير الصحي</string>
 
+    <!-- Home & Telemetry -->
     <string name="home_title">الرئيسية</string>
     <string name="telemetry_section_title">المؤشرات التفصيلية</string>
     <string name="air_quality_title">جودة الهواء (AQI)</string>
     <string name="aqi_good">جيد</string>
     <string name="aqi_fair">مقبول</string>
-    <string name="aqi_moderate">معتدل</string>
-    <string name="aqi_poor">سيء</string>
-    <string name="aqi_very_poor">سيء جدًا</string>
-    <string name="aqi_good_desc">جودة الهواء ممتازة ولا تشكل أي خطر صحي.</string>
-    <string name="aqi_fair_desc">جودة الهواء مقبولة لمعظم الأفراد.</string>
-    <string name="aqi_moderate_desc">قد يعاني أصحاب الحساسية من أعراض خفيفة.</string>
-    <string name="aqi_poor_desc">قد يؤثر سلبًا على صحة الفئات الحساسة.</string>
+    <string name="aqi_moderate">متوسط</string>
+    <string name="aqi_poor">سيئ</string>
+    <string name="aqi_very_poor">سيئ جدًا</string>
+    <string name="aqi_good_desc">جودة الهواء مثالية وآمنة لجميع الأنشطة الخارجية.</string>
+    <string name="aqi_fair_desc">جودة الهواء مقبولة لمعظم الأشخاص.</string>
+    <string name="aqi_moderate_desc">قد يعاني الأشخاص الحساسون من أعراض خفيفة.</string>
+    <string name="aqi_poor_desc">قد يؤثر على صحة الأشخاص الحساسين.</string>
     <string name="aqi_very_poor_desc">تحذير صحي: تجنب الأنشطة الخارجية قدر الإمكان.</string>
 
+    <!-- Settings -->
     <string name="settings_title">الإعدادات</string>
     <string name="settings_language">اللغة</string>
     <string name="settings_theme">المظهر</string>
     <string name="settings_unit">وحدة درجة الحرارة</string>
-    <string name="settings_weather_setup">تخصيص عناصر الطقس</string>
+    <string name="settings_weather_setup">تخصيص معلومات الطقس</string>
 </resources>

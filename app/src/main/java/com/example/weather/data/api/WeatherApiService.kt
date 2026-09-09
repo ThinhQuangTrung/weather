@@ -10,7 +10,7 @@ import retrofit2.http.Query
 interface WeatherApiService {
 
     /**
-     * Lấy dữ liệu thời tiết hiện tại theo tên thành phố
+     * Lấy dữ liệu thời tiết hiện tại theo tên thành phố tạo HTTP request
      */
     @GET("data/2.5/weather")
     suspend fun getCurrentWeather(

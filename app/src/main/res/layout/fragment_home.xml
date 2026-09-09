@@ -118,7 +118,7 @@
                 android:layout_marginEnd="8dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/btnFavorite"
+                app:layout_constraintEnd_toStartOf="@id/addCity"
                 app:layout_constraintStart_toEndOf="@id/flLocationBadge"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -156,7 +156,7 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/btnFavorite"
+                android:id="@+id/addCity"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="@drawable/bg_badge_rounded"

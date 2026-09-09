@@ -139,8 +139,8 @@ class HomeFragment : Fragment() {
             viewModel.setTemperatureUnit(TemperatureUnit.FAHRENHEIT)
         }
 
-        binding.btnFavorite.setOnClickListener {
-            viewModel.toggleFavorite()
+        binding.addCity.setOnClickListener {
+            viewModel.toggleAddCity()
         }
         binding.btnSettings.setOnClickListener {
             parentFragmentManager.beginTransaction()
@@ -192,11 +192,11 @@ class HomeFragment : Fragment() {
 
         viewModel.isFavorite.observe(viewLifecycleOwner) { isFav ->
             if (isFav) {
-                binding.btnFavorite.setColorFilter(
+                binding.addCity.setColorFilter(
                     ContextCompat.getColor(requireContext(), R.color.stat_secondary)
                 )
             } else {
-                binding.btnFavorite.setColorFilter(
+                binding.addCity.setColorFilter(
                     ContextCompat.getColor(requireContext(), R.color.brand_section_title)
                 )
             }

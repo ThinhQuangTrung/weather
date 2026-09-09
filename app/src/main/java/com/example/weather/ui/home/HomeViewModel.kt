@@ -150,7 +150,7 @@ class HomeViewModel @JvmOverloads constructor(
     /**
      * Chuyển đổi trạng thái yêu thích của địa điểm hiện tại
      */
-    fun toggleFavorite() {
+    fun toggleAddCity() {
         _isFavorite.value = !(_isFavorite.value ?: false)
     }
 
