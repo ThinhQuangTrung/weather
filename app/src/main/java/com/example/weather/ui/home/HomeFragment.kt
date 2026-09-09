@@ -110,9 +110,17 @@ class HomeFragment : Fragment() {
         binding.btnFavorite.setOnClickListener {
             viewModel.toggleFavorite()
         }
-
         binding.btnSettings.setOnClickListener {
-            openAppSettings()
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out,
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out
+                )
+                .add(R.id.fragmentContainer, com.example.weather.ui.settings.SettingsFragment.newInstance(), "SETTINGS")
+                .addToBackStack("SETTINGS")
+                .commit()
         }
 
         // Bấm vào thẻ vị trí để cập nhật lại thời tiết theo GPS hiện tại hoặc xin quyền nếu chưa có
