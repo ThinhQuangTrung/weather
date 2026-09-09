@@ -21,13 +21,7 @@ enum class LocationDialogType {
     ENABLE_GPS_SETTINGS  // bật GPS và dẫn vào Cài đặt GPS
 }
 
-/**
- * - Quản lý trạng thái nạp dữ liệu thời tiết thực tế từ API (theo GPS hoặc Tên thành phố).
- * - Xử lý logic cấp quyền vị trí và điều hướng dữ liệu theo mô hình MVVM.
- * - Quản lý việc chuyển đổi đơn vị đo nhiệt độ (°C / °F).
- * - Quản lý trạng thái yêu thích (Favorite/Saved).
- * - Cung cấp dữ liệu sống (LiveData) để HomeFragment lắng nghe và cập nhật giao diện.
- */
+
 class HomeViewModel @JvmOverloads constructor(
     application: Application,
     private val weatherRepository: WeatherRepository = WeatherRepository(),
@@ -49,7 +43,7 @@ class HomeViewModel @JvmOverloads constructor(
     private val _showLocationDialog = MutableLiveData<LocationDialogType?>()
     val showLocationDialog: LiveData<LocationDialogType?> = _showLocationDialog
 
-    private var currentCity: String = "Hanoi"
+    private var currentCity: String = "vinh"
     private var currentCoordinates: Pair<Double, Double>? = null
 
     /**

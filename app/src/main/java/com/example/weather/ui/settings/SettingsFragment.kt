@@ -40,15 +40,42 @@ class SettingsFragment : Fragment() {
         observeViewModel()
     }
 
+    private val languageLauncher = registerForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == android.app.Activity.RESULT_OK) {
+            requireActivity().recreate()
+        }
+    }
+
+    private val setupLauncher = registerForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
+    ) {
+        // Cập nhật lại UI sau khi cấu hình
+    }
+
     private fun setupListeners() {
         // Nút quay lại màn hình trước
         binding.btnBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
-        // Chọn Ngôn ngữ
+        // Chọn Ngôn ngữ -> Mở LanguageActivity theo mẫu thiết kế
         binding.layoutLanguage.setOnClickListener {
-            showLanguageDialog()
+            val intent = com.example.weather.ui.language.LanguageActivity.createIntent(
+                requireContext(),
+                fromSettings = true
+            )
+            languageLauncher.launch(intent)
+        }
+
+        // Tùy chỉnh thông số thời tiết -> Mở WeatherSetupActivity
+        binding.layoutWeatherWidgets.setOnClickListener {
+            val intent = com.example.weather.ui.setup.WeatherSetupActivity.createIntent(
+                requireContext(),
+                fromSettings = true
+            )
+            setupLauncher.launch(intent)
         }
 
         // Chọn Giao diện

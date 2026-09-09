@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Clima</string>
+    <string name="app_subtitle">Pronóstico inteligente</string>
+    <string name="select_language">Seleccionar idioma</string>
+    <string name="language_default_suffix"> (Predeterminado)</string>
+    <string name="btn_start_now">Empezar</string>
+    <string name="btn_continue">Continuar</string>
+    <string name="weather_setup_title">Configuración del clima</string>
+    <string name="weather_setup_subtitle">Seleccione los parámetros a mostrar</string>
+    <string name="param_temperature">Temperatura</string>
+    <string name="param_temperature_desc">Temperatura actual y sensación térmica</string>
+    <string name="param_humidity">Humedad</string>
+    <string name="param_humidity_desc">Humedad relativa y punto de rocío</string>
+    <string name="param_wind">Viento</string>
+    <string name="param_wind_desc">Velocidad y dirección del viento</string>
+    <string name="param_visibility">Visibilidad</string>
+    <string name="param_visibility_desc">Distancia de visibilidad y claridad</string>
+    <string name="param_pressure">Presión</string>
+    <string name="param_pressure_desc">Presión atmosférica (hPa)</string>
+    <string name="param_air_quality">Calidad del aire</string>
+    <string name="param_air_quality_desc">Índice de calidad del aire (ICA)</string>
+    <string name="home_title">Inicio</string>
+    <string name="telemetry_section_title">Parámetros detallados</string>
+    <string name="air_quality_title">Calidad del aire (ICA)</string>
+</resources>

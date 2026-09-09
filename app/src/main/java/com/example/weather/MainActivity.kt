@@ -36,13 +36,20 @@ class MainActivity : AppCompatActivity() {
         getSharedPreferences("app_prefs", MODE_PRIVATE)
     }
 
+    override fun attachBaseContext(newBase: android.content.Context) {
+        super.attachBaseContext(com.example.weather.utils.LocaleHelper.onAttach(newBase))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val isOnboardingCompleted =
-            prefs.getBoolean("onboarding_completed", false)
+        val prefManager = com.example.weather.data.preference.WeatherPreferenceManager(this)
 
-        if (isOnboardingCompleted) {
-            startActivity(Intent(this, HomeActivity::class.java))
+        if (prefManager.isOnboardingCompleted) {
+            if (prefManager.isWeatherSetupCompleted) {
+                startActivity(Intent(this, HomeActivity::class.java))
+            } else {
+                startActivity(Intent(this, com.example.weather.ui.setup.WeatherSetupActivity::class.java))
+            }
             finish()
             return
         }
@@ -78,16 +85,14 @@ class MainActivity : AppCompatActivity() {
                 // Chuyển sang slide tiếp theo
                 binding.viewPagerFeatures.setCurrentItem(currentPage + 1, true)
             } else {
-                //kiemr tra đã xem Onboarding
-                getSharedPreferences("app_prefs", MODE_PRIVATE)
-                    .edit()
-                    .putBoolean("onboarding_completed", true)
-                    .apply()
+                // Đánh dấu đã xem Onboarding
+                val prefManager = com.example.weather.data.preference.WeatherPreferenceManager(this)
+                prefManager.isOnboardingCompleted = true
 
-                // Đã ở slide cuối → vào Home
+                // Đã ở slide cuối → chuyển tiếp sang Màn hình 4: Thiết lập thời tiết
                 val intent = Intent(
                     this,
-                    com.example.weather.ui.home.HomeActivity::class.java
+                    com.example.weather.ui.setup.WeatherSetupActivity::class.java
                 )
                 startActivity(intent)
                 finish()

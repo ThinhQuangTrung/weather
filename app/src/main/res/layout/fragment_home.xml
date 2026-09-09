@@ -23,7 +23,7 @@
             android:id="@+id/tvHeaderTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trang chủ"
+            android:text="@string/home_title"
             android:textColor="@color/card_title"
             android:textSize="26sp"
             android:textStyle="bold"
@@ -317,7 +317,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
-            android:text="Chỉ số chi tiết"
+            android:text="@string/telemetry_section_title"
             android:textColor="@color/card_title"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -612,6 +612,96 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
+        <!-- ================= AIR QUALITY (AQI) CARD ================= -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardAirQuality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_card_white"
+            android:elevation="1dp"
+            android:padding="14dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/layoutTelemetryRow2">
+
+            <ImageView
+                android:id="@+id/ivAirQualityIcon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/bg_badge_rounded"
+                android:backgroundTint="#ECFDF5"
+                android:padding="5dp"
+                android:src="@drawable/ic_air_quality"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="#10B981" />
+
+            <TextView
+                android:id="@+id/tvAirQualityTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/air_quality_title"
+                android:textColor="@color/telemetry_title"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/ivAirQualityIcon"
+                app:layout_constraintStart_toEndOf="@id/ivAirQualityIcon"
+                app:layout_constraintTop_toTopOf="@id/ivAirQualityIcon" />
+
+            <TextView
+                android:id="@+id/tvAirQualityBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_pill_tag"
+                android:backgroundTint="#DCFCE7"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp"
+                android:text="@string/aqi_good"
+                android:textColor="#15803D"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/ivAirQualityIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/ivAirQualityIcon" />
+
+            <TextView
+                android:id="@+id/tvAirQualityVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="35 AQI"
+                android:textColor="@color/telemetry_value"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivAirQualityIcon" />
+
+            <TextView
+                android:id="@+id/tvAirQualityDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/aqi_good_desc"
+                android:textColor="@color/telemetry_subtitle"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAirQualityVal" />
+
+            <ProgressBar
+                android:id="@+id/pbAirQuality"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginTop="10dp"
+                android:max="5"
+                android:progress="1"
+                android:progressDrawable="@drawable/bg_progress_humidity"
+                android:progressTint="#10B981"
+                app:layout_constraintTop_toBottomOf="@id/tvAirQualityDesc" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <!-- ================= SUN & DAY CYCLE CARD ================= -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cardSunCycle"
@@ -621,7 +711,7 @@
             android:background="@drawable/bg_card_white"
             android:elevation="1dp"
             android:padding="16dp"
-            app:layout_constraintTop_toBottomOf="@id/layoutTelemetryRow2">
+            app:layout_constraintTop_toBottomOf="@id/cardAirQuality">
 
             <ImageView
                 android:id="@+id/ivSunHorizonIcon"

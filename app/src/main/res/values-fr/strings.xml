@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Météo</string>
+    <string name="app_subtitle">Prévisions météo intelligentes</string>
+    <string name="select_language">Choisir la langue</string>
+    <string name="language_default_suffix"> (Par défaut)</string>
+    <string name="btn_start_now">Commencer</string>
+    <string name="btn_continue">Continuer</string>
+    <string name="weather_setup_title">Configuration météo</string>
+    <string name="weather_setup_subtitle">Sélectionnez les paramètres à afficher</string>
+    <string name="param_temperature">Température</string>
+    <string name="param_temperature_desc">Température actuelle et ressentie</string>
+    <string name="param_humidity">Humidité</string>
+    <string name="param_humidity_desc">Humidité relative et point de rosée</string>
+    <string name="param_wind">Vent</string>
+    <string name="param_wind_desc">Vitesse et direction du vent</string>
+    <string name="param_visibility">Visibilité</string>
+    <string name="param_visibility_desc">Distance de visibilité et conditions</string>
+    <string name="param_pressure">Pression</string>
+    <string name="param_pressure_desc">Pression atmosphérique (hPa)</string>
+    <string name="param_air_quality">Qualité de l\'air</string>
+    <string name="param_air_quality_desc">Indice de qualité de l\'air (IQA)</string>
+    <string name="home_title">Accueil</string>
+    <string name="telemetry_section_title">Paramètres détaillés</string>
+    <string name="air_quality_title">Qualité de l\'air (IQA)</string>
+</resources>

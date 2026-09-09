@@ -28,7 +28,7 @@ data class WeatherCondition(
     @SerializedName("id") val id: Int,               // Weather condition code (e.g. 800, 500)
     @SerializedName("main") val main: String,         // Group of weather parameters (Rain, Snow, Extreme etc.)
     @SerializedName("description") val description: String,
-    @SerializedName("icon") val icon: String          // Weather icon id (e.g. "01d", "10n")
+    @SerializedName("icon") val icon: String
 )
 
 data class MainWeatherData(

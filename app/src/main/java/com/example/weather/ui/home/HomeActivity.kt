@@ -1,7 +1,6 @@
 package com.example.weather.ui.home
 
 import android.os.Bundle
-import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -11,7 +10,6 @@ import androidx.fragment.app.Fragment
 import com.example.weather.R
 import com.example.weather.databinding.ActivityHomeBinding
 import com.example.weather.ui.forecast.ForecastFragment
-import com.example.weather.ui.search.SearchSavedFragment
 
 /**
  * HomeActivity:
@@ -24,9 +22,12 @@ class HomeActivity : AppCompatActivity() {
 
     private val homeFragment by lazy { HomeFragment.newInstance() }
     private val forecastFragment by lazy { ForecastFragment.newInstance() }
-    private val searchSavedFragment by lazy { SearchSavedFragment.newInstance() }
 
     private var activeFragment: Fragment = homeFragment
+
+    override fun attachBaseContext(newBase: android.content.Context) {
+        super.attachBaseContext(com.example.weather.utils.LocaleHelper.onAttach(newBase))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +52,6 @@ class HomeActivity : AppCompatActivity() {
     private fun setupFragments(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentContainer, searchSavedFragment, "SEARCH")
-                .hide(searchSavedFragment)
                 .add(R.id.fragmentContainer, forecastFragment, "FORECAST")
                 .hide(forecastFragment)
                 .add(R.id.fragmentContainer, homeFragment, "HOME")
@@ -70,9 +69,6 @@ class HomeActivity : AppCompatActivity() {
             switchFragment(forecastFragment, 1)
         }
 
-        binding.tabSearch.setOnClickListener {
-            switchFragment(searchSavedFragment, 2)
-        }
     }
 
     private fun switchFragment(targetFragment: Fragment, tabIndex: Int) {
@@ -104,10 +100,6 @@ class HomeActivity : AppCompatActivity() {
         binding.ivTabForecast.setColorFilter(if (isForecast) activeColor else inactiveColor)
         binding.tvTabForecast.setTextColor(if (isForecast) activeColor else inactiveColor)
 
-        // Tab 2: Search & Saved
-        val isSearch = selectedIndex == 2
-        binding.pillSearch.setBackgroundResource(if (isSearch) R.drawable.bg_nav_active_pill else android.R.color.transparent)
-        binding.ivTabSearch.setColorFilter(if (isSearch) activeColor else inactiveColor)
-        binding.tvTabSearch.setTextColor(if (isSearch) activeColor else inactiveColor)
+
     }
 }

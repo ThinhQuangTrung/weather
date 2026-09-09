@@ -110,39 +110,7 @@
             </LinearLayout>
 
             <!-- Tab 3: Search & Saved -->
-            <LinearLayout
-                android:id="@+id/tabSearch"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
 
-                <FrameLayout
-                    android:id="@+id/pillSearch"
-                    android:layout_width="60dp"
-                    android:layout_height="32dp"
-                    android:background="@android:color/transparent">
-
-                    <ImageView
-                        android:id="@+id/ivTabSearch"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_nav_search"
-                        app:tint="@color/bottom_nav_inactive_tint" />
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/tvTabSearch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="Search &amp; Saved"
-                    android:textColor="@color/bottom_nav_inactive_tint"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

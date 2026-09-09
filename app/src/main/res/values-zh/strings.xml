@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">天气</string>
+    <string name="app_subtitle">智能天气预报</string>
+    <string name="select_language">选择语言</string>
+    <string name="language_default_suffix"> (默认)</string>
+    <string name="btn_start_now">立即开始</string>
+    <string name="btn_continue">继续</string>
+    <string name="weather_setup_title">天气设置</string>
+    <string name="weather_setup_subtitle">选择主屏幕要显示的气象参数</string>
+    <string name="param_temperature">温度</string>
+    <string name="param_temperature_desc">当前气温、体感温度及高低温区间</string>
+    <string name="param_humidity">湿度</string>
+    <string name="param_humidity_desc">空气相对湿度与露点</string>
+    <string name="param_wind">风速风向</string>
+    <string name="param_wind_desc">实时风速与风向角度</string>
+    <string name="param_visibility">能见度</string>
+    <string name="param_visibility_desc">能见度距离与空气清晰度</string>
+    <string name="param_pressure">气压</string>
+    <string name="param_pressure_desc">大气压强 (hPa) 与标准大气压</string>
+    <string name="param_air_quality">空气质量</string>
+    <string name="param_air_quality_desc">空气质量指数 (AQI) 及健康提示</string>
+    <string name="home_title">主页</string>
+    <string name="telemetry_section_title">详细指标</string>
+    <string name="air_quality_title">空气质量 (AQI)</string>
+    <string name="aqi_good">优</string>
+    <string name="aqi_fair">良</string>
+    <string name="aqi_moderate">轻度污染</string>
+    <string name="aqi_poor">中度污染</string>
+    <string name="aqi_very_poor">重度污染</string>
+</resources>

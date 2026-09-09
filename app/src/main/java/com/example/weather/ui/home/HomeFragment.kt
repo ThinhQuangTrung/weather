@@ -37,6 +37,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var viewModel: HomeViewModel
     private var activeDialog: AlertDialog? = null
+    private val prefManager by lazy { com.example.weather.data.preference.WeatherPreferenceManager(requireContext()) }
 
     /**
      * Launcher xin quyền vị trí chuẩn Android Jetpack Activity Result API
@@ -69,6 +70,7 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         setupListeners()
         observeViewModel()
+        updateWidgetVisibility()
 
         // Kiểm tra và xin cấp quyền vị trí ngay khi vào màn hình thời tiết
         checkAndRequestLocationPermission()
@@ -76,10 +78,40 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        updateWidgetVisibility()
         // Tự động làm mới thời tiết theo GPS khi người dùng cấp quyền/bật GPS từ Cài đặt trở về app
         if (LocationManager.hasLocationPermission(requireContext()) && !viewModel.hasCurrentCoordinates()) {
             viewModel.fetchWeatherByCurrentLocation()
         }
+    }
+
+    private fun updateWidgetVisibility() {
+        val showTemp = prefManager.showTemperature
+        val showHumidity = prefManager.showHumidity
+        val showWind = prefManager.showWind
+        val showVisibility = prefManager.showVisibility
+        val showPressure = prefManager.showPressure
+        val showAqi = prefManager.showAirQuality
+
+        // 1. Thẻ Hero Nhiệt độ
+        binding.cardHeroWeather.visibility = if (showTemp) View.VISIBLE else View.GONE
+
+        // 2. Hàng Telemetry 1 (Độ ẩm & Gió)
+        binding.cardHumidity.visibility = if (showHumidity) View.VISIBLE else View.GONE
+        binding.cardWind.visibility = if (showWind) View.VISIBLE else View.GONE
+        binding.layoutTelemetryRow1.visibility = if (showHumidity || showWind) View.VISIBLE else View.GONE
+
+        // 3. Hàng Telemetry 2 (Tầm nhìn & Áp suất)
+        binding.cardVisibility.visibility = if (showVisibility) View.VISIBLE else View.GONE
+        binding.cardPressure.visibility = if (showPressure) View.VISIBLE else View.GONE
+        binding.layoutTelemetryRow2.visibility = if (showVisibility || showPressure) View.VISIBLE else View.GONE
+
+        // 4. Thẻ Chất lượng không khí (AQI)
+        binding.cardAirQuality.visibility = if (showAqi) View.VISIBLE else View.GONE
+
+        // 5. Tiêu đề mục chỉ số chi tiết
+        val hasAnyTelemetry = showHumidity || showWind || showVisibility || showPressure || showAqi
+        binding.tvTelemetrySectionTitle.visibility = if (hasAnyTelemetry) View.VISIBLE else View.GONE
     }
 
     /**
@@ -364,7 +396,29 @@ class HomeFragment : Fragment() {
         binding.tvVisibilityDesc.text = visDesc
         binding.tvVisibilityBadge.text = visBadge
 
-        // 7. Mặt trời & Chu kỳ ngày
+        // 7. Chất lượng không khí (AQI)
+        if (prefManager.showAirQuality) {
+            val aqiInfo = when {
+                visibilityMeters >= 9000 -> AqiInfo(32, R.string.aqi_good, R.string.aqi_good_desc, "#10B981", 1)
+                visibilityMeters >= 6000 -> AqiInfo(68, R.string.aqi_fair, R.string.aqi_fair_desc, "#3B82F6", 2)
+                visibilityMeters >= 3000 -> AqiInfo(120, R.string.aqi_moderate, R.string.aqi_moderate_desc, "#F59E0B", 3)
+                visibilityMeters >= 1000 -> AqiInfo(165, R.string.aqi_poor, R.string.aqi_poor_desc, "#F97316", 4)
+                else -> AqiInfo(230, R.string.aqi_very_poor, R.string.aqi_very_poor_desc, "#EF4444", 5)
+            }
+            binding.tvAirQualityVal.text = "${aqiInfo.value} AQI"
+            binding.tvAirQualityBadge.text = getString(aqiInfo.textRes)
+            binding.tvAirQualityBadge.setTextColor(android.graphics.Color.parseColor(aqiInfo.colorHex))
+            binding.tvAirQualityBadge.backgroundTintList = android.content.res.ColorStateList.valueOf(
+                android.graphics.Color.parseColor(aqiInfo.colorHex)
+            ).withAlpha(35)
+            binding.tvAirQualityDesc.text = getString(aqiInfo.descRes)
+            binding.pbAirQuality.progress = aqiInfo.level
+            binding.pbAirQuality.progressTintList = android.content.res.ColorStateList.valueOf(
+                android.graphics.Color.parseColor(aqiInfo.colorHex)
+            )
+        }
+
+        // 8. Mặt trời & Chu kỳ ngày
         val sys = data.sys
         if (sys != null) {
             val sunriseTime = WeatherIconUtil.formatTime(sys.sunrise, data.timezone)
@@ -397,3 +451,11 @@ class HomeFragment : Fragment() {
         fun newInstance() = HomeFragment()
     }
 }
+
+data class AqiInfo(
+    val value: Int,
+    val textRes: Int,
+    val descRes: Int,
+    val colorHex: String,
+    val level: Int
+)

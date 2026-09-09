@@ -6,9 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-/**
- * Singleton khởi tạo và quản lý kết nối mạng Retrofit & OkHttpClient tới OpenWeatherMap API
- */
+
 object RetrofitClient {
 
     private const val BASE_URL = "https://api.openweathermap.org/"

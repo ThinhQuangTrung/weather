@@ -1,34 +1,80 @@
 <resources>
-    <string name="app_name">Thời Tiết</string>
-    <string name="app_subtitle">Dự báo thời tiết thông minh</string>
-    <string name="section_core_features">TÍNH NĂNG CỐT LÕI</string>
+    <string name="app_name">Weather</string>
+    <string name="app_subtitle">Smart Weather Forecast</string>
+    <string name="section_core_features">CORE FEATURES</string>
     <string name="page_counter_format">%1$d / %2$d</string>
     
+    <!-- Language Selection -->
+    <string name="select_language">Select Language</string>
+    <string name="language_default_suffix"> (Default)</string>
+    <string name="search_language">Search language…</string>
+
     <!-- Card 1 -->
-    <string name="card1_tag">Trạng thái</string>
-    <string name="card1_title">Thời tiết thời gian thực</string>
-    <string name="card1_desc">Theo dõi nhiệt độ hiện tại, độ ẩm không khí, tốc độ gió và chỉ số UV với cập nhật tức thì từ cảm biến và OpenWeatherMap API.</string>
-    <string name="card1_stat1">14 km/h Gió</string>
-    <string name="card1_stat2">68% Ẩm</string>
+    <string name="card1_tag">Status</string>
+    <string name="card1_title">Real-time Weather</string>
+    <string name="card1_desc">Track current temperature, humidity, wind speed, and UV index with instant live updates.</string>
+    <string name="card1_stat1">14 km/h Wind</string>
+    <string name="card1_stat2">68% Humidity</string>
     <string name="card1_stat3">UV 4</string>
     
     <!-- Card 2 -->
-    <string name="card2_tag">Mưa &amp; Biểu đồ</string>
-    <string name="card2_title">Dự báo 5 ngày / 3 giờ</string>
-    <string name="card2_desc">Lên kế hoạch tuần hoàn hảo với biểu đồ xu hướng nhiệt độ và các mốc thời gian 3 tiếng trực quan dạng danh sách trượt mượt mà.</string>
-    <string name="card2_stat1">Giám sát</string>
-    <string name="card2_stat2">Xu hướng nhiệt độ</string>
-    <string name="card2_stat3">Xác suất mưa</string>
+    <string name="card2_tag">Rain &amp; Trends</string>
+    <string name="card2_title">5-Day / 3-Hour Forecast</string>
+    <string name="card2_desc">Plan your week with temperature trend charts and visual 3-hour forecasts.</string>
+    <string name="card2_stat1">Monitoring</string>
+    <string name="card2_stat2">Temp Trend</string>
+    <string name="card2_stat3">Rain Probability</string>
     
     <!-- Card 3 -->
-    <string name="card3_tag">GPS Toàn cầu</string>
-    <string name="card3_title">Tìm kiếm &amp; Lưu yêu thích</string>
-    <string name="card3_desc">Tra cứu thời tiết tại bất kỳ địa danh nào trên thế giới với thông tin chi tiết và dữ liệu cập nhật theo thời gian thực.</string>
-    <string name="card3_stat1">Toàn cầu</string>
-    <string name="card3_stat2">GPS Tự động</string>
-    <string name="card3_stat3">Đa thành phố</string>
+    <string name="card3_tag">Global GPS</string>
+    <string name="card3_title">Search &amp; Save Favorites</string>
+    <string name="card3_desc">Lookup weather anywhere worldwide with detailed data and real-time updates.</string>
+    <string name="card3_stat1">Global</string>
+    <string name="card3_stat2">Auto GPS</string>
+    <string name="card3_stat3">Multi-city</string>
     
-    <!-- Button & Footer -->
-    <string name="btn_start_now">Bắt đầu ngay</string>
+    <!-- Buttons & Actions -->
+    <string name="btn_start_now">Get Started</string>
+    <string name="btn_continue">Continue</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_skip">Skip</string>
     <string name="footer_version">v1.0.0 • Open Source</string>
+
+    <!-- Weather Setup Screen -->
+    <string name="weather_setup_title">Weather Setup</string>
+    <string name="weather_setup_subtitle">Select parameters to display on your Home screen</string>
+    <string name="param_temperature">Temperature</string>
+    <string name="param_temperature_desc">Current temperature, feels-like, and high/low range</string>
+    <string name="param_humidity">Humidity</string>
+    <string name="param_humidity_desc">Relative humidity percentage and dew point</string>
+    <string name="param_wind">Wind</string>
+    <string name="param_wind_desc">Wind speed and directional degrees</string>
+    <string name="param_visibility">Visibility</string>
+    <string name="param_visibility_desc">Visibility distance and clarity condition evaluation</string>
+    <string name="param_pressure">Pressure</string>
+    <string name="param_pressure_desc">Atmospheric pressure (hPa) and atm equivalent</string>
+    <string name="param_air_quality">Air Quality</string>
+    <string name="param_air_quality_desc">Air Quality Index (AQI) and health advisory level</string>
+
+    <!-- Home & Telemetry -->
+    <string name="home_title">Home</string>
+    <string name="telemetry_section_title">Detailed Parameters</string>
+    <string name="air_quality_title">Air Quality (AQI)</string>
+    <string name="aqi_good">Good</string>
+    <string name="aqi_fair">Fair</string>
+    <string name="aqi_moderate">Moderate</string>
+    <string name="aqi_poor">Poor</string>
+    <string name="aqi_very_poor">Very Poor</string>
+    <string name="aqi_good_desc">Air quality is satisfactory and poses little risk.</string>
+    <string name="aqi_fair_desc">Air quality is acceptable for most individuals.</string>
+    <string name="aqi_moderate_desc">Sensitive groups may experience mild symptoms.</string>
+    <string name="aqi_poor_desc">May cause discomfort or health effects for sensitive groups.</string>
+    <string name="aqi_very_poor_desc">Health alert: Everyone may experience serious effects.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_unit">Temperature Unit</string>
+    <string name="settings_weather_setup">Customize Weather Widgets</string>
 </resources>

@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">Wetter</string>
+    <string name="app_subtitle">Intelligente Wettervorhersage</string>
+    <string name="section_core_features">KERNFUNKTIONEN</string>
+    <string name="page_counter_format">%1$d / %2$d</string>
+    
+    <string name="select_language">Sprache auswählen</string>
+    <string name="language_default_suffix"> (Standard)</string>
+    <string name="search_language">Sprache suchen…</string>
+
+    <string name="btn_start_now">Jetzt starten</string>
+    <string name="btn_continue">Weiter</string>
+    <string name="btn_next">Weiter</string>
+    <string name="btn_skip">Überspringen</string>
+
+    <string name="weather_setup_title">Wetter-Setup</string>
+    <string name="weather_setup_subtitle">Wählen Sie Parameter für Ihren Startbildschirm</string>
+    <string name="param_temperature">Temperatur</string>
+    <string name="param_temperature_desc">Aktuelle Temperatur, gefühlte Temp und Min/Max</string>
+    <string name="param_humidity">Feuchtigkeit</string>
+    <string name="param_humidity_desc">Relative Luftfeuchtigkeit und Taupunkt</string>
+    <string name="param_wind">Wind</string>
+    <string name="param_wind_desc">Windgeschwindigkeit und Richtung</string>
+    <string name="param_visibility">Sichtweite</string>
+    <string name="param_visibility_desc">Sichtweite und Zustand</string>
+    <string name="param_pressure">Luftdruck</string>
+    <string name="param_pressure_desc">Atmosphärischer Druck (hPa)</string>
+    <string name="param_air_quality">Luftqualität</string>
+    <string name="param_air_quality_desc">Luftqualitätsindex (AQI) und Empfehlungen</string>
+
+    <string name="home_title">Startseite</string>
+    <string name="telemetry_section_title">Detaillierte Metriken</string>
+    <string name="air_quality_title">Luftqualität (AQI)</string>
+    <string name="aqi_good">Gut</string>
+    <string name="aqi_fair">Mäßig</string>
+    <string name="aqi_moderate">Akzeptabel</string>
+    <string name="aqi_poor">Schlecht</string>
+    <string name="aqi_very_poor">Sehr schlecht</string>
+
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_language">Sprache</string>
+    <string name="settings_theme">Design</string>
+    <string name="settings_unit">Temperatureinheit</string>
+    <string name="settings_weather_setup">Wetter-Widgets anpassen</string>
+</resources>
