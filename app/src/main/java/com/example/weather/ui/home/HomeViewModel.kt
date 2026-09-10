@@ -1,6 +1,7 @@
 package com.example.weather.ui.home
 
 import android.app.Application
+import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -43,6 +44,10 @@ class HomeViewModel @JvmOverloads constructor(
     private val _showLocationDialog = MutableLiveData<LocationDialogType?>()
     val showLocationDialog: LiveData<LocationDialogType?> = _showLocationDialog
 
+    // LiveData thông báo tên thành phố vừa được xác định thành công từ toạ độ GPS
+    private val _locationResolvedCity = MutableLiveData<String?>()
+    val locationResolvedCity: LiveData<String?> = _locationResolvedCity
+
     private var currentCity: String = "vinh"
     private var currentCoordinates: Pair<Double, Double>? = null
 
@@ -73,8 +78,10 @@ class HomeViewModel @JvmOverloads constructor(
                     lon = location.longitude
                 )
                 if (result is Resource.Success) {
-                    _cityWeatherResult.value = Pair(result.data.cityName, result)
-                    _cityWeatherResult.value = Pair(currentCity, result)
+                    val resolvedCity = result.data.cityName
+                    currentCity = resolvedCity
+                    _cityWeatherResult.value = Pair(resolvedCity, result)
+                    _locationResolvedCity.value = resolvedCity
                 }
                 _weatherState.value = result
             } else {
@@ -82,6 +89,31 @@ class HomeViewModel @JvmOverloads constructor(
                 _userMessage.value = "Không thể lấy toạ độ GPS, hiển thị thời tiết mặc định"
                 loadWeather(currentCity)
             }
+        }
+    }
+
+    fun clearLocationResolvedCity() {
+        _locationResolvedCity.value = null
+    }
+
+    /**
+     * Tải thời tiết từ đối tượng Location do Bound Service cung cấp
+     */
+    fun fetchWeatherByLocation(location: Location) {
+        viewModelScope.launch {
+            currentCoordinates = Pair(location.latitude, location.longitude)
+            _weatherState.value = Resource.Loading
+            val result = weatherRepository.getCurrentWeatherByCoords(
+                lat = location.latitude,
+                lon = location.longitude
+            )
+            if (result is Resource.Success) {
+                val resolvedCity = result.data.cityName
+                currentCity = resolvedCity
+                _cityWeatherResult.value = Pair(resolvedCity, result)
+                _locationResolvedCity.value = resolvedCity
+            }
+            _weatherState.value = result
         }
     }
 

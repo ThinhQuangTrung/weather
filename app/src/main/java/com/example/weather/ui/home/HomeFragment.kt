@@ -1,9 +1,13 @@
 package com.example.weather.ui.home
 
 import android.Manifest
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
+import android.os.IBinder
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weather.R
+import com.example.weather.data.location.LocationBoundService
 import com.example.weather.data.location.LocationManager
 import com.example.weather.data.preference.WeatherPreferenceManager
 import com.example.weather.databinding.FragmentHomeBinding
@@ -23,9 +28,6 @@ import com.example.weather.utils.Resource
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 /**
- * HomeFragment:
- * - Hỗ trợ hiển thị đa thành phố qua ViewPager2: lướt qua lại mượt mà giữa các thành phố đã lưu.
- * - Tự động gọi API OpenWeatherMap ngay khi lướt sang bất kỳ thành phố nào.
  * - Bấm vào nút addCity để mở CityManagementFragment (thêm thành phố mới, chọn thành phố, nhấn giữ để xóa).
  * - Đồng bộ tức thì với cài đặt hiển thị widget và đơn vị nhiệt độ (°C / °F).
  */
@@ -38,6 +40,49 @@ class HomeFragment : Fragment() {
     private lateinit var cityWeatherAdapter: CityWeatherPagerAdapter
     private var activeDialog: AlertDialog? = null
     private val prefManager by lazy { WeatherPreferenceManager(requireContext()) }
+
+    // ─── Bound Service fields ────────────────────────────────────────────────
+    private var locationService: LocationBoundService? = null
+    private var isServiceBound = false
+
+    /**
+     * ServiceConnection: callbacks báo khi Service kết nối / mất kết nối.
+     * - onServiceConnected  → Fragment đang hiện ra, lấy vị trí GPS ngay.
+     * - onServiceDisconnected → Service bị kill bất thường (hiếm gặp).
+     */
+    private val locationServiceConnection = object : ServiceConnection {
+        override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
+            val localBinder = binder as? LocationBoundService.LocalBinder ?: return
+            locationService = localBinder.getService()
+            isServiceBound = true
+
+            // Ngay khi kết nối thành công → yêu cầu vị trí GPS hiện tại
+            locationService?.requestCurrentLocation { location ->
+                if (location != null) {
+                    // Có vị trí → truyền cho ViewModel tải thời tiết
+                    viewModel.fetchWeatherByLocation(location)
+                } else {
+                    // Không lấy được GPS (chưa cấp quyền, GPS tắt, …)
+                    if (!LocationManager.hasLocationPermission(requireContext())) {
+                        locationPermissionLauncher.launch(
+                            arrayOf(
+                                Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION
+                            )
+                        )
+                    } else {
+                        viewModel.fetchWeatherByCurrentLocation()
+                    }
+                }
+            }
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            locationService = null
+            isServiceBound = false
+        }
+    }
+    // ────────────────────────────────────────────────────────────────────────
 
     private val locationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -144,19 +189,11 @@ class HomeFragment : Fragment() {
         binding.viewPagerCities.setCurrentItem(initialIndex, false)
         updatePageIndicator(initialIndex, savedCities.size)
 
+        // Hiển thị thành phố đã lưu làm fallback trong khi GPS đang được lấy
         if (initialIndex in savedCities.indices) {
             viewModel.loadWeather(savedCities[initialIndex])
         }
-
-        // Nếu có quyền vị trí và chưa lấy GPS, xin quyền
-        if (!LocationManager.hasLocationPermission(requireContext())) {
-            locationPermissionLauncher.launch(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                )
-            )
-        }
+        // Lưu ý: việc lấy GPS hiện tại được xử lý trong onStart() qua Bound Service.
     }
 
     private fun openCityManagement() {
@@ -182,6 +219,21 @@ class HomeFragment : Fragment() {
             CityManagementFragment.REQUEST_KEY_CITY_SELECTED,
             viewLifecycleOwner
         ) { _, bundle ->
+            val useCurrentLocation = bundle.getBoolean(CityManagementFragment.KEY_USE_CURRENT_LOCATION, false)
+            if (useCurrentLocation) {
+                if (!LocationManager.hasLocationPermission(requireContext())) {
+                    locationPermissionLauncher.launch(
+                        arrayOf(
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                        )
+                    )
+                } else {
+                    viewModel.fetchWeatherByCurrentLocation()
+                }
+                return@setFragmentResultListener
+            }
+
             val selectedIndex = bundle.getInt(CityManagementFragment.KEY_SELECTED_CITY_INDEX, 0)
             val updatedCities = prefManager.getSavedCities()
             cityWeatherAdapter.setCities(updatedCities)
@@ -223,6 +275,26 @@ class HomeFragment : Fragment() {
                     resource.message ?: "Không thể kết nối máy chủ thời tiết cho $cityName",
                     Toast.LENGTH_SHORT
                 ).show()
+            }
+        }
+
+        // Quan sát thành phố xác định từ GPS hiện tại
+        viewModel.locationResolvedCity.observe(viewLifecycleOwner) { resolvedCity ->
+            if (!resolvedCity.isNullOrEmpty()) {
+                val currentCities = prefManager.getSavedCities().toMutableList()
+                var index = currentCities.indexOfFirst { it.equals(resolvedCity, ignoreCase = true) }
+                if (index == -1) {
+                    prefManager.addCity(resolvedCity)
+                    val updated = prefManager.getSavedCities()
+                    cityWeatherAdapter.setCities(updated)
+                    index = updated.indexOfFirst { it.equals(resolvedCity, ignoreCase = true) }
+                }
+                if (index >= 0) {
+                    prefManager.selectedCityIndex = index
+                    binding.viewPagerCities.setCurrentItem(index, true)
+                    updatePageIndicator(index, cityWeatherAdapter.itemCount)
+                }
+                viewModel.clearLocationResolvedCity()
             }
         }
 
@@ -331,6 +403,24 @@ class HomeFragment : Fragment() {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         startActivity(intent)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // onStart: Bind Service để lấy GPS ngay khi Fragment hiện ra
+        Intent(requireContext(), LocationBoundService::class.java).also { intent ->
+            requireContext().bindService(intent, locationServiceConnection, Context.BIND_AUTO_CREATE)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        //  onStop khi hủy thì KHÔNG chạy ngầm dùng Service
+        if (isServiceBound) {
+            requireContext().unbindService(locationServiceConnection)
+            isServiceBound = false
+            locationService = null
+        }
     }
 
     override fun onResume() {

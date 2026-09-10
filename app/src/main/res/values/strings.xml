@@ -80,6 +80,8 @@
 
     <!-- City Management -->
     <string name="city_management_title">City Management</string>
+    <string name="current_location_title">Your Current Location</string>
+    <string name="current_location_subtitle">Get real-time weather using device GPS</string>
     <string name="add_city_hint">Enter city name (e.g., Hanoi, Tokyo...)</string>
     <string name="btn_add_city">Add</string>
     <string name="suggested_cities">Suggested Cities</string>

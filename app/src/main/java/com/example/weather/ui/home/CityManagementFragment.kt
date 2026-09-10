@@ -89,6 +89,14 @@ class CityManagementFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
+        binding.cardCurrentLocation.setOnClickListener {
+            parentFragmentManager.setFragmentResult(
+                REQUEST_KEY_CITY_SELECTED,
+                bundleOf(KEY_USE_CURRENT_LOCATION to true)
+            )
+            parentFragmentManager.popBackStack()
+        }
+
         binding.btnAddCity.setOnClickListener {
             addNewCityFromInput()
         }
@@ -220,6 +228,7 @@ class CityManagementFragment : Fragment() {
         const val KEY_SELECTED_CITY_NAME = "key_selected_city_name"
         const val KEY_SELECTED_CITY_INDEX = "key_selected_city_index"
         const val KEY_CITY_LIST_MODIFIED = "key_city_list_modified"
+        const val KEY_USE_CURRENT_LOCATION = "key_use_current_location"
 
         fun newInstance() = CityManagementFragment()
     }
