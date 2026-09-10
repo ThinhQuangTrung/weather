@@ -102,4 +102,32 @@
     <color name="bottom_nav_active_pill">#DDF2FE</color>
     <color name="bottom_nav_active_tint">#0284C7</color>
     <color name="bottom_nav_inactive_tint">#64748B</color>
-</resources>
+
+    <!-- Cloud Card -->
+    <color name="badge_cloud_bg">#EFF6FF</color>
+    <color name="badge_cloud_icon">#3B82F6</color>
+    <color name="pill_cloud_bg">#DBEAFE</color>
+    <color name="pill_cloud_text">#1D4ED8</color>
+
+    <!-- Setup Card Backgrounds -->
+    <color name="setup_card_normal_bg">#FFFFFF</color>
+    <color name="setup_card_normal_border">#E2E8F0</color>
+    <color name="setup_card_selected_bg">#F0FDF4</color>
+    <color name="setup_card_selected_border">#22C55E</color>
+
+    <!-- Setup Icon Badge Backgrounds -->
+    <color name="setup_badge_blue_bg">#EFF6FF</color>
+    <color name="setup_badge_blue_icon">#2563EB</color>
+    <color name="setup_badge_indigo_bg">#EFF6FF</color>
+    <color name="setup_badge_indigo_icon">#3B82F6</color>
+    <color name="setup_badge_green_bg">#F0FDF4</color>
+    <color name="setup_badge_green_icon">#16A34A</color>
+    <color name="setup_badge_purple_bg">#F5F3FF</color>
+    <color name="setup_badge_purple_icon">#8B5CF6</color>
+    <color name="setup_badge_orange_bg">#FFF7ED</color>
+    <color name="setup_badge_orange_icon">#F97316</color>
+    <color name="setup_badge_teal_bg">#ECFDF5</color>
+    <color name="setup_badge_teal_icon">#10B981</color>
+    <color name="setup_badge_yellow_bg">#FEF3C7</color>
+    <color name="setup_badge_yellow_icon">#D97706</color>
+</resources>

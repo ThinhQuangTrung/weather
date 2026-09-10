@@ -176,6 +176,28 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
+            <!-- Search Suggestions Dropdown -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSearchSuggestions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card_white"
+                android:elevation="4dp"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                android:visibility="gone"
+                android:clipToPadding="false"
+                android:paddingVertical="4dp" />
+
+            <!-- Search loading indicator -->
+            <ProgressBar
+                android:id="@+id/progressSearch"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
+
             <!-- Suggested Cities Title -->
             <TextView
                 android:layout_width="wrap_content"

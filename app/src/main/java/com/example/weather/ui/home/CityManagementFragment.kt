@@ -1,6 +1,10 @@
-package com.example.weather.ui.home
+﻿package com.example.weather.ui.home
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,12 +12,18 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weather.R
+import com.example.weather.data.model.GeocodingItem
 import com.example.weather.data.preference.WeatherPreferenceManager
+import com.example.weather.data.repository.WeatherRepository
 import com.example.weather.databinding.FragmentCityManagementBinding
+import com.example.weather.utils.Resource
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class CityManagementFragment : Fragment() {
 
@@ -21,10 +31,16 @@ class CityManagementFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val prefManager by lazy { WeatherPreferenceManager(requireContext()) }
+    private val repository by lazy { WeatherRepository() }
     private lateinit var cityAdapter: CityAdapter
+    private lateinit var suggestionAdapter: CitySuggestionAdapter
+
+    private var searchJob: Job? = null
+    private val searchHandler = Handler(Looper.getMainLooper())
+    private var searchRunnable: Runnable? = null
 
     private val suggestedCities = listOf(
-        "Hanoi", "Ho Chi Minh", "Da Nang", "Vinh", "Hai Phong",
+        "Hanoi", "Ho Chi Minh", "Da Nang", "Vinh",
         "Can Tho", "Hue", "Nha Trang", "Tokyo", "Seoul",
         "London", "Paris", "New York", "Singapore", "Bangkok"
     )
@@ -42,6 +58,7 @@ class CityManagementFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
+        setupSuggestionRecyclerView()
         setupSuggestedChips()
         setupListeners()
     }
@@ -64,6 +81,16 @@ class CityManagementFragment : Fragment() {
         binding.rvSavedCities.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = cityAdapter
+        }
+    }
+
+    private fun setupSuggestionRecyclerView() {
+        suggestionAdapter = CitySuggestionAdapter { item ->
+            onSuggestionSelected(item)
+        }
+        binding.rvSearchSuggestions.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = suggestionAdapter
         }
     }
 
@@ -109,6 +136,99 @@ class CityManagementFragment : Fragment() {
                 false
             }
         }
+
+        // TextWatcher de goi API tim kiem sau 500ms debounce
+        binding.etCityInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                val query = s?.toString()?.trim() ?: ""
+                // Huy runnable cu neu co
+                searchRunnable?.let { searchHandler.removeCallbacks(it) }
+
+                if (query.length < 2) {
+                    hideSuggestions()
+                    return
+                }
+
+                // Dat debounce 500ms de tranh goi API lien tuc
+                searchRunnable = Runnable {
+                    performCitySearch(query)
+                }
+                searchHandler.postDelayed(searchRunnable!!, 500)
+            }
+        })
+    }
+
+    /**
+     * Goi Geocoding API de tim kiem thanh pho theo tu khoa
+     */
+    private fun performCitySearch(query: String) {
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            binding.progressSearch.visibility = View.VISIBLE
+            hideSuggestions()
+
+            when (val result = repository.searchCity(query)) {
+                is Resource.Success -> {
+                    binding.progressSearch.visibility = View.GONE
+                    val items = result.data
+                    if (items.isNotEmpty()) {
+                        suggestionAdapter.submitList(items)
+                        binding.rvSearchSuggestions.visibility = View.VISIBLE
+                    } else {
+                        hideSuggestions()
+                    }
+                }
+                is Resource.Error -> {
+                    binding.progressSearch.visibility = View.GONE
+                    hideSuggestions()
+                }
+                is Resource.Loading -> {
+                    // Do nothing, loading indicator already showing
+                }
+            }
+        }
+    }
+
+    private fun hideSuggestions() {
+        binding.rvSearchSuggestions.visibility = View.GONE
+        suggestionAdapter.submitList(emptyList())
+    }
+
+    /**
+     * Xu ly khi nguoi dung chon mot goi y tu API search
+     */
+    private fun onSuggestionSelected(item: GeocodingItem) {
+        val cityName = item.name
+        hideSuggestions()
+        binding.etCityInput.setText(cityName)
+        binding.etCityInput.clearFocus()
+
+        val added = prefManager.addCity(cityName)
+        if (added) {
+            val updated = prefManager.getSavedCities()
+            cityAdapter.updateCities(updated)
+            val index = updated.indexOf(cityName)
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.city_added_success, cityName),
+                Toast.LENGTH_SHORT
+            ).show()
+            selectCityAndReturn(cityName, if (index >= 0) index else 0)
+        } else {
+            val cities = prefManager.getSavedCities()
+            val index = cities.indexOfFirst { it.equals(cityName, ignoreCase = true) }
+            if (index != -1) {
+                selectCityAndReturn(cityName, index)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.city_already_exists),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     private fun onSuggestedCitySelected(cityName: String) {
@@ -139,6 +259,7 @@ class CityManagementFragment : Fragment() {
             return
         }
 
+        hideSuggestions()
         val added = prefManager.addCity(input)
         if (added) {
             binding.etCityInput.text?.clear()
@@ -218,6 +339,8 @@ class CityManagementFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        searchRunnable?.let { searchHandler.removeCallbacks(it) }
+        searchJob?.cancel()
         (activity as? HomeActivity)?.setBottomNavVisibility(true)
         _binding = null
     }

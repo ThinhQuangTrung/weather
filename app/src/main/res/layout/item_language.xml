@@ -43,7 +43,7 @@
             android:id="@+id/tvLanguageName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#1E293B"
+            android:textColor="@color/card_title"
             android:textSize="16sp"
             android:textStyle="bold"
             tools:text="English (Default)" />
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:textColor="#64748B"
+            android:textColor="@color/card_desc"
             android:textSize="12sp"
             android:visibility="gone"
             tools:text="English" />
@@ -68,6 +68,7 @@
         android:src="@drawable/ic_radio_unchecked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/dot_inactive" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -55,6 +55,10 @@
     <string name="param_pressure_desc">Áp suất khí quyển (hPa) và chuẩn khí áp atm</string>
     <string name="param_air_quality">Chất lượng KK</string>
     <string name="param_air_quality_desc">Chỉ số ô nhiễm không khí (AQI) và mức cảnh báo sức khỏe</string>
+    <string name="param_cloud_cover">Độ che phủ mây</string>
+    <string name="param_cloud_cover_desc">Tỷ lệ mây che phủ (%) và đánh giá mức độ mây</string>
+    <string name="param_sun_cycle">Mặt trời &amp; Chu kỳ ngày</string>
+    <string name="param_sun_cycle_desc">Giờ bình minh, hoàng hôn và tổng thời gian chiếu sáng</string>
 
     <!-- Home & Telemetry -->
     <string name="home_title">Trang chủ</string>
@@ -70,6 +74,12 @@
     <string name="aqi_moderate_desc">Nhóm người nhạy cảm có thể gặp các triệu chứng nhẹ.</string>
     <string name="aqi_poor_desc">Có thể ảnh hưởng đến sức khỏe của nhóm người mẫn cảm.</string>
     <string name="aqi_very_poor_desc">Cảnh báo sức khỏe khẩn cấp: Hạn chế tối đa ra ngoài.</string>
+    <string name="cloud_cover_title">Độ che phủ mây</string>
+    <string name="cloud_overcast">Âm u</string>
+    <string name="cloud_mostly_cloudy">Nhiều mây</string>
+    <string name="cloud_partly_cloudy">Ít mây</string>
+    <string name="cloud_mostly_clear">Quang đãng nhẹ</string>
+    <string name="cloud_clear">Quang đãng</string>
 
     <!-- Settings -->
     <string name="settings_title">Cài đặt</string>
@@ -82,7 +92,7 @@
     <string name="city_management_title">Quản lý thành phố</string>
     <string name="current_location_title">Vị trí hiện tại của bạn</string>
     <string name="current_location_subtitle">Định vị thời tiết theo toạ độ GPS thực tế</string>
-    <string name="add_city_hint">Nhập tên thành phố (vd: Hanoi, Tokyo...)</string>
+    <string name="add_city_hint">Nhập tên thành phố </string>
     <string name="btn_add_city">Thêm</string>
     <string name="suggested_cities">Thành phố gợi ý</string>
     <string name="saved_cities">Thành phố đã lưu</string>

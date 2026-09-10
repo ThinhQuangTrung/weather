@@ -13,10 +13,9 @@ import kotlinx.coroutines.launch
 
 /**
  * LocationBoundService:
- * - Dạng Bound Service (ràng buộc theo vòng đời ).
+ * -Bound Service (ràng buộc theo vòng đời ).
  * - Tự động kết nối khi Fragment gọi bindService() trong onStart().
  * - Tự động giải phóng và huỷ hoàn toàn khi Fragment gọi unbindService() trong onStop().
- * - Đảm bảo KHÔNG chạy ngầm khi thoát app, giúp bảo toàn pin và tuân thủ chuẩn Android.
  */
 class LocationBoundService : Service() {
 
@@ -30,7 +29,7 @@ class LocationBoundService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        locationManager = LocationManager(applicationContext)
+        locationManager = LocationManager(applicationContext) //kiểm tra quyền GPS kiểm tra GPS có bật không và lấy vị trí hiện tại
     }
 
     override fun onBind(intent: Intent?): IBinder {

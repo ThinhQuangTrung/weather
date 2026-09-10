@@ -5,7 +5,7 @@
     android:id="@+id/layoutSetupRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC"
+    android:background="@color/home_bg"
     android:fitsSystemWindows="true">
 
     <!-- Top App Bar / Header -->
@@ -29,14 +29,14 @@
             android:padding="6dp"
             android:src="@drawable/ic_arrow_back"
             android:visibility="gone"
-            app:tint="#1E293B" />
+            app:tint="@color/card_title" />
 
         <TextView
             android:id="@+id/tvSetupTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/weather_setup_title"
-            android:textColor="#0F172A"
+            android:textColor="@color/card_title"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="@string/weather_setup_subtitle"
-            android:textColor="#64748B"
+            android:textColor="@color/card_desc"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -86,13 +86,13 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bg_badge_rounded"
-                    android:backgroundTint="#EFF6FF"
+                    android:backgroundTint="@color/setup_badge_blue_bg"
                     android:padding="8dp"
                     android:src="@drawable/ic_thermometer"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#2563EB" />
+                    app:tint="@color/setup_badge_blue_icon" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -109,7 +109,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/param_temperature"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/card_title"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="@string/param_temperature_desc"
-                        android:textColor="#64748B"
+                        android:textColor="@color/card_desc"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -153,13 +153,13 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bg_badge_rounded"
-                    android:backgroundTint="#EFF6FF"
+                    android:backgroundTint="@color/setup_badge_indigo_bg"
                     android:padding="8dp"
                     android:src="@drawable/ic_humidity"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#3B82F6" />
+                    app:tint="@color/setup_badge_indigo_icon" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -176,7 +176,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/param_humidity"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/card_title"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -185,7 +185,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="@string/param_humidity_desc"
-                        android:textColor="#64748B"
+                        android:textColor="@color/card_desc"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -220,13 +220,13 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bg_badge_rounded"
-                    android:backgroundTint="#F0FDF4"
+                    android:backgroundTint="@color/setup_badge_green_bg"
                     android:padding="8dp"
                     android:src="@drawable/ic_wind"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#16A34A" />
+                    app:tint="@color/setup_badge_green_icon" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -243,7 +243,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/param_wind"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/card_title"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -252,7 +252,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="@string/param_wind_desc"
-                        android:textColor="#64748B"
+                        android:textColor="@color/card_desc"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -287,13 +287,13 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bg_badge_rounded"
-                    android:backgroundTint="#F5F3FF"
+                    android:backgroundTint="@color/setup_badge_purple_bg"
                     android:padding="8dp"
                     android:src="@drawable/ic_visibility"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#8B5CF6" />
+                    app:tint="@color/setup_badge_purple_icon" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -310,7 +310,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/param_visibility"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/card_title"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -319,7 +319,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="@string/param_visibility_desc"
-                        android:textColor="#64748B"
+                        android:textColor="@color/card_desc"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -354,13 +354,13 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bg_badge_rounded"
-                    android:backgroundTint="#FFF7ED"
+                    android:backgroundTint="@color/setup_badge_orange_bg"
                     android:padding="8dp"
                     android:src="@drawable/ic_gauge"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#F97316" />
+                    app:tint="@color/setup_badge_orange_icon" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -377,7 +377,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/param_pressure"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/card_title"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -386,7 +386,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="@string/param_pressure_desc"
-                        android:textColor="#64748B"
+                        android:textColor="@color/card_desc"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -421,13 +421,13 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bg_badge_rounded"
-                    android:backgroundTint="#ECFDF5"
+                    android:backgroundTint="@color/setup_badge_teal_bg"
                     android:padding="8dp"
                     android:src="@drawable/ic_air_quality"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#10B981" />
+                    app:tint="@color/setup_badge_teal_icon" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -444,7 +444,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/param_air_quality"
-                        android:textColor="#0F172A"
+                        android:textColor="@color/card_title"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -453,7 +453,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:text="@string/param_air_quality_desc"
-                        android:textColor="#64748B"
+                        android:textColor="@color/card_desc"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -470,6 +470,140 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- 7. Mây che phủ (Cloud Cover) -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardOptionCloud"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_setup_card_selected"
+                android:clickable="true"
+                android:elevation="1dp"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/ivIconCloud"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_badge_rounded"
+                    android:backgroundTint="@color/setup_badge_indigo_bg"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_cloud"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/setup_badge_indigo_icon" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="12dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/cbOptionCloud"
+                    app:layout_constraintStart_toEndOf="@id/ivIconCloud"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/param_cloud_cover"
+                        android:textColor="@color/card_title"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/param_cloud_cover_desc"
+                        android:textColor="@color/card_desc"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cbOptionCloud"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:clickable="false"
+                    android:focusable="false"
+                    app:buttonTint="#2563EB"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 8. Chu kỳ Mặt trời (Sun & Daylight) -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardOptionSunCycle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/bg_setup_card_selected"
+                android:clickable="true"
+                android:elevation="1dp"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/ivIconSunCycle"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_badge_rounded"
+                    android:backgroundTint="@color/setup_badge_yellow_bg"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_sunrise"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/setup_badge_yellow_icon" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="12dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/cbOptionSunCycle"
+                    app:layout_constraintStart_toEndOf="@id/ivIconSunCycle"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/param_sun_cycle"
+                        android:textColor="@color/card_title"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/param_sun_cycle_desc"
+                        android:textColor="@color/card_desc"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/cbOptionSunCycle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:clickable="false"
+                    android:focusable="false"
+                    app:buttonTint="#2563EB"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -478,7 +612,7 @@
         android:id="@+id/layoutBottomAction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
+        android:background="@color/bottom_nav_bg"
         android:elevation="8dp"
         android:paddingHorizontal="20dp"
         android:paddingTop="12dp"

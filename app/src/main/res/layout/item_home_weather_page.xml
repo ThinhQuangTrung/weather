@@ -593,6 +593,177 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
+        <!-- ================= ROW 3: CLOUD COVER ================= -->
+        <LinearLayout
+            android:id="@+id/layoutTelemetryRow3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/layoutTelemetryRow2">
+
+            <!-- Cloud Cover Card -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardCloudCover"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_card_white"
+                android:elevation="1dp"
+                android:padding="14dp">
+
+                <FrameLayout
+                    android:id="@+id/flCloudBadge"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_badge_rounded"
+                    android:backgroundTint="@color/badge_cloud_bg"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_cloud"
+                        app:tint="@color/badge_cloud_icon" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvCloudTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/cloud_cover_title"
+                    android:textColor="@color/telemetry_title"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/flCloudBadge"
+                    app:layout_constraintStart_toEndOf="@id/flCloudBadge"
+                    app:layout_constraintTop_toTopOf="@id/flCloudBadge" />
+
+                <TextView
+                    android:id="@+id/tvCloudVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="13%"
+                    android:textColor="@color/telemetry_value"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/flCloudBadge" />
+
+                <TextView
+                    android:id="@+id/tvCloudBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_badge_rounded"
+                    android:backgroundTint="@color/pill_cloud_bg"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="3dp"
+                    android:text="Quang đãng"
+                    android:textColor="@color/pill_cloud_text"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvCloudVal" />
+
+                <ProgressBar
+                    android:id="@+id/pbCloud"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="8dp"
+                    android:max="100"
+                    android:progress="13"
+                    android:progressDrawable="@drawable/bg_progress_humidity"
+                    android:progressTint="@color/badge_cloud_icon"
+                    app:layout_constraintTop_toBottomOf="@id/tvCloudBadge" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Pressure Detail Card (sea_level / grnd_level) -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardPressureDetail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_card_white"
+                android:elevation="1dp"
+                android:padding="14dp">
+
+                <FrameLayout
+                    android:id="@+id/flPressDetailBadge"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_badge_rounded"
+                    android:backgroundTint="@color/badge_press_bg"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_gauge"
+                        app:tint="@color/badge_press_icon" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvPressDetailTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Áp suất chi tiết"
+                    android:textColor="@color/telemetry_title"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/flPressDetailBadge"
+                    app:layout_constraintStart_toEndOf="@id/flPressDetailBadge"
+                    app:layout_constraintTop_toTopOf="@id/flPressDetailBadge" />
+
+                <TextView
+                    android:id="@+id/tvSeaLevelVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="🌊 MSL: 1013 hPa"
+                    android:textColor="@color/telemetry_value"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/flPressDetailBadge" />
+
+                <TextView
+                    android:id="@+id/tvGroundLevelVal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="⛰ GND: 1012 hPa"
+                    android:textColor="@color/telemetry_subtitle"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvSeaLevelVal" />
+
+                <TextView
+                    android:id="@+id/tvPressureDiff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_badge_rounded"
+                    android:backgroundTint="@color/pill_press_bg"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="3dp"
+                    android:text="Δ 1 hPa"
+                    android:textColor="@color/pill_press_text"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvGroundLevelVal" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
         <!-- ================= AIR QUALITY CARD (AQI) ================= -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cardAirQuality"
@@ -602,7 +773,7 @@
             android:background="@drawable/bg_card_white"
             android:elevation="1dp"
             android:padding="16dp"
-            app:layout_constraintTop_toBottomOf="@id/layoutTelemetryRow2">
+            app:layout_constraintTop_toBottomOf="@id/layoutTelemetryRow3">
 
             <!-- AQI Title Row -->
             <FrameLayout

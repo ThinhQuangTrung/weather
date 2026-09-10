@@ -425,7 +425,8 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Cập nhật lại giao diện widget nếu có thay đổi từ màn hình Settings
+        // Cập nhật lại đơn vị nhiệt độ và giao diện widget nếu có thay đổi từ màn hình Settings / Setup
+        viewModel.syncTemperatureUnitFromPrefs()
         cityWeatherAdapter.notifyDataSetChanged()
     }
 

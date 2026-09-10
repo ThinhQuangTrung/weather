@@ -130,6 +130,20 @@ object WeatherIconUtil {
     }
 
     /**
+     * Đánh giá độ che phủ của mây (%)
+     * Trả về (Mô tả, Huy hiệu ngắn)
+     */
+    fun getCloudCoverEvaluation(cloudinessPercent: Int): Pair<String, String> {
+        return when (cloudinessPercent) {
+            in 0..10 -> Pair("Trời quang đãng", "Quang đãng")
+            in 11..25 -> Pair("Trời ít mây, nắng đẹp", "Ít mây")
+            in 26..50 -> Pair("Mây rải rác từng đợt", "Mây rải rác")
+            in 51..84 -> Pair("Nhiều mây che phủ", "Nhiều mây")
+            else -> Pair("Bầu trời âm u, kín mây", "Âm u")
+        }
+    }
+
+    /**
      * Chuyển đổi nhiệt độ C sang F
      */
     fun celsiusToFahrenheit(c: Double): Double = (c * 9.0 / 5.0) + 32.0

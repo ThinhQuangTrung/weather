@@ -1,23 +1,22 @@
 package com.example.weather.ui.settings
 
 import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.weather.data.preference.WeatherPreferenceManager
+import com.example.weather.utils.LocaleHelper
 
 /**
- * - Quản lý và lưu trữ cài đặt người dùng (Ngôn ngữ, Giao diện Theme Sáng/Tối/Hệ thống, Đơn vị nhiệt độ).
- * - Lưu trạng thái  SharedPreferences.
+ * - Lưu trạng thái SharedPreferences đồng bộ qua WeatherPreferenceManager.
  * - Phát ra LiveData để UI cập nhật tức thì.
  */
 class SettingsViewModel(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val prefs: SharedPreferences = application.getSharedPreferences("weather_settings", Context.MODE_PRIVATE)
+    private val prefManager = WeatherPreferenceManager(application)
 
     private val _language = MutableLiveData<String>()
     val language: LiveData<String> = _language
@@ -29,19 +28,19 @@ class SettingsViewModel(
     val unit: LiveData<String> = _unit
 
     init {
-        _language.value = prefs.getString("key_language", "vi")
-        _theme.value = prefs.getString("key_theme", "system")
-        _unit.value = prefs.getString("key_unit", "celsius")
+        _language.value = LocaleHelper.getLanguage(application)
+        _theme.value = prefManager.themeMode
+        _unit.value = prefManager.temperatureUnit
     }
 
     fun setLanguage(langCode: String) {
         _language.value = langCode
-        prefs.edit().putString("key_language", langCode).apply()
+        LocaleHelper.setLocale(getApplication(), langCode)
     }
 
     fun setTheme(themeMode: String) {
         _theme.value = themeMode
-        prefs.edit().putString("key_theme", themeMode).apply()
+        prefManager.themeMode = themeMode
 
         when (themeMode) {
             "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -52,6 +51,6 @@ class SettingsViewModel(
 
     fun setUnit(unitCode: String) {
         _unit.value = unitCode
-        prefs.edit().putString("key_unit", unitCode).apply()
+        prefManager.temperatureUnit = unitCode
     }
 }

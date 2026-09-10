@@ -55,6 +55,10 @@
     <string name="param_pressure_desc">Atmospheric pressure (hPa) and atm equivalent</string>
     <string name="param_air_quality">Air Quality</string>
     <string name="param_air_quality_desc">Air Quality Index (AQI) and health advisory level</string>
+    <string name="param_cloud_cover">Cloud Cover</string>
+    <string name="param_cloud_cover_desc">Cloudiness percentage and sky coverage condition</string>
+    <string name="param_sun_cycle">Sun &amp; Daylight</string>
+    <string name="param_sun_cycle_desc">Sunrise, sunset times, and daylight duration</string>
 
     <!-- Home & Telemetry -->
     <string name="home_title">Home</string>
@@ -70,6 +74,12 @@
     <string name="aqi_moderate_desc">Sensitive groups may experience mild symptoms.</string>
     <string name="aqi_poor_desc">May cause discomfort or health effects for sensitive groups.</string>
     <string name="aqi_very_poor_desc">Health alert: Everyone may experience serious effects.</string>
+    <string name="cloud_cover_title">Cloud Cover</string>
+    <string name="cloud_overcast">Overcast</string>
+    <string name="cloud_mostly_cloudy">Mostly Cloudy</string>
+    <string name="cloud_partly_cloudy">Partly Cloudy</string>
+    <string name="cloud_mostly_clear">Mostly Clear</string>
+    <string name="cloud_clear">Clear</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
@@ -82,7 +92,7 @@
     <string name="city_management_title">City Management</string>
     <string name="current_location_title">Your Current Location</string>
     <string name="current_location_subtitle">Get real-time weather using device GPS</string>
-    <string name="add_city_hint">Enter city name (e.g., Hanoi, Tokyo...)</string>
+    <string name="add_city_hint">Enter city name </string>
     <string name="btn_add_city">Add</string>
     <string name="suggested_cities">Suggested Cities</string>
     <string name="saved_cities">Saved Cities</string>

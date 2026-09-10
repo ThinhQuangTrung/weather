@@ -1,6 +1,7 @@
 package com.example.weather.data.api
 
 import com.example.weather.data.model.ForecastResponse
+import com.example.weather.data.model.GeocodingItem
 import com.example.weather.data.model.WeatherResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -8,6 +9,18 @@ import retrofit2.http.Query
 
 
 interface WeatherApiService {
+
+    /**
+     * Tìm kiếm thành phố theo tên (Geocoding API)
+     * Trả về danh sách tối đa [limit] kết quả khớp với [cityName]
+     */
+    @GET("geo/1.0/direct")
+    suspend fun searchCity(
+        @Query("q") cityName: String,
+        @Query("limit") limit: Int = 5,
+        @Query("appid") apiKey: String
+    ): Response<List<GeocodingItem>>
+
 
     /**
      * Lấy dữ liệu thời tiết hiện tại theo tên thành phố tạo HTTP request

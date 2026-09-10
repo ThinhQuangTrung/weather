@@ -48,6 +48,22 @@ class WeatherPreferenceManager(context: Context) {
         get() = prefs.getBoolean(KEY_SHOW_AIR_QUALITY, false)
         set(value) = prefs.edit().putBoolean(KEY_SHOW_AIR_QUALITY, value).apply()
 
+    var showCloudCover: Boolean
+        get() = prefs.getBoolean(KEY_SHOW_CLOUD_COVER, true)
+        set(value) = prefs.edit().putBoolean(KEY_SHOW_CLOUD_COVER, value).apply()
+
+    var showSunCycle: Boolean
+        get() = prefs.getBoolean(KEY_SHOW_SUN_CYCLE, true)
+        set(value) = prefs.edit().putBoolean(KEY_SHOW_SUN_CYCLE, value).apply()
+
+    var temperatureUnit: String
+        get() = prefs.getString(KEY_TEMPERATURE_UNIT, "celsius") ?: "celsius"
+        set(value) = prefs.edit().putString(KEY_TEMPERATURE_UNIT, value).apply()
+
+    var themeMode: String
+        get() = prefs.getString(KEY_THEME_MODE, "system") ?: "system"
+        set(value) = prefs.edit().putString(KEY_THEME_MODE, value).apply()
+
     var selectedCityIndex: Int
         get() = prefs.getInt(KEY_SELECTED_CITY_INDEX, 0)
         set(value) = prefs.edit().putInt(KEY_SELECTED_CITY_INDEX, value).apply()
@@ -120,5 +136,9 @@ class WeatherPreferenceManager(context: Context) {
         const val KEY_SHOW_VISIBILITY = "show_visibility"
         const val KEY_SHOW_PRESSURE = "show_pressure"
         const val KEY_SHOW_AIR_QUALITY = "show_air_quality"
+        const val KEY_SHOW_CLOUD_COVER = "show_cloud_cover"
+        const val KEY_SHOW_SUN_CYCLE = "show_sun_cycle"
+        const val KEY_TEMPERATURE_UNIT = "temperature_unit"
+        const val KEY_THEME_MODE = "theme_mode"
     }
 }

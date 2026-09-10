@@ -4,6 +4,7 @@ import com.example.weather.BuildConfig
 import com.example.weather.data.api.RetrofitClient
 import com.example.weather.data.api.WeatherApiService
 import com.example.weather.data.model.ForecastResponse
+import com.example.weather.data.model.GeocodingItem
 import com.example.weather.data.model.WeatherResponse
 import com.example.weather.utils.Resource
 import kotlinx.coroutines.Dispatchers
@@ -73,6 +74,29 @@ class WeatherRepository(
                 }
             } catch (e: Exception) {
                 Resource.Error(e.localizedMessage ?: "Đã xảy ra lỗi kết nối mạng", e)
+            }
+        }
+    }
+
+    /**
+     * Tìm kiếm thành phố theo từ khóa sử dụng Geocoding API
+     * Trả về danh sách gợi ý tối đa 5 kết quả
+     */
+    suspend fun searchCity(query: String): Resource<List<GeocodingItem>> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.searchCity(
+                    cityName = query,
+                    limit = 5,
+                    apiKey = apiKey
+                )
+                if (response.isSuccessful && response.body() != null) {
+                    Resource.Success(response.body()!!)
+                } else {
+                    Resource.Error("Lỗi tìm kiếm: ${response.code()} ${response.message()}")
+                }
+            } catch (e: Exception) {
+                Resource.Error(e.localizedMessage ?: "Không thể tìm kiếm, kiểm tra kết nối mạng")
             }
         }
     }

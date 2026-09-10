@@ -115,6 +115,33 @@ class CityWeatherPagerAdapter(
                     binding.pbLoading.visibility = View.GONE
                     val data = resource.data
 
+                    // Áp dụng cấu hình hiển thị Widget từ WeatherPreferenceManager
+                    val showTemp = prefManager.showTemperature
+                    val showHum = prefManager.showHumidity
+                    val showWind = prefManager.showWind
+                    val showVis = prefManager.showVisibility
+                    val showPress = prefManager.showPressure
+                    val showCloud = prefManager.showCloudCover
+                    val showAqi = prefManager.showAirQuality
+                    val showSun = prefManager.showSunCycle
+
+                    binding.cardHeroWeather.visibility = if (showTemp) View.VISIBLE else View.GONE
+
+                    binding.cardHumidity.visibility = if (showHum) View.VISIBLE else View.GONE
+                    binding.cardWind.visibility = if (showWind) View.VISIBLE else View.GONE
+                    binding.layoutTelemetryRow1.visibility = if (showHum || showWind) View.VISIBLE else View.GONE
+
+                    binding.cardVisibility.visibility = if (showVis) View.VISIBLE else View.GONE
+                    binding.cardPressure.visibility = if (showPress) View.VISIBLE else View.GONE
+                    binding.layoutTelemetryRow2.visibility = if (showVis || showPress) View.VISIBLE else View.GONE
+
+                    binding.cardCloudCover.visibility = if (showCloud) View.VISIBLE else View.GONE
+                    binding.cardPressureDetail.visibility = if (showPress) View.VISIBLE else View.GONE
+                    binding.layoutTelemetryRow3.visibility = if (showCloud || showPress) View.VISIBLE else View.GONE
+
+                    binding.cardAirQuality.visibility = if (showAqi) View.VISIBLE else View.GONE
+                    binding.cardSunCycle.visibility = if (showSun) View.VISIBLE else View.GONE
+
                     // 1. Thẻ Vị trí
                     val country = data.sys?.country ?: "VN"
                     binding.tvLocationName.text = "${data.cityName}, $country"
@@ -181,11 +208,20 @@ class CityWeatherPagerAdapter(
                         binding.tvPressureVal.text = "${main.pressure} hPa"
                         val atm = main.pressure / 1013.25
                         binding.tvPressureAtmBadge.text = String.format(Locale.US, "%.2f atm", atm)
+
+                        // 4.1. Chi tiết Áp suất biển & Mặt đất (sea_level & grnd_level)
+                        val seaLevel = main.seaLevel ?: main.pressure
+                        val groundLevel = main.groundLevel ?: main.pressure
+                        binding.tvSeaLevelVal.text = "🌊 MSL: $seaLevel hPa"
+                        binding.tvGroundLevelVal.text = "⛰ GND: $groundLevel hPa"
+                        val diff = seaLevel - groundLevel
+                        binding.tvPressureDiff.text = "Δ ${if (diff >= 0) "+$diff" else "$diff"} hPa"
                     }
 
-                    // 5. Telemetry - Gió
+                    // 5. Telemetry - Gió & Gió giật
                     val wind = data.wind
                     if (wind != null) {
+                        val gustStr = if (wind.gust != null) " (giật ${wind.gust} m/s)" else ""
                         binding.tvWindSpeedVal.text = "${wind.speed} m/s"
                         binding.tvWindDirectionDegree.text = "↗ ${WeatherIconUtil.getWindDirectionShort(wind.deg)}"
                     }
@@ -198,7 +234,15 @@ class CityWeatherPagerAdapter(
                     binding.tvVisibilityDesc.text = visDesc
                     binding.tvVisibilityBadge.text = visBadge
 
-                    // 7. Chất lượng không khí (AQI)
+                    // 7. Telemetry - Độ che phủ mây (Cloud Cover)
+                    val clouds = data.clouds
+                    val cloudiness = clouds?.cloudiness ?: 0
+                    binding.tvCloudVal.text = "$cloudiness%"
+                    binding.pbCloud.progress = cloudiness
+                    val (_, cloudBadge) = WeatherIconUtil.getCloudCoverEvaluation(cloudiness)
+                    binding.tvCloudBadge.text = cloudBadge
+
+                    // 8. Chất lượng không khí (AQI)
                     if (pref.showAirQuality) {
                         val aqiInfo = when {
                             visibilityMeters >= 9000 -> AqiInfo(32, R.string.aqi_good, R.string.aqi_good_desc, "#10B981", 1)

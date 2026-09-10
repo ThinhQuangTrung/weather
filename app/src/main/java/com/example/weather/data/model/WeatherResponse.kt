@@ -37,16 +37,19 @@ data class MainWeatherData(
     @SerializedName("temp_min") val tempMin: Double,
     @SerializedName("temp_max") val tempMax: Double,
     @SerializedName("pressure") val pressure: Int,
-    @SerializedName("humidity") val humidity: Int
+    @SerializedName("humidity") val humidity: Int,
+    @SerializedName("sea_level") val seaLevel: Int? = null,     // Áp suất mực nước biển (hPa)
+    @SerializedName("grnd_level") val groundLevel: Int? = null  // Áp suất mặt đất (hPa)
 )
 
 data class WindData(
-    @SerializedName("speed") val speed: Double,       // Wind speed in m/s or km/h
-    @SerializedName("deg") val deg: Int
+    @SerializedName("speed") val speed: Double,       // Wind speed in m/s
+    @SerializedName("deg") val deg: Int,              // Wind direction degrees
+    @SerializedName("gust") val gust: Double? = null  // Gust speed (m/s) — tuỳ chọn
 )
 
 data class CloudData(
-    @SerializedName("all") val cloudiness: Int
+    @SerializedName("all") val cloudiness: Int        // % mây bao phủ bầu trời
 )
 
 data class SysData(

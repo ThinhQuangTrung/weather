@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <!-- Background -->
+    <color name="bg_main">#0B1120</color>
+    
+    <!-- App Brand Colors -->
+    <color name="brand_title">#38BDF8</color>
+    <color name="brand_subtitle">#F1F5F9</color>
+    <color name="brand_section_title">#94A3B8</color>
+    <color name="brand_page_counter">#38BDF8</color>
+    
+    <!-- Card Colors -->
+    <color name="card_bg">#1E293B</color>
+    <color name="card_border">#334155</color>
+    <color name="card_title">#F8FAFC</color>
+    <color name="card_desc">#94A3B8</color>
+    
+    <!-- Stat Item Colors -->
+    <color name="stat_primary">#38BDF8</color>
+    <color name="stat_secondary">#F59E0B</color>
+    <color name="stat_teal">#2DD4BF</color>
+    
+    <!-- Badges & Tags -->
+    <color name="badge_blue_bg">#0C4A6E</color>
+    <color name="badge_blue_icon">#38BDF8</color>
+    <color name="badge_orange_bg">#431407</color>
+    <color name="badge_orange_icon">#FB923C</color>
+    <color name="badge_teal_bg">#042F2E</color>
+    <color name="badge_teal_icon">#2DD4BF</color>
+    
+    <color name="tag_gray_bg">#334155</color>
+    <color name="tag_gray_text">#CBD5E1</color>
+    <color name="tag_orange_bg">#431407</color>
+    <color name="tag_orange_text">#FDBA74</color>
+    <color name="tag_teal_bg">#042F2E</color>
+    <color name="tag_teal_text">#5EEAD4</color>
+    
+    <!-- Indicators -->
+    <color name="dot_active">#38BDF8</color>
+    <color name="dot_inactive">#475569</color>
+    
+    <!-- Buttons & Footer -->
+    <color name="btn_primary_bg">#0284C7</color>
+    <color name="btn_primary_pressed">#0369A1</color>
+    <color name="btn_primary_text">#FFFFFF</color>
+    <color name="footer_text">#64748B</color>
+    
+    <!-- Home Screen Tokens -->
+    <color name="home_bg">#0B1120</color>
+    <color name="unit_toggle_bg">#1E293B</color>
+    <color name="unit_toggle_active">#0284C7</color>
+    <color name="unit_toggle_text_active">#FFFFFF</color>
+    <color name="unit_toggle_text_inactive">#94A3B8</color>
+    
+    <color name="hero_gradient_top">#1E293B</color>
+    <color name="hero_gradient_bottom">#0F172A</color>
+    <color name="hero_pill_bg">#2038BDF8</color>
+    <color name="hero_pill_border">#0284C7</color>
+    <color name="hero_temp_color">#F8FAFC</color>
+    <color name="hero_temp_unit">#38BDF8</color>
+    <color name="hero_card_text_secondary">#94A3B8</color>
+    
+    <color name="telemetry_card_bg">#1E293B</color>
+    <color name="telemetry_card_border">#334155</color>
+    <color name="telemetry_title">#94A3B8</color>
+    <color name="telemetry_value">#F8FAFC</color>
+    <color name="telemetry_subtitle">#94A3B8</color>
+    
+    <color name="badge_humidity_bg">#0C4A6E</color>
+    <color name="badge_humidity_icon">#38BDF8</color>
+    <color name="badge_wind_bg">#064E3B</color>
+    <color name="badge_wind_icon">#34D399</color>
+    <color name="badge_vis_bg">#3B0764</color>
+    <color name="badge_vis_icon">#A855F7</color>
+    <color name="badge_press_bg">#451A03</color>
+    <color name="badge_press_icon">#FB923C</color>
+    
+    <color name="pill_humidity_bg">#0C4A6E</color>
+    <color name="pill_humidity_text">#7DD3FC</color>
+    <color name="pill_wind_bg">#064E3B</color>
+    <color name="pill_wind_text">#6EE7B7</color>
+    <color name="pill_vis_bg">#3B0764</color>
+    <color name="pill_vis_text">#C084FC</color>
+    <color name="pill_press_bg">#451A03</color>
+    <color name="pill_press_text">#FDBA74</color>
+    
+    <color name="progress_track">#334155</color>
+    <color name="progress_humidity">#38BDF8</color>
+    
+    <color name="sun_arc">#FBBF24</color>
+    <color name="sun_badge_bg">#451A03</color>
+    <color name="sun_badge_icon">#F59E0B</color>
+    <color name="moon_badge_bg">#334155</color>
+    <color name="moon_badge_icon">#94A3B8</color>
+    
+    <!-- Bottom Nav -->
+    <color name="bottom_nav_bg">#1E293B</color>
+    <color name="bottom_nav_border">#334155</color>
+    <color name="bottom_nav_active_pill">#0C4A6E</color>
+    <color name="bottom_nav_active_tint">#38BDF8</color>
+    <color name="bottom_nav_inactive_tint">#94A3B8</color>
+
+    <!-- Cloud Card -->
+    <color name="badge_cloud_bg">#172554</color>
+    <color name="badge_cloud_icon">#60A5FA</color>
+    <color name="pill_cloud_bg">#1E3A8A</color>
+    <color name="pill_cloud_text">#93C5FD</color>
+
+    <!-- Setup Card Backgrounds -->
+    <color name="setup_card_normal_bg">#1E293B</color>
+    <color name="setup_card_normal_border">#334155</color>
+    <color name="setup_card_selected_bg">#052E16</color>
+    <color name="setup_card_selected_border">#16A34A</color>
+
+    <!-- Setup Icon Badge Backgrounds -->
+    <color name="setup_badge_blue_bg">#172554</color>
+    <color name="setup_badge_blue_icon">#60A5FA</color>
+    <color name="setup_badge_indigo_bg">#172554</color>
+    <color name="setup_badge_indigo_icon">#93C5FD</color>
+    <color name="setup_badge_green_bg">#052E16</color>
+    <color name="setup_badge_green_icon">#4ADE80</color>
+    <color name="setup_badge_purple_bg">#3B0764</color>
+    <color name="setup_badge_purple_icon">#C084FC</color>
+    <color name="setup_badge_orange_bg">#431407</color>
+    <color name="setup_badge_orange_icon">#FB923C</color>
+    <color name="setup_badge_teal_bg">#042F2E</color>
+    <color name="setup_badge_teal_icon">#34D399</color>
+    <color name="setup_badge_yellow_bg">#451A03</color>
+    <color name="setup_badge_yellow_icon">#FCD34D</color>
+</resources>

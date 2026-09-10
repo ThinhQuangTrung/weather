@@ -52,13 +52,15 @@ class WeatherSetupActivity : AppCompatActivity() {
             binding.btnContinueSetup.text = getString(R.string.btn_continue)
         }
 
-        // Tải các giá trị đã lưu (hoặc mặc định: Temp, Humidity, Wind, Pressure = true; Vis, AQI = false)
+        // Tải các giá trị đã lưu
         binding.cbOptionTemp.isChecked = prefManager.showTemperature
         binding.cbOptionHumidity.isChecked = prefManager.showHumidity
         binding.cbOptionWind.isChecked = prefManager.showWind
         binding.cbOptionVisibility.isChecked = prefManager.showVisibility
         binding.cbOptionPressure.isChecked = prefManager.showPressure
         binding.cbOptionAirQuality.isChecked = prefManager.showAirQuality
+        binding.cbOptionCloud.isChecked = prefManager.showCloudCover
+        binding.cbOptionSunCycle.isChecked = prefManager.showSunCycle
 
         updateCardUI()
     }
@@ -70,6 +72,8 @@ class WeatherSetupActivity : AppCompatActivity() {
         updateSingleCard(binding.cardOptionVisibility, binding.cbOptionVisibility.isChecked)
         updateSingleCard(binding.cardOptionPressure, binding.cbOptionPressure.isChecked)
         updateSingleCard(binding.cardOptionAirQuality, binding.cbOptionAirQuality.isChecked)
+        updateSingleCard(binding.cardOptionCloud, binding.cbOptionCloud.isChecked)
+        updateSingleCard(binding.cardOptionSunCycle, binding.cbOptionSunCycle.isChecked)
     }
 
     private fun updateSingleCard(card: View, isChecked: Boolean) {
@@ -111,6 +115,16 @@ class WeatherSetupActivity : AppCompatActivity() {
             updateSingleCard(binding.cardOptionAirQuality, binding.cbOptionAirQuality.isChecked)
         }
 
+        binding.cardOptionCloud.setOnClickListener {
+            binding.cbOptionCloud.isChecked = !binding.cbOptionCloud.isChecked
+            updateSingleCard(binding.cardOptionCloud, binding.cbOptionCloud.isChecked)
+        }
+
+        binding.cardOptionSunCycle.setOnClickListener {
+            binding.cbOptionSunCycle.isChecked = !binding.cbOptionSunCycle.isChecked
+            updateSingleCard(binding.cardOptionSunCycle, binding.cbOptionSunCycle.isChecked)
+        }
+
         binding.btnContinueSetup.setOnClickListener {
             savePreferencesAndProceed()
         }
@@ -124,6 +138,8 @@ class WeatherSetupActivity : AppCompatActivity() {
         prefManager.showVisibility = binding.cbOptionVisibility.isChecked
         prefManager.showPressure = binding.cbOptionPressure.isChecked
         prefManager.showAirQuality = binding.cbOptionAirQuality.isChecked
+        prefManager.showCloudCover = binding.cbOptionCloud.isChecked
+        prefManager.showSunCycle = binding.cbOptionSunCycle.isChecked
         prefManager.isWeatherSetupCompleted = true
 
         if (isFromSettings) {

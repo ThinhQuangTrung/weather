@@ -28,6 +28,8 @@ class HomeViewModel @JvmOverloads constructor(
     private val locationManager: LocationManager = LocationManager(application)
 ) : AndroidViewModel(application) {
 
+    private val prefManager = com.example.weather.data.preference.WeatherPreferenceManager(application)
+
     private val _weatherState = MutableLiveData<Resource<WeatherResponse>>()
     val weatherState: LiveData<Resource<WeatherResponse>> = _weatherState
 
@@ -35,7 +37,9 @@ class HomeViewModel @JvmOverloads constructor(
     private val _cityWeatherResult = MutableLiveData<Pair<String, Resource<WeatherResponse>>>()
     val cityWeatherResult: LiveData<Pair<String, Resource<WeatherResponse>>> = _cityWeatherResult
 
-    private val _tempUnit = MutableLiveData<TemperatureUnit>(TemperatureUnit.CELSIUS)
+    private val _tempUnit = MutableLiveData<TemperatureUnit>(
+        if (prefManager.temperatureUnit == "fahrenheit") TemperatureUnit.FAHRENHEIT else TemperatureUnit.CELSIUS
+    )
     val tempUnit: LiveData<TemperatureUnit> = _tempUnit
 
     private val _userMessage = MutableLiveData<String?>()
@@ -182,6 +186,17 @@ class HomeViewModel @JvmOverloads constructor(
      * Chuyển đổi đơn vị nhiệt độ giữa °C và °F
      */
     fun setTemperatureUnit(unit: TemperatureUnit) {
+        prefManager.temperatureUnit = if (unit == TemperatureUnit.FAHRENHEIT) "fahrenheit" else "celsius"
+        if (_tempUnit.value != unit) {
+            _tempUnit.value = unit
+        }
+    }
+
+    /**
+     * Đồng bộ đơn vị nhiệt độ từ SharedPreferences
+     */
+    fun syncTemperatureUnitFromPrefs() {
+        val unit = if (prefManager.temperatureUnit == "fahrenheit") TemperatureUnit.FAHRENHEIT else TemperatureUnit.CELSIUS
         if (_tempUnit.value != unit) {
             _tempUnit.value = unit
         }

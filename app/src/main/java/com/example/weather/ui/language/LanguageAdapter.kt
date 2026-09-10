@@ -36,12 +36,12 @@ class LanguageAdapter(
                 binding.layoutLanguageItem.setBackgroundResource(R.drawable.bg_language_item_selected)
                 binding.ivRadioStatus.setImageResource(R.drawable.ic_radio_checked)
                 binding.ivRadioStatus.setColorFilter(ContextCompat.getColor(context, R.color.stat_primary))
-                binding.tvLanguageName.setTextColor(ContextCompat.getColor(context, R.color.card_title))
+                binding.tvLanguageName.setTextColor(ContextCompat.getColor(context, R.color.stat_primary))
             } else {
                 binding.layoutLanguageItem.setBackgroundResource(R.drawable.bg_language_item_normal)
                 binding.ivRadioStatus.setImageResource(R.drawable.ic_radio_unchecked)
-                binding.ivRadioStatus.clearColorFilter()
-                binding.tvLanguageName.setTextColor(ContextCompat.getColor(context, R.color.telemetry_value))
+                binding.ivRadioStatus.setColorFilter(ContextCompat.getColor(context, R.color.dot_inactive))
+                binding.tvLanguageName.setTextColor(ContextCompat.getColor(context, R.color.card_title))
             }
 
             binding.layoutLanguageItem.setOnClickListener {
