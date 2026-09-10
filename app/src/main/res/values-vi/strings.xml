@@ -77,4 +77,20 @@
     <string name="settings_theme">Giao diện</string>
     <string name="settings_unit">Đơn vị nhiệt độ</string>
     <string name="settings_weather_setup">Tùy chỉnh thông số thời tiết</string>
+
+    <!-- City Management -->
+    <string name="city_management_title">Quản lý thành phố</string>
+    <string name="add_city_hint">Nhập tên thành phố (vd: Hanoi, Tokyo...)</string>
+    <string name="btn_add_city">Thêm</string>
+    <string name="suggested_cities">Thành phố gợi ý</string>
+    <string name="saved_cities">Thành phố đã lưu</string>
+    <string name="hint_long_click_to_delete">Nhấn để xem trên Home • Nhấn giữ để xóa</string>
+    <string name="delete_city_title">Xóa thành phố</string>
+    <string name="delete_city_confirm">Bạn có chắc chắn muốn xóa thành phố \"%1$s\" khỏi danh sách không?</string>
+    <string name="btn_delete">Xóa</string>
+    <string name="btn_cancel">Hủy</string>
+    <string name="city_already_exists">Thành phố đã có trong danh sách</string>
+    <string name="city_added_success">Đã thêm %1$s</string>
+    <string name="city_deleted_success">Đã xóa %1$s</string>
+    <string name="cannot_delete_last_city">Không thể xóa thành phố duy nhất còn lại</string>
 </resources>

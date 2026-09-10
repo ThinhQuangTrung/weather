@@ -77,4 +77,20 @@
     <string name="settings_theme">Theme</string>
     <string name="settings_unit">Temperature Unit</string>
     <string name="settings_weather_setup">Customize Weather Widgets</string>
+
+    <!-- City Management -->
+    <string name="city_management_title">City Management</string>
+    <string name="add_city_hint">Enter city name (e.g., Hanoi, Tokyo...)</string>
+    <string name="btn_add_city">Add</string>
+    <string name="suggested_cities">Suggested Cities</string>
+    <string name="saved_cities">Saved Cities</string>
+    <string name="hint_long_click_to_delete">Tap to view on Home • Long press to delete</string>
+    <string name="delete_city_title">Delete City</string>
+    <string name="delete_city_confirm">Are you sure you want to delete \"%1$s\" from your list?</string>
+    <string name="btn_delete">Delete</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="city_already_exists">City is already in your list</string>
+    <string name="city_added_success">Added %1$s</string>
+    <string name="city_deleted_success">Deleted %1$s</string>
+    <string name="cannot_delete_last_city">Cannot delete the only city left</string>
 </resources>

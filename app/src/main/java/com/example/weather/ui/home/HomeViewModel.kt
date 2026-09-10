@@ -21,7 +21,6 @@ enum class LocationDialogType {
     ENABLE_GPS_SETTINGS  // bật GPS và dẫn vào Cài đặt GPS
 }
 
-
 class HomeViewModel @JvmOverloads constructor(
     application: Application,
     private val weatherRepository: WeatherRepository = WeatherRepository(),
@@ -31,11 +30,12 @@ class HomeViewModel @JvmOverloads constructor(
     private val _weatherState = MutableLiveData<Resource<WeatherResponse>>()
     val weatherState: LiveData<Resource<WeatherResponse>> = _weatherState
 
+    // LiveData trả về kết quả thời tiết theo từng thành phố cụ thể (cityName, Resource)
+    private val _cityWeatherResult = MutableLiveData<Pair<String, Resource<WeatherResponse>>>()
+    val cityWeatherResult: LiveData<Pair<String, Resource<WeatherResponse>>> = _cityWeatherResult
+
     private val _tempUnit = MutableLiveData<TemperatureUnit>(TemperatureUnit.CELSIUS)
     val tempUnit: LiveData<TemperatureUnit> = _tempUnit
-
-    private val _isFavorite = MutableLiveData<Boolean>(false)
-    val isFavorite: LiveData<Boolean> = _isFavorite
 
     private val _userMessage = MutableLiveData<String?>()
     val userMessage: LiveData<String?> = _userMessage
@@ -72,6 +72,10 @@ class HomeViewModel @JvmOverloads constructor(
                     lat = location.latitude,
                     lon = location.longitude
                 )
+                if (result is Resource.Success) {
+                    _cityWeatherResult.value = Pair(result.data.cityName, result)
+                    _cityWeatherResult.value = Pair(currentCity, result)
+                }
                 _weatherState.value = result
             } else {
                 // Fallback khi không lấy được GPS (ví dụ giả lập hoặc mất tín hiệu)
@@ -111,8 +115,10 @@ class HomeViewModel @JvmOverloads constructor(
         currentCity = cityName
         currentCoordinates = null
         viewModelScope.launch {
+            _cityWeatherResult.value = Pair(cityName, Resource.Loading)
             _weatherState.value = Resource.Loading
             val result = weatherRepository.getCurrentWeather(cityName)
+            _cityWeatherResult.value = Pair(cityName, result)
             _weatherState.value = result
         }
     }
@@ -120,16 +126,18 @@ class HomeViewModel @JvmOverloads constructor(
     /**
      * Tải lại dữ liệu thời tiết hiện tại
      */
-    fun refresh() {
+    fun refresh(cityName: String = currentCity) {
         val coords = currentCoordinates
-        if (coords != null && locationManager.hasLocationPermission()) {
+        if (coords != null && locationManager.hasLocationPermission() && cityName == currentCity) {
             viewModelScope.launch {
                 _weatherState.value = Resource.Loading
+                _cityWeatherResult.value = Pair(cityName, Resource.Loading)
                 val result = weatherRepository.getCurrentWeatherByCoords(coords.first, coords.second)
+                _cityWeatherResult.value = Pair(cityName, result)
                 _weatherState.value = result
             }
         } else {
-            loadWeather(currentCity)
+            loadWeather(cityName)
         }
     }
 
@@ -145,13 +153,6 @@ class HomeViewModel @JvmOverloads constructor(
         if (_tempUnit.value != unit) {
             _tempUnit.value = unit
         }
-    }
-
-    /**
-     * Chuyển đổi trạng thái yêu thích của địa điểm hiện tại
-     */
-    fun toggleAddCity() {
-        _isFavorite.value = !(_isFavorite.value ?: false)
     }
 
     /**
