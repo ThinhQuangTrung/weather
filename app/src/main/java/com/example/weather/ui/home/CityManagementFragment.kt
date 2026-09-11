@@ -1,4 +1,4 @@
-﻿package com.example.weather.ui.home
+package com.example.weather.ui.home
 
 import android.os.Bundle
 import android.os.Handler
@@ -212,7 +212,7 @@ class CityManagementFragment : Fragment() {
             val index = updated.indexOf(cityName)
             Toast.makeText(
                 requireContext(),
-                getString(R.string.city_added_success, cityName),
+                getString(R.string.city_added_success, item.displayName),
                 Toast.LENGTH_SHORT
             ).show()
             selectCityAndReturn(cityName, if (index >= 0) index else 0)

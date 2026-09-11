@@ -1,4 +1,4 @@
-﻿package com.example.weather.ui.home
+package com.example.weather.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -32,15 +32,7 @@ class CitySuggestionAdapter(
 
         fun bind(item: GeocodingItem) {
             binding.tvSuggestionName.text = item.name
-            // Hien thi them tinh/bang va quoc gia
-            val detail = buildString {
-                if (!item.state.isNullOrBlank()) append(item.state)
-                if (item.country.isNotBlank()) {
-                    if (isNotEmpty()) append(", ")
-                    append(item.country)
-                }
-            }
-            binding.tvSuggestionDetail.text = detail
+            binding.tvSuggestionDetail.text = item.locationDetail
 
             binding.root.setOnClickListener {
                 onItemClick(item)

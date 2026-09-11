@@ -79,6 +79,28 @@ class WeatherRepository(
     }
 
     /**
+     * Lấy dự báo 5 ngày theo tọa độ GPS
+     */
+//    suspend fun getForecastByCoords(lat: Double, lon: Double): Resource<ForecastResponse> {
+//        return withContext(Dispatchers.IO) {
+//            try {
+//                val response = apiService.getForecastByCoords(
+//                    lat = lat,
+//                    lon = lon,
+//                    apiKey = apiKey
+//                )
+//                if (response.isSuccessful && response.body() != null) {
+//                    Resource.Success(response.body()!!)
+//                } else {
+//                    Resource.Error("Lỗi từ máy chủ: ${response.code()} ${response.message()}")
+//                }
+//            } catch (e: Exception) {
+//                Resource.Error(e.localizedMessage ?: "Đã xảy ra lỗi kết nối mạng", e)
+//            }
+//        }
+//    }
+
+    /**
      * Tìm kiếm thành phố theo từ khóa sử dụng Geocoding API
      * Trả về danh sách gợi ý tối đa 5 kết quả
      */

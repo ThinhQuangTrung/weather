@@ -14,16 +14,16 @@ import com.example.weather.ui.forecast.ForecastFragment
 /**
  * HomeActivity:
  * - Activity chính chứa Bottom Navigation và FragmentContainerView.
- * - Điều hướng mượt mà giữa các Fragment: HomeFragment, ForecastFragment
+ * - Điều hướng mượt mà giữa các Fragment: HomeFragment, ForecastFragment.
+ * - Khôi phục và quản lý trạng thái Fragment chính xác sau khi Activity recreate (đổi ngôn ngữ, đổi theme).
  */
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
-    private val homeFragment by lazy { HomeFragment.newInstance() }
-    private val forecastFragment by lazy { ForecastFragment.newInstance() }
-
-    private var activeFragment: Fragment = homeFragment
+    private var homeFragment: HomeFragment? = null
+    private var forecastFragment: ForecastFragment? = null
+    private var activeFragment: Fragment? = null
 
     override fun attachBaseContext(newBase: android.content.Context) {
         super.attachBaseContext(com.example.weather.utils.LocaleHelper.onAttach(newBase))
@@ -39,9 +39,7 @@ class HomeActivity : AppCompatActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             binding.fragmentContainer.setPadding(0, systemBars.top, 0, 0)
-//            binding.bottomNavContainer.setPadding(0, 0, 0, systemBars.bottom)
-            binding.bottomNavContainer.setPadding(0, 0, 0, 0
-            )
+            binding.bottomNavContainer.setPadding(0, 0, 0, 0)
             insets
         }
 
@@ -55,6 +53,7 @@ class HomeActivity : AppCompatActivity() {
             val hasBackStack = supportFragmentManager.backStackEntryCount > 0
             setBottomNavVisibility(!hasBackStack)
         }
+        setBottomNavVisibility(supportFragmentManager.backStackEntryCount == 0)
     }
 
     fun setBottomNavVisibility(visible: Boolean) {
@@ -63,34 +62,72 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupFragments(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
+            val home = HomeFragment.newInstance()
+            val forecast = ForecastFragment.newInstance()
+
+            homeFragment = home
+            forecastFragment = forecast
+            activeFragment = home
+
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentContainer, forecastFragment, "FORECAST")
-                .hide(forecastFragment)
-                .add(R.id.fragmentContainer, homeFragment, "HOME")
+                .add(R.id.fragmentContainer, forecast, TAG_FORECAST)
+                .hide(forecast)
+                .add(R.id.fragmentContainer, home, TAG_HOME)
                 .commit()
-            activeFragment = homeFragment
+
+            updateTabUI(0)
+        } else {
+            // Khôi phục lại references của Fragment đã được Android lưu trong FragmentManager sau khi Activity recreate
+            homeFragment = supportFragmentManager.findFragmentByTag(TAG_HOME) as? HomeFragment
+                ?: HomeFragment.newInstance().also {
+                    supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, it, TAG_HOME).commit()
+                }
+
+            forecastFragment = supportFragmentManager.findFragmentByTag(TAG_FORECAST) as? ForecastFragment
+                ?: ForecastFragment.newInstance().also {
+                    supportFragmentManager.beginTransaction().add(R.id.fragmentContainer, it, TAG_FORECAST).hide(it).commit()
+                }
+
+            val isForecastVisible = forecastFragment?.isVisible == true
+            activeFragment = if (isForecastVisible) forecastFragment else homeFragment
+            updateTabUI(if (isForecastVisible) 1 else 0)
         }
     }
 
     private fun setupBottomNavigation() {
         binding.tabHome.setOnClickListener {
-            switchFragment(homeFragment, 0)
+            val target = homeFragment ?: (supportFragmentManager.findFragmentByTag(TAG_HOME) as? HomeFragment)
+            if (target != null) {
+                switchFragment(target, 0)
+            }
         }
 
         binding.tabForecast.setOnClickListener {
-            switchFragment(forecastFragment, 1)
+            val target = forecastFragment ?: (supportFragmentManager.findFragmentByTag(TAG_FORECAST) as? ForecastFragment)
+            if (target != null) {
+                switchFragment(target, 1)
+            }
         }
-
     }
 
     private fun switchFragment(targetFragment: Fragment, tabIndex: Int) {
-        if (activeFragment == targetFragment) return
+        val current = activeFragment
+        if (current == targetFragment && targetFragment.isVisible) return
 
-        supportFragmentManager.beginTransaction()
+        val transaction = supportFragmentManager.beginTransaction()
             .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-            .hide(activeFragment)
-            .show(targetFragment)
-            .commit()
+
+        // Đảm bảo targetFragment đã được thêm vào FragmentManager
+        if (!targetFragment.isAdded) {
+            val tag = if (targetFragment is HomeFragment) TAG_HOME else TAG_FORECAST
+            transaction.add(R.id.fragmentContainer, targetFragment, tag)
+        }
+
+        // Ẩn tất cả các tab cơ sở khác
+        homeFragment?.let { if (it.isAdded && it != targetFragment) transaction.hide(it) }
+        forecastFragment?.let { if (it.isAdded && it != targetFragment) transaction.hide(it) }
+
+        transaction.show(targetFragment).commit()
 
         activeFragment = targetFragment
         updateTabUI(tabIndex)
@@ -111,7 +148,10 @@ class HomeActivity : AppCompatActivity() {
         binding.pillForecast.setBackgroundResource(if (isForecast) R.drawable.bg_nav_active_pill else android.R.color.transparent)
         binding.ivTabForecast.setColorFilter(if (isForecast) activeColor else inactiveColor)
         binding.tvTabForecast.setTextColor(if (isForecast) activeColor else inactiveColor)
+    }
 
-
+    companion object {
+        private const val TAG_HOME = "HOME"
+        private const val TAG_FORECAST = "FORECAST"
     }
 }

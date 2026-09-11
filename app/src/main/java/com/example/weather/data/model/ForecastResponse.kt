@@ -18,6 +18,9 @@ data class ForecastItem(
     @SerializedName("main") val main: MainWeatherData?,
     @SerializedName("weather") val weatherList: List<WeatherCondition>?,
     @SerializedName("wind") val wind: WindData?,
+    @SerializedName("clouds") val clouds: CloudData? = null,
+    @SerializedName("pop") val pop: Double? = null,
+    @SerializedName("visibility") val visibility: Int? = null,
     @SerializedName("dt_txt") val dtTxt: String?
 )
 
