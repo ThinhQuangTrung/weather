@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.weather.R
 import com.example.weather.data.model.ForecastItem
 import com.example.weather.data.model.ForecastResponse
 import com.example.weather.data.preference.WeatherPreferenceManager
@@ -255,30 +256,33 @@ class ForecastFragment : Fragment() {
     private fun formatDayLabel(dayIndex: Int, cal: Calendar): String {
         val dayOfWeek = cal.get(Calendar.DAY_OF_WEEK)
         val fullDayName = when (dayOfWeek) {
-            Calendar.MONDAY -> "Thứ Hai"
-            Calendar.TUESDAY -> "Thứ Ba"
-            Calendar.WEDNESDAY -> "Thứ Tư"
-            Calendar.THURSDAY -> "Thứ Năm"
-            Calendar.FRIDAY -> "Thứ Sáu"
-            Calendar.SATURDAY -> "Thứ Bảy"
-            Calendar.SUNDAY -> "Chủ Nhật"
+            Calendar.MONDAY -> getString(R.string.monday)
+            Calendar.TUESDAY -> getString(R.string.tuesday)
+            Calendar.WEDNESDAY -> getString(R.string.wednesday)
+            Calendar.THURSDAY -> getString(R.string.thursday)
+            Calendar.FRIDAY -> getString(R.string.friday)
+            Calendar.SATURDAY -> getString(R.string.saturday)
+            Calendar.SUNDAY -> getString(R.string.sunday)
             else -> ""
         }
 
         val shortDay = when (dayOfWeek) {
-            Calendar.MONDAY -> "Thứ 2"
-            Calendar.TUESDAY -> "Thứ 3"
-            Calendar.WEDNESDAY -> "Thứ 4"
-            Calendar.THURSDAY -> "Thứ 5"
-            Calendar.FRIDAY -> "Thứ 6"
-            Calendar.SATURDAY -> "Thứ 7"
-            Calendar.SUNDAY -> "CN"
+            Calendar.MONDAY -> getString(R.string.monday_short)
+            Calendar.TUESDAY -> getString(R.string.tuesday_short)
+            Calendar.WEDNESDAY -> getString(R.string.wednesday_short)
+            Calendar.THURSDAY -> getString(R.string.thursday_short)
+            Calendar.FRIDAY -> getString(R.string.friday_short)
+            Calendar.SATURDAY -> getString(R.string.saturday_short)
+            Calendar.SUNDAY -> getString(R.string.sunday_short)
             else -> ""
         }
 
         return when (dayIndex) {
-            0 -> "Hôm nay"
-            1 -> "Ngày mai ($shortDay)"
+            0 -> getString(R.string.today)
+            1 -> getString(
+                R.string.tomorrow_with_day,
+                shortDay
+            )
             else -> fullDayName
         }
     }

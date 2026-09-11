@@ -272,7 +272,7 @@ class HomeFragment : Fragment() {
             if (resource is Resource.Error) {
                 Toast.makeText(
                     requireContext(),
-                    resource.message ?: "Không thể kết nối máy chủ thời tiết cho $cityName",
+                    resource.message ?: getString(R.string.weather_server_error, cityName),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -357,15 +357,15 @@ class HomeFragment : Fragment() {
     private fun showAppSettingsDialog() {
         activeDialog = MaterialAlertDialogBuilder(requireContext())
             .setIcon(R.drawable.ic_location)
-            .setTitle("Yêu cầu quyền vị trí")
-            .setMessage("Ứng dụng cần quyền truy cập vị trí để cung cấp thông tin thời tiết chính xác tại nơi bạn.\n\nVui lòng nhấn \"Mở Cài đặt\" để bật quyền vị trí cho ứng dụng.")
+            .setTitle(R.string.permission_location_title)
+            .setMessage(R.string.permission_location_message)
             .setCancelable(false)
-            .setPositiveButton("Mở Cài đặt") { dialog, _ ->
+            .setPositiveButton(R.string.btn_open_settings) { dialog, _ ->
                 dialog.dismiss()
                 viewModel.dismissLocationDialog()
                 openAppSettings()
             }
-            .setNegativeButton("Để sau") { dialog, _ ->
+            .setNegativeButton(R.string.btn_later) { dialog, _ ->
                 dialog.dismiss()
                 viewModel.dismissLocationDialog()
             }
@@ -375,15 +375,15 @@ class HomeFragment : Fragment() {
     private fun showEnableGpsDialog() {
         activeDialog = MaterialAlertDialogBuilder(requireContext())
             .setIcon(R.drawable.ic_location)
-            .setTitle("Bật định vị (GPS)")
-            .setMessage("Dịch vụ định vị GPS trên thiết bị của bạn đang tắt. Hãy bật GPS để tự động cập nhật thời tiết tại vị trí hiện tại của bạn.")
+            .setTitle(R.string.gps_enable_title)
+            .setMessage(R.string.gps_enable_message)
             .setCancelable(false)
-            .setPositiveButton("Bật GPS") { dialog, _ ->
+            .setPositiveButton(R.string.btn_enable_gps) { dialog, _ ->
                 dialog.dismiss()
                 viewModel.dismissLocationDialog()
                 openGpsSettings()
             }
-            .setNegativeButton("Để sau") { dialog, _ ->
+            .setNegativeButton(R.string.btn_later) { dialog, _ ->
                 dialog.dismiss()
                 viewModel.dismissLocationDialog()
             }

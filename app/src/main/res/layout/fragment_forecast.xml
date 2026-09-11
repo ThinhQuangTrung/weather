@@ -43,7 +43,7 @@
                     android:id="@+id/tvForecastTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dự báo 5 ngày"
+                    android:text="@string/five_day_list"
                     android:textColor="@color/card_title"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -102,17 +102,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Dự báo theo giờ"
-                    android:textColor="@color/card_title"
+                    android:text="@string/hourly_forecast"                    android:textColor="@color/card_title"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="24 giờ tới"
-                    android:textColor="@color/brand_section_title"
-                    android:textSize="13sp" />
+
             </LinearLayout>
 
             <!-- Hourly Forecast RecyclerView (Horizontal) -->
@@ -134,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
                 android:layout_marginBottom="12dp"
-                android:text="Danh sách 5 ngày "
+                android:text="@string/five_day_list"
                 android:textColor="@color/card_title"
                 android:textSize="16sp"
                 android:textStyle="bold" />

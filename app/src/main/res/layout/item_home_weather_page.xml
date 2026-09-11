@@ -300,7 +300,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Độ ẩm"
+                    android:text="@string/param_humidity"
                     android:textColor="@color/telemetry_title"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/flHumidityBadge"
@@ -375,7 +375,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Gió"
+                    android:text="@string/param_wind"
                     android:textColor="@color/telemetry_title"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/flWindBadge"
@@ -465,7 +465,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Tầm nhìn"
+                    android:text="@string/param_visibility"
                     android:textColor="@color/telemetry_title"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/flVisBadge"
@@ -545,7 +545,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Áp suất"
+                    android:text="@string/param_pressure"
                     android:textColor="@color/telemetry_title"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/flPressBadge"
@@ -716,7 +716,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="Áp suất chi tiết"
+                    android:text="@string/pressure_detail_title"
                     android:textColor="@color/telemetry_title"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@id/flPressDetailBadge"
@@ -892,7 +892,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Mặt trời &amp; Chu kỳ ngày"
+                android:text="@string/param_sun_cycle"
                 android:textColor="@color/telemetry_title"
                 android:textSize="13sp"
                 android:textStyle="bold"
@@ -944,7 +944,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Bình minh"
+                            android:text="@string/sunrise_label"
                             android:textColor="@color/telemetry_title"
                             android:textSize="11sp" />
 
@@ -979,7 +979,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Thời gian\nchiếu sáng"
+                        android:text="@string/daylight_duration_label"
                         android:textColor="@color/telemetry_title"
                         android:textSize="10sp" />
                 </LinearLayout>
@@ -1002,7 +1002,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Hoàng hôn"
+                            android:text="@string/sunset_label"
                             android:textColor="@color/telemetry_title"
                             android:textSize="11sp" />
 

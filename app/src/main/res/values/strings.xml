@@ -105,4 +105,47 @@
     <string name="city_added_success">Added %1$s</string>
     <string name="city_deleted_success">Deleted %1$s</string>
     <string name="cannot_delete_last_city">Cannot delete the only city left</string>
+    <string name="feels_like">Feels like %1$d%2$s</string>
+    
+    <!-- Location Dialogs & Errors -->
+    <string name="permission_location_title">Location Permission Required</string>
+    <string name="permission_location_message">The app needs location access to provide accurate local weather.\n\nPlease tap \"Open Settings\" to grant permission.</string>
+    <string name="btn_open_settings">Open Settings</string>
+    <string name="btn_later">Later</string>
+    <string name="gps_enable_title">Enable GPS</string>
+    <string name="gps_enable_message">GPS on your device is turned off. Please enable GPS to automatically update weather at your current location.</string>
+    <string name="btn_enable_gps">Enable GPS</string>
+    <string name="weather_server_error">Could not connect to weather service for %1$s</string>
+
+    <!-- Telemetry Extra Labels -->
+    <string name="last_updated_format">🕒 Updated at %1$s</string>
+    <string name="temp_high_format">↑ High: %1$d°</string>
+    <string name="temp_low_format">↓ Low: %1$d°</string>
+    <string name="dew_point_format">Dew point: %1$d%2$s</string>
+    <string name="wind_gust_format"> (gust %1$.1f m/s)</string>
+    <string name="sunrise_label">Sunrise</string>
+    <string name="sunset_label">Sunset</string>
+    <string name="daylight_duration_label">Daylight\nDuration</string>
+    <string name="pressure_detail_title">Detailed Pressure</string>
+
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
+    <string name="today">Today</string>
+    <string name="tomorrow_with_day">Tomorrow (%1$s)</string>
+
+    <string name="monday_short">Mon</string>
+    <string name="tuesday_short">Tue</string>
+    <string name="wednesday_short">Wed</string>
+    <string name="thursday_short">Thu</string>
+    <string name="friday_short">Fri</string>
+    <string name="saturday_short">Sat</string>
+    <string name="sunday_short">Sun</string>
+    <string name="five_day_list">5-Day List</string>
+    <string name="hourly_forecast">Hourly Forecast</string>
 </resources>

@@ -146,7 +146,7 @@ class CityWeatherPagerAdapter(
                     val country = data.sys?.country ?: "VN"
                     binding.tvLocationName.text = "${data.cityName}, $country"
                     val timeFormatted = WeatherIconUtil.formatTime(data.timestamp, data.timezone)
-                    binding.tvLastUpdated.text = "🕒 Cập nhật lúc $timeFormatted"
+                    binding.tvLastUpdated.text = context.getString(R.string.last_updated_format, timeFormatted)
 
                     // 2. Thẻ Thời tiết chính (Hero Card)
                     val condition = data.weatherList?.firstOrNull()
@@ -178,7 +178,7 @@ class CityWeatherPagerAdapter(
                         } else {
                             main.feelsLike
                         }
-                        binding.tvFeelsLike.text = "Cảm giác như ${Math.round(feelsLikeTemp)}$unitSymbol"
+                        binding.tvFeelsLike.text = context.getString(R.string.feels_like, Math.round(feelsLikeTemp).toInt(), unitSymbol)
 
                         val tempMax = if (isFahrenheit) {
                             WeatherIconUtil.celsiusToFahrenheit(main.tempMax)
@@ -190,8 +190,8 @@ class CityWeatherPagerAdapter(
                         } else {
                             main.tempMin
                         }
-                        binding.tvTempHigh.text = "↑ Cao: ${Math.round(tempMax)}°"
-                        binding.tvTempLow.text = "↓ Thấp: ${Math.round(tempMin)}°"
+                        binding.tvTempHigh.text = context.getString(R.string.temp_high_format, Math.round(tempMax).toInt())
+                        binding.tvTempLow.text = context.getString(R.string.temp_low_format, Math.round(tempMin).toInt())
 
                         // 3. Telemetry - Độ ẩm
                         binding.tvHumidityVal.text = "${main.humidity}%"
@@ -202,7 +202,7 @@ class CityWeatherPagerAdapter(
                         } else {
                             dewPoint
                         }
-                        binding.tvDewPoint.text = "Điểm sương: $dewPointDisplay$unitSymbol"
+                        binding.tvDewPoint.text = context.getString(R.string.dew_point_format, dewPointDisplay, unitSymbol)
 
                         // 4. Telemetry - Áp suất
                         binding.tvPressureVal.text = "${main.pressure} hPa"

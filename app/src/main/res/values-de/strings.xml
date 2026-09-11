@@ -55,6 +55,10 @@
     <string name="param_pressure_desc">Luftdruck (hPa) und atmosphärischer Druck in atm</string>
     <string name="param_air_quality">Luftqualität</string>
     <string name="param_air_quality_desc">Luftqualitätsindex (AQI) und Gesundheitswarnstufe</string>
+    <string name="param_cloud_cover">Bewölkung</string>
+    <string name="param_cloud_cover_desc">Bewölkungsgrad in Prozent und Himmelsabdeckung</string>
+    <string name="param_sun_cycle">Sonne &amp; Tageslicht</string>
+    <string name="param_sun_cycle_desc">Sonnenaufgang, Sonnenuntergang und Tageslichtdauer</string>
 
     <!-- Home & Telemetry -->
     <string name="home_title">Startseite</string>
@@ -70,6 +74,12 @@
     <string name="aqi_moderate_desc">Empfindliche Personengruppen können leichte Symptome verspüren.</string>
     <string name="aqi_poor_desc">Kann die Gesundheit empfindlicher Personengruppen beeinträchtigen.</string>
     <string name="aqi_very_poor_desc">Dringende Gesundheitswarnung: Aufenthalte im Freien möglichst vermeiden.</string>
+    <string name="cloud_cover_title">Bewölkung</string>
+    <string name="cloud_overcast">Bedeckt</string>
+    <string name="cloud_mostly_cloudy">Größtenteils bewölkt</string>
+    <string name="cloud_partly_cloudy">Teilweise bewölkt</string>
+    <string name="cloud_mostly_clear">Überwiegend klar</string>
+    <string name="cloud_clear">Klar</string>
 
     <!-- Settings -->
     <string name="settings_title">Einstellungen</string>
@@ -77,4 +87,44 @@
     <string name="settings_theme">Darstellung</string>
     <string name="settings_unit">Temperatureinheit</string>
     <string name="settings_weather_setup">Wettermesswerte anpassen</string>
+
+    <!-- City Management -->
+    <string name="city_management_title">Städteverwaltung</string>
+    <string name="current_location_title">Ihr aktueller Standort</string>
+    <string name="current_location_subtitle">Echtzeit-Wetter über Geräte-GPS abrufen</string>
+    <string name="add_city_hint">Stadtname eingeben</string>
+    <string name="btn_add_city">Hinzufügen</string>
+    <string name="suggested_cities">Vorgeschlagene Städte</string>
+    <string name="saved_cities">Gespeicherte Städte</string>
+    <string name="hint_long_click_to_delete">Tippen zum Anzeigen • Gedrückt halten zum Löschen</string>
+    <string name="delete_city_title">Stadt löschen</string>
+    <string name="delete_city_confirm">Möchten Sie \"%1$s\" wirklich aus Ihrer Liste löschen?</string>
+    <string name="btn_delete">Löschen</string>
+    <string name="btn_cancel">Abbrechen</string>
+    <string name="city_already_exists">Stadt ist bereits in Ihrer Liste</string>
+    <string name="city_added_success">%1$s hinzugefügt</string>
+    <string name="city_deleted_success">%1$s gelöscht</string>
+    <string name="cannot_delete_last_city">Die einzige verbleibende Stadt kann nicht gelöscht werden</string>
+    <string name="feels_like">Gefühlt %1$d%2$s</string>
+
+    <!-- Location Dialogs & Errors -->
+    <string name="permission_location_title">Standortberechtigung erforderlich</string>
+    <string name="permission_location_message">Die App benötigt Zugriff auf Ihren Standort, um genaue Wetterinformationen bereitzustellen.\n\nBitte tippen Sie auf \"Einstellungen öffnen\", um die Berechtigung zu erteilen.</string>
+    <string name="btn_open_settings">Einstellungen öffnen</string>
+    <string name="btn_later">Später</string>
+    <string name="gps_enable_title">GPS aktivieren</string>
+    <string name="gps_enable_message">Die Standortdienste Ihres Geräts sind deaktiviert. Bitte aktivieren Sie GPS, um das aktuelle Wetter an Ihrem Standort abzurufen.</string>
+    <string name="btn_enable_gps">GPS aktivieren</string>
+    <string name="weather_server_error">Wetterdaten für %1$s konnten nicht geladen werden</string>
+
+    <!-- Telemetry Extra Labels -->
+    <string name="last_updated_format">🕒 Aktualisiert um %1$s</string>
+    <string name="temp_high_format">↑ Max: %1$d°</string>
+    <string name="temp_low_format">↓ Min: %1$d°</string>
+    <string name="dew_point_format">Taupunkt: %1$d%2$s</string>
+    <string name="wind_gust_format"> (Böen %1$.1f m/s)</string>
+    <string name="sunrise_label">Sonnenaufgang</string>
+    <string name="sunset_label">Sonnenuntergang</string>
+    <string name="daylight_duration_label">Tageslichtdauer</string>
+    <string name="pressure_detail_title">Detaillierter Luftdruck</string>
 </resources>

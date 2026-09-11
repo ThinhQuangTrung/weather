@@ -105,4 +105,26 @@
     <string name="city_added_success">Đã thêm %1$s</string>
     <string name="city_deleted_success">Đã xóa %1$s</string>
     <string name="cannot_delete_last_city">Không thể xóa thành phố duy nhất còn lại</string>
+    <string name="feels_like">Cảm giác như %1$d%2$s</string>
+
+    <!-- Location Dialogs & Errors -->
+    <string name="permission_location_title">Yêu cầu quyền vị trí</string>
+    <string name="permission_location_message">Ứng dụng cần quyền truy cập vị trí để cung cấp thông tin thời tiết chính xác tại nơi bạn.\n\nVui lòng nhấn \"Mở Cài đặt\" để bật quyền vị trí cho ứng dụng.</string>
+    <string name="btn_open_settings">Mở Cài đặt</string>
+    <string name="btn_later">Để sau</string>
+    <string name="gps_enable_title">Bật định vị (GPS)</string>
+    <string name="gps_enable_message">Dịch vụ định vị GPS trên thiết bị của bạn đang tắt. Hãy bật GPS để tự động cập nhật thời tiết tại vị trí hiện tại của bạn.</string>
+    <string name="btn_enable_gps">Bật GPS</string>
+    <string name="weather_server_error">Không thể kết nối máy chủ thời tiết cho %1$s</string>
+
+    <!-- Telemetry Extra Labels -->
+    <string name="last_updated_format">🕒 Cập nhật lúc %1$s</string>
+    <string name="temp_high_format">↑ Cao: %1$d°</string>
+    <string name="temp_low_format">↓ Thấp: %1$d°</string>
+    <string name="dew_point_format">Điểm sương: %1$d%2$s</string>
+    <string name="wind_gust_format"> (giật %1$.1f m/s)</string>
+    <string name="sunrise_label">Bình minh</string>
+    <string name="sunset_label">Hoàng hôn</string>
+    <string name="daylight_duration_label">Thời gian\nchiếu sáng</string>
+    <string name="pressure_detail_title">Áp suất chi tiết</string>
 </resources>

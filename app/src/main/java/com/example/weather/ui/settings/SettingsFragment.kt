@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.weather.R
 import com.example.weather.databinding.FragmentSettingsBinding
 
 /**
@@ -81,11 +82,6 @@ class SettingsFragment : Fragment() {
         binding.layoutTheme.setOnClickListener {
             showThemeDialog()
         }
-
-        // Chọn Đơn vị nhiệt độ
-        binding.layoutUnit.setOnClickListener {
-            showUnitDialog()
-        }
     }
 
     private fun observeViewModel() {
@@ -120,10 +116,6 @@ class SettingsFragment : Fragment() {
                 else -> "Theo hệ thống (System)"
             }
         }
-
-        viewModel.unit.observe(viewLifecycleOwner) { unit ->
-            binding.tvUnitValue.text = if (unit == "fahrenheit") "Độ F (°F)" else "Độ C (°C)"
-        }
     }
 
     private fun showThemeDialog() {
@@ -134,8 +126,7 @@ class SettingsFragment : Fragment() {
             "dark" -> 2
             else -> 0
         }
-
-        AlertDialog.Builder(requireContext())
+        val builder = AlertDialog.Builder(requireContext())
             .setTitle("Chọn giao diện")
             .setSingleChoiceItems(themes, checkedItem) { dialog, which ->
                 val selected = when (which) {
@@ -143,11 +134,17 @@ class SettingsFragment : Fragment() {
                     2 -> "dark"
                     else -> "system"
                 }
-                viewModel.setTheme(selected)
                 dialog.dismiss()
+                // Tắt tất cả animation của cửa sổ TRƯỚC khi đổi theme
+                // để tránh hiện tượng nhấp nháy trắng/đen khi Activity recreate
+                requireActivity().window.setWindowAnimations(0)
+                viewModel.setTheme(selected)
             }
             .setNegativeButton("Hủy", null)
-            .show()
+        val dialog = builder.create()
+        dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_rounded_bg)
+
+        dialog.show()
     }
 
     private fun showUnitDialog() {
