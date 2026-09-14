@@ -1,4 +1,4 @@
-package com.example.weather.ui.language
+﻿package com.example.weather.ui.language
 
 import android.content.Context
 import android.content.Intent
@@ -14,6 +14,7 @@ import com.example.weather.R
 import com.example.weather.data.model.LanguageItem
 import com.example.weather.data.preference.WeatherPreferenceManager
 import com.example.weather.databinding.ActivityLanguageBinding
+import com.example.weather.ui.home.HomeActivity
 import com.example.weather.utils.LocaleHelper
 
 class LanguageActivity : AppCompatActivity() {
@@ -49,7 +50,6 @@ class LanguageActivity : AppCompatActivity() {
 
     private fun setupUI() {
         if (!isFromSettings && !prefManager.isLanguageSelected) {
-            // Lần đầu mở: có thể ẩn nút back hoặc cho phép thoát
             binding.btnBack.visibility = View.GONE
         } else {
             binding.btnBack.visibility = View.VISIBLE
@@ -92,7 +92,6 @@ class LanguageActivity : AppCompatActivity() {
         binding.rvLanguages.layoutManager = LinearLayoutManager(this)
         binding.rvLanguages.adapter = adapter
 
-        // Tự động cuộn đến vị trí ngôn ngữ đang chọn
         val selectedIndex = languageList.indexOfFirst { it.code.equals(currentSavedLang, ignoreCase = true) }
         if (selectedIndex != -1) {
             binding.rvLanguages.scrollToPosition(selectedIndex)
@@ -105,10 +104,14 @@ class LanguageActivity : AppCompatActivity() {
         prefManager.isLanguageSelected = true
 
         if (isFromSettings) {
-            setResult(RESULT_OK)
+            // Quay lại HomeActivity nhưng tự động mở màn Cài đặt (SettingsFragment) với ngôn ngữ mới
+            val intent = Intent(this, HomeActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                putExtra(HomeActivity.EXTRA_OPEN_SETTINGS, true)
+            }
+            startActivity(intent)
             finish()
         } else {
-            // Chuyển sang màn hình Onboarding (bước 3 theo sơ đồ)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()

@@ -1,6 +1,7 @@
 package com.example.weather.ui.home
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -13,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.Toast.makeText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -56,13 +58,11 @@ class HomeFragment : Fragment() {
             locationService = localBinder.getService()
             isServiceBound = true
 
-            // Ngay khi kết nối thành công → yêu cầu vị trí GPS hiện tại
             locationService?.requestCurrentLocation { location ->
+                if (!isAdded) return@requestCurrentLocation
                 if (location != null) {
-                    // Có vị trí → truyền cho ViewModel tải thời tiết
                     viewModel.fetchWeatherByLocation(location)
                 } else {
-                    // Không lấy được GPS (chưa cấp quyền, GPS tắt, …)
                     if (!LocationManager.hasLocationPermission(requireContext())) {
                         locationPermissionLauncher.launch(
                             arrayOf(
@@ -270,9 +270,9 @@ class HomeFragment : Fragment() {
         viewModel.cityWeatherResult.observe(viewLifecycleOwner) { (cityName, resource) ->
             cityWeatherAdapter.updateWeatherData(cityName, resource)
             if (resource is Resource.Error) {
-                Toast.makeText(
+                makeText(
                     requireContext(),
-                    resource.message ?: getString(R.string.weather_server_error, cityName),
+                    resource.message,
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -307,7 +307,7 @@ class HomeFragment : Fragment() {
         // Quan sát thông báo người dùng
         viewModel.userMessage.observe(viewLifecycleOwner) { message ->
             if (!message.isNullOrEmpty()) {
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 viewModel.clearUserMessage()
             }
         }
@@ -323,6 +323,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updatePageIndicator(position: Int, total: Int) {
         val totalCount = if (total > 0) total else 1
         binding.tvPageIndicator.text = "${position + 1} / $totalCount"
@@ -423,6 +424,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
         // Cập nhật lại đơn vị nhiệt độ và giao diện widget nếu có thay đổi từ màn hình Settings / Setup

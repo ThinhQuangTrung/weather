@@ -138,6 +138,7 @@
 
     <string name="today">Today</string>
     <string name="tomorrow_with_day">Tomorrow (%1$s)</string>
+    <string name="loading">Loading…</string>
 
     <string name="monday_short">Mon</string>
     <string name="tuesday_short">Tue</string>

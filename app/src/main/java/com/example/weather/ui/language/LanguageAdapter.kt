@@ -74,7 +74,4 @@ class LanguageAdapter(
 
     override fun getItemCount(): Int = languages.size
 
-    fun getSelectedItem(): LanguageItem? {
-        return languages.find { it.code.equals(selectedCode, ignoreCase = true) }
-    }
 }

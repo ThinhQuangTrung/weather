@@ -1,4 +1,4 @@
-package com.example.weather.ui.settings
+﻿package com.example.weather.ui.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.weather.R
 import com.example.weather.databinding.FragmentSettingsBinding
+import com.example.weather.ui.home.HomeActivity
 
 /**
  * SettingsFragment:
@@ -39,14 +40,13 @@ class SettingsFragment : Fragment() {
 
         setupListeners()
         observeViewModel()
+        updateLanguageUI()
     }
 
     private val languageLauncher = registerForActivityResult(
         androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == android.app.Activity.RESULT_OK) {
-            requireActivity().recreate()
-        }
+    ) {
+        updateLanguageUI()
     }
 
     private val setupLauncher = registerForActivityResult(
@@ -85,7 +85,20 @@ class SettingsFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        val currentLang = com.example.weather.utils.LocaleHelper.getLanguage(requireContext())
+
+        viewModel.theme.observe(viewLifecycleOwner) { theme ->
+            binding.tvThemeValue.text = when (theme) {
+                "light" -> "Sáng (Light)"
+                "dark" -> "Tối (Dark)"
+                else -> "Theo hệ thống (System)"
+            }
+        }
+    }
+    private fun updateLanguageUI() {
+
+        val currentLang =
+            com.example.weather.utils.LocaleHelper.getLanguage(requireContext())
+
         binding.tvLanguageValue.text = when (currentLang.lowercase()) {
             "vi" -> "Tiếng Việt"
             "en" -> "English"
@@ -107,14 +120,6 @@ class SettingsFragment : Fragment() {
             "tr" -> "Türkçe (Turkish)"
             "bn" -> "বাংলা (Bengali)"
             else -> "English"
-        }
-
-        viewModel.theme.observe(viewLifecycleOwner) { theme ->
-            binding.tvThemeValue.text = when (theme) {
-                "light" -> "Sáng (Light)"
-                "dark" -> "Tối (Dark)"
-                else -> "Theo hệ thống (System)"
-            }
         }
     }
 
@@ -165,7 +170,10 @@ class SettingsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as? com.example.weather.ui.home.HomeActivity)?.setBottomNavVisibility(false)
+
+        (activity as? HomeActivity)?.setBottomNavVisibility(false)
+
+        updateLanguageUI()
     }
 
     override fun onDestroyView() {

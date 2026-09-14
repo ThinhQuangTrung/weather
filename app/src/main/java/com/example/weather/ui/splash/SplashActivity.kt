@@ -13,6 +13,7 @@ import com.example.weather.databinding.ActivitySplashBinding
 import com.example.weather.ui.home.HomeActivity
 import com.example.weather.ui.language.LanguageActivity
 import com.example.weather.ui.setup.WeatherSetupActivity
+import com.example.weather.utils.ICallBackItem
 import com.example.weather.utils.LocaleHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -47,9 +48,15 @@ class SplashActivity : AppCompatActivity() {
             .start()
 
         lifecycleScope.launch {
-            delay(1000)
+            delay(3500)
             navigateNextScreen()
         }
+        binding.vLoading.onProgress = object : ICallBackItem {
+            override fun callBack(ob: Any?, position: Int) {
+                binding.tvProgress.text = "Loading (${position}%)..."
+            }
+        }
+
     }
 
     private fun navigateNextScreen() {

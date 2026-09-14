@@ -1,7 +1,9 @@
 package com.example.weather.ui.forecast
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -20,7 +22,9 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import java.util.TimeZone
+import kotlin.math.abs
+import androidx.core.view.isVisible
+import kotlin.math.roundToInt
 
 /**
  * ForecastFragment:
@@ -54,10 +58,66 @@ class ForecastFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         setupRecyclerViews()
+        setupHourlyTouch()
         loadForecastData()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupHourlyTouch() {
+
+        var downX = 0f
+        var downY = 0f
+
+        binding.rvHourlyForecast.setOnTouchListener { view, event ->
+
+            when (event.actionMasked) {
+
+                MotionEvent.ACTION_DOWN -> {
+
+                    downX = event.x
+                    downY = event.y
+
+                    // Ban đầu giữ touch cho RecyclerView 24h
+                    view.parent.requestDisallowInterceptTouchEvent(true)
+
+                    false
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+
+                    val dx = event.x - downX
+                    val dy = event.y - downY
+
+                    if (abs(dx) > abs(dy)) {
+
+                        // Kéo ngang
+                        // RecyclerView 24h xử lý
+                        view.parent.requestDisallowInterceptTouchEvent(true)
+
+                    } else {
+
+                        // Kéo dọc
+                        // Cho NestedScrollView xử lý
+                        view.parent.requestDisallowInterceptTouchEvent(false)
+                    }
+
+                    false
+                }
+                MotionEvent.ACTION_UP,
+                MotionEvent.ACTION_CANCEL -> {
+
+                    // Trả lại trạng thái bình thường
+                    view.parent.requestDisallowInterceptTouchEvent(false)
+
+                    false
+                }
+
+                else -> false
+            }
+        }
+    }
     override fun onResume() {
         super.onResume()
         if (!isHidden) {
@@ -97,7 +157,7 @@ class ForecastFragment : Fragment() {
 
         // Neu da co du lieu va thanh pho + don vi khong thay doi thi giu nguyen
         if (!force && currentCity.equals(lastLoadedCity, ignoreCase = true) &&
-            currentUnit == lastLoadedUnit && binding.layoutForecastContent.visibility == View.VISIBLE) {
+            currentUnit == lastLoadedUnit && binding.layoutForecastContent.isVisible) {
             return
         }
 
@@ -116,7 +176,7 @@ class ForecastFragment : Fragment() {
                 is Resource.Error -> {
                     binding.pbLoading.visibility = View.GONE
                     binding.tvErrorMessage.visibility = View.VISIBLE
-                    binding.tvErrorMessage.text = result.message ?: "Không thể tải dữ liệu dự báo"
+                    binding.tvErrorMessage.text = result.message
                 }
                 is Resource.Loading -> {
                     binding.pbLoading.visibility = View.VISIBLE
@@ -125,6 +185,7 @@ class ForecastFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun bindForecastData(data: ForecastResponse, defaultCity: String) {
         val isFahrenheit = prefManager.temperatureUnit.equals("fahrenheit", ignoreCase = true)
         val unitSymbol = if (isFahrenheit) "°F" else "°C"
@@ -173,9 +234,9 @@ class ForecastFragment : Fragment() {
             } else {
                 rawTemp
             }
-            val tempString = "${Math.round(displayTemp)}$unitSymbol"
+            val tempString = "${displayTemp.roundToInt()}$unitSymbol"
 
-            val popPercent = Math.round((item.pop ?: 0.0) * 100).toInt()
+            val popPercent = ((item.pop ?: 0.0) * 100).roundToInt()
             val popString = "$popPercent% mưa"
 
             val iconCode = item.weatherList?.firstOrNull()?.icon
@@ -215,7 +276,7 @@ class ForecastFragment : Fragment() {
 
             val minTempDisplay = if (isFahrenheit) WeatherIconUtil.celsiusToFahrenheit(minTempRaw) else minTempRaw
             val maxTempDisplay = if (isFahrenheit) WeatherIconUtil.celsiusToFahrenheit(maxTempRaw) else maxTempRaw
-            val tempRangeString = "${Math.round(minTempDisplay)}$unitSymbol - ${Math.round(maxTempDisplay)}$unitSymbol"
+            val tempRangeString = "${minTempDisplay.roundToInt()}$unitSymbol - ${maxTempDisplay.roundToInt()}$unitSymbol"
 
             // Chon item dai dien buoi trua (12h - 15h) hoac item dau tien
             val representativeItem = dayItems.firstOrNull { item ->

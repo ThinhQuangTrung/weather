@@ -69,12 +69,11 @@ class SunPathView @JvmOverloads constructor(
         if (width <= 0 || height <= 0) return
 
         val padding = 28f * resources.displayMetrics.density
-        val left = padding
         val right = width - padding
         val bottom = height - (10f * resources.displayMetrics.density)
         val top = 10f * resources.displayMetrics.density
 
-        arcRect.set(left, top, right, bottom * 1.8f)
+        arcRect.set(padding, top, right, bottom * 1.8f)
 
         path.reset()
         path.addArc(arcRect, 180f, 180f)

@@ -34,24 +34,32 @@
             android:textSize="28sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvSplashAppSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/app_subtitle"
-            android:textColor="#93C5FD"
-            android:textSize="14sp" />
-
-        <ProgressBar
-            android:id="@+id/pbSplashLoading"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="32dp"
-            android:indeterminateTint="#FFFFFF" />
+        
     </LinearLayout>
 
-    <!-- Version Footer -->
+    <TextView
+        android:id="@+id/tvProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:text="@string/loading"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintBottom_toTopOf="@id/vLoading"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.datnt.demoquotes.util.custom_view.CustomLoadingSplash
+        android:id="@+id/vLoading"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_marginBottom="84dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent=".84" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

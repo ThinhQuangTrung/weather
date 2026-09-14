@@ -1,4 +1,4 @@
-package com.example.weather.ui.home
+﻿package com.example.weather.ui.home
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -10,11 +10,12 @@ import androidx.fragment.app.Fragment
 import com.example.weather.R
 import com.example.weather.databinding.ActivityHomeBinding
 import com.example.weather.ui.forecast.ForecastFragment
+import com.example.weather.ui.settings.SettingsFragment
 
 /**
  * HomeActivity:
  * - Activity chính chứa Bottom Navigation và FragmentContainerView.
- * - Điều hướng mượt mà giữa các Fragment: HomeFragment, ForecastFragment.
+ * - Điều hướng mượt mà giữa các Fragment: HomeFragment, ForecastFragment, SettingsFragment.
  * - Khôi phục và quản lý trạng thái Fragment chính xác sau khi Activity recreate (đổi ngôn ngữ, đổi theme).
  */
 class HomeActivity : AppCompatActivity() {
@@ -46,6 +47,35 @@ class HomeActivity : AppCompatActivity() {
         setupFragments(savedInstanceState)
         setupBottomNavigation()
         setupBackStackListener()
+
+        // Nếu mở từ LanguageActivity (khi đổi ngôn ngữ ở màn Cài đặt), mở lại màn Cài đặt ngay
+        if (savedInstanceState == null && intent.getBooleanExtra(EXTRA_OPEN_SETTINGS, false)) {
+            openSettings()
+        }
+    }
+
+    fun openSettings() {
+        if (supportFragmentManager.findFragmentByTag(TAG_SETTINGS) == null) {
+            supportFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out,
+                    android.R.anim.fade_in,
+                    android.R.anim.fade_out
+                )
+                .add(
+                    R.id.fragmentContainer,
+                    SettingsFragment.newInstance(),
+                    TAG_SETTINGS
+                )
+                .addToBackStack(TAG_SETTINGS)
+                .commit()
+        }
+    }
+
+    override fun recreate() {
+        super.recreate()
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     private fun setupBackStackListener() {
@@ -117,13 +147,11 @@ class HomeActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
             .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
 
-        // Đảm bảo targetFragment đã được thêm vào FragmentManager
         if (!targetFragment.isAdded) {
             val tag = if (targetFragment is HomeFragment) TAG_HOME else TAG_FORECAST
             transaction.add(R.id.fragmentContainer, targetFragment, tag)
         }
 
-        // Ẩn tất cả các tab cơ sở khác
         homeFragment?.let { if (it.isAdded && it != targetFragment) transaction.hide(it) }
         forecastFragment?.let { if (it.isAdded && it != targetFragment) transaction.hide(it) }
 
@@ -151,7 +179,9 @@ class HomeActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val EXTRA_OPEN_SETTINGS = "extra_open_settings"
         private const val TAG_HOME = "HOME"
         private const val TAG_FORECAST = "FORECAST"
+        const val TAG_SETTINGS = "SETTINGS"
     }
 }

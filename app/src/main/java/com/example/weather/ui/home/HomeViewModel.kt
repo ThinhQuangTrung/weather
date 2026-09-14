@@ -31,13 +31,12 @@ class HomeViewModel @JvmOverloads constructor(
     private val prefManager = com.example.weather.data.preference.WeatherPreferenceManager(application)
 
     private val _weatherState = MutableLiveData<Resource<WeatherResponse>>()
-    val weatherState: LiveData<Resource<WeatherResponse>> = _weatherState
 
     // LiveData trả về kết quả thời tiết theo từng thành phố cụ thể (cityName, Resource)
     private val _cityWeatherResult = MutableLiveData<Pair<String, Resource<WeatherResponse>>>()
     val cityWeatherResult: LiveData<Pair<String, Resource<WeatherResponse>>> = _cityWeatherResult
 
-    private val _tempUnit = MutableLiveData<TemperatureUnit>(
+    private val _tempUnit = MutableLiveData(
         if (prefManager.temperatureUnit == "fahrenheit") TemperatureUnit.FAHRENHEIT else TemperatureUnit.CELSIUS
     )
     val tempUnit: LiveData<TemperatureUnit> = _tempUnit
@@ -176,11 +175,6 @@ class HomeViewModel @JvmOverloads constructor(
             loadWeather(cityName)
         }
     }
-
-    /**
-     * Kiểm tra xem đã có dữ liệu vị trí toạ độ GPS chưa
-     */
-    fun hasCurrentCoordinates(): Boolean = currentCoordinates != null
 
     /**
      * Chuyển đổi đơn vị nhiệt độ giữa °C và °F
