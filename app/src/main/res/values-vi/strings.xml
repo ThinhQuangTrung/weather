@@ -6,7 +6,7 @@
     
     <!-- Language Selection -->
     <string name="select_language">Chọn ngôn ngữ</string>
-    <string name="language_default_suffix"> (Mặc định)</string>
+
     <string name="search_language">Tìm kiếm ngôn ngữ…</string>
 
     <!-- Card 1 -->
@@ -75,7 +75,6 @@
     <string name="aqi_poor_desc">Có thể ảnh hưởng đến sức khỏe của nhóm người mẫn cảm.</string>
     <string name="aqi_very_poor_desc">Cảnh báo sức khỏe khẩn cấp: Hạn chế tối đa ra ngoài.</string>
     <string name="cloud_cover_title">Độ che phủ mây</string>
-    <string name="cloud_overcast">Âm u</string>
     <string name="cloud_mostly_cloudy">Nhiều mây</string>
     <string name="cloud_partly_cloudy">Ít mây</string>
     <string name="cloud_mostly_clear">Quang đãng nhẹ</string>
@@ -127,4 +126,44 @@
     <string name="sunset_label">Hoàng hôn</string>
     <string name="daylight_duration_label">Thời gian\nchiếu sáng</string>
     <string name="pressure_detail_title">Áp suất chi tiết</string>
+
+    <string name="home">Trang chủ</string>
+    <string name="forecast">Dự báo</string>
+
+    <string name="forecast_5_days">Dự báo 5 ngày</string>
+    <string name="hourly_forecast">Dự báo theo giờ</string>
+
+    <string name="dew_point">Điểm sương: %1$d%2$s</string>
+
+    <string name="weather_thunderstorm">Giông bão kèm sấm sét</string>
+    <string name="weather_drizzle">Mưa phùn nhẹ</string>
+    <string name="weather_light_rain">Mưa nhẹ</string>
+    <string name="weather_moderate_rain">Mưa vừa</string>
+    <string name="weather_heavy_rain">Mưa to đến rất to</string>
+    <string name="weather_freezing_rain">Mưa băng tuyết</string>
+    <string name="weather_shower_rain">Mưa rào từng đợt</string>
+    <string name="weather_snow">Tuyết rơi</string>
+    <string name="weather_fog">Sương mù</string>
+    <string name="weather_smoke">Khói bụi</string>
+    <string name="weather_haze">Mù sương khô</string>
+    <string name="weather_dust">Cát bụi</string>
+    <string name="weather_tornado">Lốc xoáy</string>
+    <string name="weather_clear_sky">Quang đãng</string>
+    <string name="weather_few_clouds">Ít mây</string>
+    <string name="weather_scattered_clouds">Mây rải rác</string>
+    <string name="weather_broken_clouds">Trời nhiều mây</string>
+    <string name="weather_default">Thời tiết ổn định</string>
+    <string name="cloud_clear_sky">Trời quang đãng</string>
+
+    <string name="cloud_few_clouds_description">Trời ít mây, nắng đẹp</string>
+    <string name="cloud_few_clouds">Ít mây</string>
+
+    <string name="cloud_scattered_description">Mây rải rác từng đợt</string>
+    <string name="cloud_scattered_clouds">Mây rải rác</string>
+
+    <string name="cloud_many_description">Nhiều mây che phủ</string>
+    <string name="cloud_many">Nhiều mây</string>
+
+    <string name="cloud_overcast_description">Bầu trời âm u, kín mây</string>
+    <string name="cloud_overcast">Âm u</string>
 </resources>

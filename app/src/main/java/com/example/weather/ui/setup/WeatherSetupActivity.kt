@@ -11,11 +11,12 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.weather.R
 import com.example.weather.data.preference.WeatherPreferenceManager
 import com.example.weather.databinding.ActivityWeatherSetupBinding
+import com.example.weather.ui.base.BaseActivity
 import com.example.weather.ui.home.HomeActivity
 import com.example.weather.utils.LocaleHelper
 
 
-class WeatherSetupActivity : AppCompatActivity() {
+class WeatherSetupActivity : BaseActivity() {
 
     private lateinit var binding: ActivityWeatherSetupBinding
     private val prefManager by lazy { WeatherPreferenceManager(this) }

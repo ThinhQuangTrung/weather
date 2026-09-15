@@ -9,21 +9,21 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
-    private const val BASE_URL = "https://api.openweathermap.org/"
+    private const val BASE_URL = "https://api.openweathermap.org/"//
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
     private val okHttpClient = OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .connectTimeout(15, TimeUnit.SECONDS)
+        .addInterceptor(loggingInterceptor)// cơ chế cho phép chăn chỉnh sửa hoặc ghi log
+        .connectTimeout(15, TimeUnit.SECONDS)// thời gian tối đa để thiết kế vs server
         .readTimeout(15, TimeUnit.SECONDS)
         .writeTimeout(15, TimeUnit.SECONDS)
         .build()
 
-    private val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
+    private val retrofit: Retrofit by lazy {// by lazy chưa tao luon chỉ khi nào retrofit đc sư dung vs tạo
+        Retrofit.Builder()// bắt đầu xay dựng nó
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
@@ -31,6 +31,6 @@ object RetrofitClient {
     }
 
     val weatherApiService: WeatherApiService by lazy {
-        retrofit.create(WeatherApiService::class.java)
+        retrofit.create(WeatherApiService::class.java) //kết nối vs interface API
     }
 }

@@ -88,9 +88,9 @@ class SettingsFragment : Fragment() {
 
         viewModel.theme.observe(viewLifecycleOwner) { theme ->
             binding.tvThemeValue.text = when (theme) {
-                "light" -> "Sáng (Light)"
-                "dark" -> "Tối (Dark)"
-                else -> "Theo hệ thống (System)"
+                "light" -> getString(R.string.theme_light)
+                "dark" -> getString(R.string.theme_dark)
+                else -> getString(R.string.theme_system)
             }
         }
     }
@@ -124,7 +124,11 @@ class SettingsFragment : Fragment() {
     }
 
     private fun showThemeDialog() {
-        val themes = arrayOf("Theo hệ thống", "Sáng (Light)", "Tối (Dark)")
+        val themes = arrayOf(
+            getString(R.string.theme_system),
+            getString(R.string.theme_light),
+            getString(R.string.theme_dark)
+        )
         val currentTheme = viewModel.theme.value
         val checkedItem = when (currentTheme) {
             "light" -> 1
@@ -132,7 +136,7 @@ class SettingsFragment : Fragment() {
             else -> 0
         }
         val builder = AlertDialog.Builder(requireContext())
-            .setTitle("Chọn giao diện")
+            .setTitle(R.string.choose_theme)
             .setSingleChoiceItems(themes, checkedItem) { dialog, which ->
                 val selected = when (which) {
                     1 -> "light"
@@ -145,27 +149,11 @@ class SettingsFragment : Fragment() {
                 requireActivity().window.setWindowAnimations(0)
                 viewModel.setTheme(selected)
             }
-            .setNegativeButton("Hủy", null)
+            .setNegativeButton(R.string.cancel, null)
         val dialog = builder.create()
         dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_rounded_bg)
 
         dialog.show()
-    }
-
-    private fun showUnitDialog() {
-        val units = arrayOf("Độ C (°C)", "Độ F (°F)")
-        val currentUnit = viewModel.unit.value
-        val checkedItem = if (currentUnit == "fahrenheit") 1 else 0
-
-        AlertDialog.Builder(requireContext())
-            .setTitle("Chọn đơn vị nhiệt độ")
-            .setSingleChoiceItems(units, checkedItem) { dialog, which ->
-                val selected = if (which == 1) "fahrenheit" else "celsius"
-                viewModel.setUnit(selected)
-                dialog.dismiss()
-            }
-            .setNegativeButton("Hủy", null)
-            .show()
     }
 
     override fun onResume() {

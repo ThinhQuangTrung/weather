@@ -7,7 +7,6 @@
 
     <!-- Language Selection -->
     <string name="select_language">اختر اللغة</string>
-    <string name="language_default_suffix"> (افتراضي)</string>
     <string name="search_language">البحث عن لغة…</string>
 
     <!-- Card 1 -->

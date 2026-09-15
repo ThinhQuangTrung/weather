@@ -49,35 +49,30 @@ object WeatherIconUtil {
      * Chuyển đổi mã trạng thái thời tiết OpenWeather (Weather Condition Codes: 2xx, 3xx, 5xx, 6xx, 7xx, 800, 80x)
      * sang chuỗi mô tả tiếng Việt thân thiện.
      */
-    fun getWeatherDescription(conditionCode: Int): String {
+    fun getWeatherDescription(conditionCode: Int): Int {
         return when (conditionCode) {
-            in 200..232 -> "Giông bão kèm sấm sét"
-            in 300..321 -> "Mưa phùn nhẹ"
-            500 -> "Mưa nhẹ"
-            501 -> "Mưa vừa"
-            in 502..504 -> "Mưa to đến rất to"
-            511 -> "Mưa băng tuyết"
-            in 520..531 -> "Mưa rào từng đợt"
-            in 600..622 -> "Tuyết rơi"
-            701, 741 -> "Sương mù"
-            711 -> "Khói bụi"
-            721 -> "Mù sương khô"
-            731, 751, 761 -> "Cát bụi"
-            781 -> "Lốc xoáy"
-            800 -> "Quang đãng"
-            801 -> "Ít mây"
-            802 -> "Mây rải rác"
-            803, 804 -> "Trời nhiều mây"
-            else -> "Thời tiết ổn định"
+            in 200..232 -> R.string.weather_thunderstorm
+            in 300..321 -> R.string.weather_drizzle
+            500 -> R.string.weather_light_rain
+            501 -> R.string.weather_moderate_rain
+            in 502..504 -> R.string.weather_heavy_rain
+            511 -> R.string.weather_freezing_rain
+            in 520..531 -> R.string.weather_shower_rain
+            in 600..622 -> R.string.weather_snow
+            701, 741 -> R.string.weather_fog
+            711 -> R.string.weather_smoke
+            721 -> R.string.weather_haze
+            731, 751, 761 -> R.string.weather_dust
+            781 -> R.string.weather_tornado
+            800 -> R.string.weather_clear_sky
+            801 -> R.string.weather_few_clouds
+            802 -> R.string.weather_scattered_clouds
+            803, 804 -> R.string.weather_broken_clouds
+            else -> R.string.weather_default
         }
     }
 
-    /**
-     * Chuyển đổi độ góc gió thành chuỗi hướng gió tiếng Việt
-     */
-    /**
-     * Chuyển đổi độ góc gió thành ký hiệu quốc tế ngắn (ví dụ: 120° ESE)
-     */
+
     fun getWindDirectionShort(deg: Int): String {
         val directions = arrayOf("N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW")
         val index = (((deg % 360) + 11.25) / 22.5).toInt() % 16
@@ -98,13 +93,29 @@ object WeatherIconUtil {
     /**
      * Đánh giá chất lượng tầm nhìn
      */
-    fun getVisibilityEvaluation(visibilityMeters: Int): Pair<String, String> {
+    fun getVisibilityEvaluation(visibilityMeters: Int): Pair<Int, Int> {
         val km = visibilityMeters / 1000.0
+
         return when {
-            km >= 10 -> Pair("Tầm nhìn rất tốt", "Rõ nét")
-            km >= 5 -> Pair("Tầm nhìn tốt", "Bình thường")
-            km >= 2 -> Pair("Tầm nhìn trung bình", "Hơi mờ")
-            else -> Pair("Tầm nhìn hạn chế", "Mù sương")
+            km >= 10 -> Pair(
+                R.string.visibility_very_good,
+                R.string.visibility_clear
+            )
+
+            km >= 5 -> Pair(
+                R.string.visibility_good,
+                R.string.visibility_normal
+            )
+
+            km >= 2 -> Pair(
+                R.string.visibility_moderate,
+                R.string.visibility_hazy
+            )
+
+            else -> Pair(
+                R.string.visibility_limited,
+                R.string.visibility_foggy
+            )
         }
     }
 
@@ -133,13 +144,32 @@ object WeatherIconUtil {
      * Đánh giá độ che phủ của mây (%)
      * Trả về (Mô tả, Huy hiệu ngắn)
      */
-    fun getCloudCoverEvaluation(cloudinessPercent: Int): Pair<String, String> {
+    fun getCloudCoverEvaluation(cloudinessPercent: Int): Pair<Int, Int> {
         return when (cloudinessPercent) {
-            in 0..10 -> Pair("Trời quang đãng", "Quang đãng")
-            in 11..25 -> Pair("Trời ít mây, nắng đẹp", "Ít mây")
-            in 26..50 -> Pair("Mây rải rác từng đợt", "Mây rải rác")
-            in 51..84 -> Pair("Nhiều mây che phủ", "Nhiều mây")
-            else -> Pair("Bầu trời âm u, kín mây", "Âm u")
+            in 0..10 -> Pair(
+                R.string.cloud_clear_sky,
+                R.string.cloud_clear
+            )
+
+            in 11..25 -> Pair(
+                R.string.cloud_few_clouds_description,
+                R.string.cloud_few_clouds
+            )
+
+            in 26..50 -> Pair(
+                R.string.cloud_scattered_description,
+                R.string.cloud_scattered_clouds
+            )
+
+            in 51..84 -> Pair(
+                R.string.cloud_many_description,
+                R.string.cloud_many
+            )
+
+            else -> Pair(
+                R.string.cloud_overcast_description,
+                R.string.cloud_overcast
+            )
         }
     }
 

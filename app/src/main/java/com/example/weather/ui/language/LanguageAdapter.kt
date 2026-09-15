@@ -24,11 +24,9 @@ class LanguageAdapter(
             val context = binding.root.context
             val isSelected = item.code.equals(selectedCode, ignoreCase = true)
 
-            binding.tvLanguageName.text = if (item.isDefault) {
-                "${item.displayName}${context.getString(R.string.language_default_suffix)}"
-            } else {
-                item.displayName
-            }
+            binding.tvLanguageName.text =
+                "${item.displayName}"
+
 
             binding.ivFlag.setImageResource(item.flagRes)
 

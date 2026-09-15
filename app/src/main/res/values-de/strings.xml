@@ -6,7 +6,6 @@
 
     <!-- Language Selection -->
     <string name="select_language">Sprache auswählen</string>
-    <string name="language_default_suffix"> (Standard)</string>
     <string name="search_language">Sprache suchen…</string>
 
     <!-- Card 1 -->

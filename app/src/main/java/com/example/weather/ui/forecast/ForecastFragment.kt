@@ -1,6 +1,7 @@
 package com.example.weather.ui.forecast
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -203,7 +204,12 @@ class ForecastFragment : Fragment() {
         }
 
         // 2. Du bao theo gio (24 gio toi - 8 moc 3-hour)
-        val hourlyList = processHourlyForecast(forecastList.take(8), isFahrenheit, unitSymbol)
+        val hourlyList = processHourlyForecast(
+            requireContext(),
+            forecastList.take(8),
+            isFahrenheit,
+            unitSymbol
+        )
         hourlyAdapter.submitList(hourlyList)
 
         // 3. Danh sach 5 ngay (Daily Forecast)
@@ -215,31 +221,42 @@ class ForecastFragment : Fragment() {
      * Xu ly danh sach 8 moc gio dau tien thanh du lieu theo gio
      */
     private fun processHourlyForecast(
+        context: Context,
         items: List<ForecastItem>,
         isFahrenheit: Boolean,
         unitSymbol: String
     ): List<HourlyForecastUiModel> {
+
         val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
         return items.mapIndexed { index, item ->
+
             val timeText = if (index == 0) {
-                "Bây giờ"
+                context.getString(R.string.weather_now)
             } else {
                 timeFormat.format(Date(item.timestamp * 1000L))
             }
 
             val rawTemp = item.main?.temp ?: 0.0
+
             val displayTemp = if (isFahrenheit) {
                 WeatherIconUtil.celsiusToFahrenheit(rawTemp)
             } else {
                 rawTemp
             }
+
             val tempString = "${displayTemp.roundToInt()}$unitSymbol"
 
             val popPercent = ((item.pop ?: 0.0) * 100).roundToInt()
-            val popString = "$popPercent% mưa"
 
-            val iconCode = item.weatherList?.firstOrNull()?.icon
+            val popString = context.getString(
+                R.string.rain_chance,
+                popPercent
+            )
+
+            val iconCode = item.weatherList
+                ?.firstOrNull()
+                ?.icon
 
             HourlyForecastUiModel(
                 time = timeText,
@@ -286,9 +303,11 @@ class ForecastFragment : Fragment() {
 
             val condition = representativeItem.weatherList?.firstOrNull()
             val iconCode = condition?.icon
-            val description = condition?.id?.let { WeatherIconUtil.getWeatherDescription(it) }
-                ?: condition?.description
-                ?: "Quang đãng"
+
+            val description = condition?.id?.let{
+                getString(WeatherIconUtil.getWeatherDescription(it) )
+            }
+                ?: getString(R.string.weather_clear_sky)
 
             // Tinh ten thu / tieu de ngay
             val cal = Calendar.getInstance().apply {

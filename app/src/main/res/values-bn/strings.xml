@@ -7,7 +7,6 @@
 
     <!-- Language Selection -->
     <string name="select_language">ভাষা নির্বাচন করুন</string>
-    <string name="language_default_suffix"> (ডিফল্ট)</string>
     <string name="search_language">ভাষা অনুসন্ধান করুন…</string>
 
     <!-- Card 1 -->

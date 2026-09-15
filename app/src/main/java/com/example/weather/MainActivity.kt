@@ -1,4 +1,4 @@
-package com.example.weather
+﻿package com.example.weather
 
 import android.animation.ValueAnimator
 import android.content.Intent
@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weather.databinding.ActivityMainBinding
+import com.example.weather.ui.base.BaseActivity
 import com.example.weather.ui.home.HomeActivity
 import com.example.weather.ui.main.MainViewModel
 import com.example.weather.ui.onboarding.OnboardingAdapter
@@ -22,10 +23,10 @@ import com.example.weather.utils.Resource
 import kotlin.math.abs
 
 /**
- * - Tách biệt logic vào MainViewModel.
- * - Lắng nghe và cập nhật UI thông qua LiveData Observer.
+ * - TÃ¡ch biá»‡t logic vÃ o MainViewModel.
+ * - Láº¯ng nghe vÃ  cáº­p nháº­t UI thÃ´ng qua LiveData Observer.
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
@@ -55,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
         enableEdgeToEdge()
 
-        // Khởi tạo ViewBinding
+        // Khá»Ÿi táº¡o ViewBinding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -82,14 +83,14 @@ class MainActivity : AppCompatActivity() {
             val totalPages = onboardingAdapter.itemCount
 
             if (currentPage < totalPages - 1) {
-                // Chuyển sang slide tiếp theo
+                // Chuyá»ƒn sang slide tiáº¿p theo
                 binding.viewPagerFeatures.setCurrentItem(currentPage + 1, true)
             } else {
-                // Đánh dấu đã xem Onboarding
+                // ÄÃ¡nh dáº¥u Ä‘Ã£ xem Onboarding
                 val prefManager = com.example.weather.data.preference.WeatherPreferenceManager(this)
                 prefManager.isOnboardingCompleted = true
 
-                // Đã ở slide cuối → chuyển tiếp sang Màn hình 4: Thiết lập thời tiết
+                // ÄÃ£ á»Ÿ slide cuá»‘i â†’ chuyá»ƒn tiáº¿p sang MÃ n hÃ¬nh 4: Thiáº¿t láº­p thá»i tiáº¿t
                 val intent = Intent(
                     this,
                     com.example.weather.ui.setup.WeatherSetupActivity::class.java
@@ -127,23 +128,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        // Quan sát danh sách thẻ onboarding từ ViewModel
+        // Quan sÃ¡t danh sÃ¡ch tháº» onboarding tá»« ViewModel
         viewModel.onboardingItems.observe(this) { items ->
             onboardingAdapter.submitList(items)
             updatePageIndicator(binding.viewPagerFeatures.currentItem, items.size)
         }
 
-        // Quan sát trang hiện tại
+        // Quan sÃ¡t trang hiá»‡n táº¡i
         viewModel.currentPage.observe(this) { page ->
             updatePageIndicator(page, onboardingAdapter.itemCount)
             updateDots(page)
         }
 
-        // Quan sát trạng thái tải thời tiết thực tế từ OpenWeatherMap API
+        // Quan sÃ¡t tráº¡ng thÃ¡i táº£i thá»i tiáº¿t thá»±c táº¿ tá»« OpenWeatherMap API
         viewModel.weatherState.observe(this) { resource ->
             when (resource) {
                 is Resource.Loading -> {
-                    // Trạng thái đang tải
+                    // Tráº¡ng thÃ¡i Ä‘ang táº£i
                 }
                 is Resource.Success -> {
                     val weather = resource.data
@@ -152,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                     val desc = weather.weatherList?.firstOrNull()?.description ?: ""
                     Toast.makeText(
                         this,
-                        "Thời tiết tại $city: ${temp}°C, $desc",
+                        "Thá»i tiáº¿t táº¡i $city: ${temp}Â°C, $desc",
                         Toast.LENGTH_LONG
                     ).show()
                 }

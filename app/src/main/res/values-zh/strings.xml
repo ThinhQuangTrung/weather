@@ -7,7 +7,7 @@
 
     <!-- Language Selection -->
     <string name="select_language">选择语言</string>
-    <string name="language_default_suffix">（默认）</string>
+
     <string name="search_language">搜索语言…</string>
 
     <!-- Card 1 -->

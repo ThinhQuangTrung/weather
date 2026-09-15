@@ -5,7 +5,6 @@
     <string name="page_counter_format">%1$d / %2$d</string>
     
     <string name="select_language">언어 선택</string>
-    <string name="language_default_suffix"> (기본값)</string>
     <string name="search_language">언어 검색…</string>
 
     <string name="card1_tag">상태</string>

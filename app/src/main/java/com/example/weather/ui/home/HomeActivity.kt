@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.weather.R
 import com.example.weather.databinding.ActivityHomeBinding
+import com.example.weather.ui.base.BaseActivity
 import com.example.weather.ui.forecast.ForecastFragment
 import com.example.weather.ui.settings.SettingsFragment
 
@@ -18,7 +19,7 @@ import com.example.weather.ui.settings.SettingsFragment
  * - Điều hướng mượt mà giữa các Fragment: HomeFragment, ForecastFragment, SettingsFragment.
  * - Khôi phục và quản lý trạng thái Fragment chính xác sau khi Activity recreate (đổi ngôn ngữ, đổi theme).
  */
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 

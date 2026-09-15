@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Cài đặt"
+            android:text="@string/settings"
             android:textColor="@color/card_title"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="Cài đặt chung"
+            android:text="@string/general_settings"
             android:textColor="@color/brand_section_title"
             android:textSize="13sp"
             android:textStyle="bold"
@@ -86,7 +86,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Ngôn ngữ"
+                        android:text="@string/language"
                         android:textColor="@color/card_title"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -139,7 +139,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Giao diện"
+                        android:text="@string/theme"
                         android:textColor="@color/card_title"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -206,7 +206,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="Nhiệt độ, Độ ẩm, Gió, Áp suất..."
+                        android:text="@string/weather_widgets"
                         android:textColor="@color/card_desc"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -226,7 +226,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Thông tin"
+            android:text="@string/information"
             android:textColor="@color/brand_section_title"
             android:textSize="13sp"
             android:textStyle="bold"
@@ -259,7 +259,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Phiên bản ứng dụng"
+                        android:text="@string/app_version"
                         android:textColor="@color/card_title"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -269,7 +269,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="SkyCast v1.0.0 • Open Source"
+                        android:text="@string/app_version_info"
                         android:textColor="@color/card_desc"
                         android:textSize="13sp" />
                 </LinearLayout>

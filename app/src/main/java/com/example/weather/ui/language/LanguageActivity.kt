@@ -14,10 +14,11 @@ import com.example.weather.R
 import com.example.weather.data.model.LanguageItem
 import com.example.weather.data.preference.WeatherPreferenceManager
 import com.example.weather.databinding.ActivityLanguageBinding
+import com.example.weather.ui.base.BaseActivity
 import com.example.weather.ui.home.HomeActivity
 import com.example.weather.utils.LocaleHelper
 
-class LanguageActivity : AppCompatActivity() {
+class LanguageActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLanguageBinding
     private lateinit var adapter: LanguageAdapter
@@ -65,7 +66,7 @@ class LanguageActivity : AppCompatActivity() {
 
     private fun setupLanguageList() {
         val languageList = listOf(
-            LanguageItem("en", "English", "English", R.drawable.english, isDefault = true),
+            LanguageItem("en", "English", "English", R.drawable.english),
             LanguageItem("de", "German", "Deutsch", R.drawable.german),
             LanguageItem("fr", "French", "Français", R.drawable.french),
             LanguageItem("es", "Spanish", "Español", R.drawable.spanish),

@@ -15,7 +15,7 @@ class OnboardingAdapter(
     private var items: List<OnboardingItem> = emptyList()
 ) : RecyclerView.Adapter<OnboardingAdapter.OnboardingViewHolder>() {
 
-    inner class OnboardingViewHolder(
+    class OnboardingViewHolder(
         private val binding: ItemOnboardingCardBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 

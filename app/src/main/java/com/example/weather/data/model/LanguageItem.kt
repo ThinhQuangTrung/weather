@@ -10,5 +10,4 @@ data class LanguageItem(
     val displayName: String,
     val nativeName: String,
     @param:DrawableRes val flagRes: Int,
-    val isDefault: Boolean = false
 )

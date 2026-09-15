@@ -150,9 +150,13 @@ class CityWeatherPagerAdapter(
 
                     // 2. Thẻ Thời tiết chính (Hero Card)
                     val condition = data.weatherList?.firstOrNull()
-                    val descVi = condition?.let { WeatherIconUtil.getWeatherDescription(it.id) } ?: "Quang đãng"
-                    val descEn = condition?.description?.replaceFirstChar { it.uppercase() } ?: "Clear Sky"
-                    binding.tvConditionDescription.text = "$descVi • $descEn"
+
+                    val description = condition?.id?.let {
+                        binding.root.context.getString(
+                            WeatherIconUtil.getWeatherDescription(it)
+                        )
+                    } ?: binding.root.context.getString(R.string.weather_clear_sky)
+                    binding.tvConditionDescription.text = description
 
                     // Icon OpenWeatherMap
                     val iconCode = condition?.icon ?: "01d"
@@ -221,7 +225,6 @@ class CityWeatherPagerAdapter(
                     // 5. Telemetry - Gió & Gió giật
                     val wind = data.wind
                     if (wind != null) {
-                        val gustStr = if (wind.gust != null) " (giật ${wind.gust} m/s)" else ""
                         binding.tvWindSpeedVal.text = "${wind.speed} m/s"
                         binding.tvWindDirectionDegree.text = "↗ ${WeatherIconUtil.getWindDirectionShort(wind.deg)}"
                     }
@@ -231,8 +234,11 @@ class CityWeatherPagerAdapter(
                     val visKm = visibilityMeters / 1000.0
                     binding.tvVisibilityVal.text = if (visKm >= 10.0) "${visKm.toInt()} km" else String.format(Locale.US, "%.1f km", visKm)
                     val (visDesc, visBadge) = WeatherIconUtil.getVisibilityEvaluation(visibilityMeters)
-                    binding.tvVisibilityDesc.text = visDesc
-                    binding.tvVisibilityBadge.text = visBadge
+                    binding.tvVisibilityDesc.text =
+                        binding.root.context.getString(visDesc)
+
+                    binding.tvVisibilityBadge.text =
+                        binding.root.context.getString(visBadge)
 
                     // 7. Telemetry - Độ che phủ mây (Cloud Cover)
                     val clouds = data.clouds
@@ -240,8 +246,8 @@ class CityWeatherPagerAdapter(
                     binding.tvCloudVal.text = "$cloudiness%"
                     binding.pbCloud.progress = cloudiness
                     val (_, cloudBadge) = WeatherIconUtil.getCloudCoverEvaluation(cloudiness)
-                    binding.tvCloudBadge.text = cloudBadge
-
+                    binding.tvCloudBadge.text =
+                        binding.root.context.getString(cloudBadge)
                     // 8. Chất lượng không khí (AQI)
                     if (pref.showAirQuality) {
                         val aqiInfo = when {

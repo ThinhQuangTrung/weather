@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.weather.MainActivity
 import com.example.weather.data.preference.WeatherPreferenceManager
 import com.example.weather.databinding.ActivitySplashBinding
+import com.example.weather.ui.base.BaseActivity
 import com.example.weather.ui.home.HomeActivity
 import com.example.weather.ui.language.LanguageActivity
 import com.example.weather.ui.setup.WeatherSetupActivity
@@ -19,7 +20,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySplashBinding
     private val prefManager by lazy { WeatherPreferenceManager(this) }
@@ -48,7 +49,7 @@ class SplashActivity : AppCompatActivity() {
             .start()
 
         lifecycleScope.launch {
-            delay(3500)
+            delay(4500)
             navigateNextScreen()
         }
         binding.vLoading.onProgress = object : ICallBackItem {

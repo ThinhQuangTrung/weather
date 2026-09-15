@@ -6,7 +6,6 @@
     
     <!-- Language Selection -->
     <string name="select_language">Select Language</string>
-    <string name="language_default_suffix"> (Default)</string>
     <string name="search_language">Search language…</string>
 
     <!-- Card 1 -->
@@ -16,7 +15,7 @@
     <string name="card1_stat1">14 km/h Wind</string>
     <string name="card1_stat2">68% Humidity</string>
     <string name="card1_stat3">UV 4</string>
-    
+
     <!-- Card 2 -->
     <string name="card2_tag">Rain &amp; Trends</string>
     <string name="card2_title">5-Day / 3-Hour Forecast</string>
@@ -24,7 +23,7 @@
     <string name="card2_stat1">Monitoring</string>
     <string name="card2_stat2">Temp Trend</string>
     <string name="card2_stat3">Rain Probability</string>
-    
+
     <!-- Card 3 -->
     <string name="card3_tag">Global GPS</string>
     <string name="card3_title">Search &amp; Save Favorites</string>
@@ -149,4 +148,65 @@
     <string name="sunday_short">Sun</string>
     <string name="five_day_list">5-Day List</string>
     <string name="hourly_forecast">Hourly Forecast</string>
+    <string name="dew_point">Dew point: 22°C</string>
+    <string name="home">Home</string>
+    <string name="forecast">Forecast</string>
+    <string name="clear_sky">Clear sky</string>
+    <string name="weather_now">Now</string>
+    <string name="rain_chance">%1$d%% rain</string>
+
+    <string name="weather_thunderstorm">Thunderstorm</string>
+    <string name="weather_drizzle">Light drizzle</string>
+    <string name="weather_light_rain">Light rain</string>
+    <string name="weather_moderate_rain">Moderate rain</string>
+    <string name="weather_heavy_rain">Heavy rain</string>
+    <string name="weather_freezing_rain">Freezing rain</string>
+    <string name="weather_shower_rain">Shower rain</string>
+    <string name="weather_snow">Snow</string>
+    <string name="weather_fog">Fog</string>
+    <string name="weather_smoke">Smoke</string>
+    <string name="weather_haze">Haze</string>
+    <string name="weather_dust">Dust</string>
+    <string name="weather_tornado">Tornado</string>
+    <string name="weather_clear_sky">Clear sky</string>
+    <string name="weather_few_clouds">Few clouds</string>
+    <string name="weather_scattered_clouds">Scattered clouds</string>
+    <string name="weather_broken_clouds">Broken clouds</string>
+    <string name="weather_default">Stable weather</string>
+    <string name="visibility_very_good">Very good visibility</string>
+    <string name="visibility_clear">Clear</string>
+
+    <string name="visibility_good">Good visibility</string>
+    <string name="visibility_normal">Normal</string>
+
+    <string name="visibility_moderate">Moderate visibility</string>
+    <string name="visibility_hazy">Slightly hazy</string>
+
+    <string name="visibility_limited">Limited visibility</string>
+    <string name="visibility_foggy">Foggy</string>
+    <string name="cloud_clear_sky">Clear sky</string>
+
+    <string name="cloud_few_clouds_description">Few clouds, sunny</string>
+    <string name="cloud_few_clouds">Few clouds</string>
+
+    <string name="cloud_scattered_description">Scattered clouds</string>
+    <string name="cloud_scattered_clouds">Scattered</string>
+    <string name="pressure_stable">Stable pressure</string>
+    <string name="cloud_many_description">Mostly cloudy</string>
+    <string name="cloud_many">Cloudy</string>
+    <string name="gust_calm">Gust: Calm</string>
+    <string name="cloud_overcast_description">Overcast sky</string>
+    <string name="choose_theme">Choose theme</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="cancel">Cancel</string>
+    <string name="settings">Settings</string>
+    <string name="general_settings">General Settings</string>
+    <string name="language">Language</string>
+    <string name="theme">Theme</string>
+    <string name="weather_widgets">Temperature, Humidity, Wind, Pressure...</string>
+    <string name="app_version">App Version</string>
+    <string name="app_version_info">SkyCast v1.0.0 • Open Source</string>
+    <string name="information">Information</string>
 </resources>

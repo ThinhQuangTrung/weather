@@ -5,7 +5,6 @@
     <string name="page_counter_format">%1$d / %2$d</string>
     
     <string name="select_language">Pilih Bahasa</string>
-    <string name="language_default_suffix"> (Bawaan)</string>
     <string name="search_language">Cari bahasa…</string>
 
     <string name="card1_tag">Status</string>
