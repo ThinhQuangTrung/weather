@@ -19,7 +19,7 @@ interface WeatherApiService {
         @Query("q") cityName: String,
         @Query("limit") limit: Int = 5,
         @Query("appid") apiKey: String
-    ): Response<List<GeocodingItem>>
+    ): Response<List<GeocodingItem>> // nhận kiểu dữ liệu tra về là gì
 
 
     /**

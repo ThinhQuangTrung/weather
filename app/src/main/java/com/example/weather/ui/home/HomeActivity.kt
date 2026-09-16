@@ -1,4 +1,4 @@
-﻿package com.example.weather.ui.home
+package com.example.weather.ui.home
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.weather.R
 import com.example.weather.databinding.ActivityHomeBinding
 import com.example.weather.ui.base.BaseActivity
+import com.example.weather.ui.favourite.FavouriteFragmaint
 import com.example.weather.ui.forecast.ForecastFragment
 import com.example.weather.ui.settings.SettingsFragment
 
@@ -26,6 +27,8 @@ class HomeActivity : BaseActivity() {
     private var homeFragment: HomeFragment? = null
     private var forecastFragment: ForecastFragment? = null
     private var activeFragment: Fragment? = null
+
+    private var favouriteFragment: FavouriteFragmaint? = null
 
     override fun attachBaseContext(newBase: android.content.Context) {
         super.attachBaseContext(com.example.weather.utils.LocaleHelper.onAttach(newBase))
@@ -95,14 +98,18 @@ class HomeActivity : BaseActivity() {
         if (savedInstanceState == null) {
             val home = HomeFragment.newInstance()
             val forecast = ForecastFragment.newInstance()
+            val favourite = FavouriteFragmaint.newInstance()
 
             homeFragment = home
             forecastFragment = forecast
+            favouriteFragment = favourite
             activeFragment = home
 
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragmentContainer, forecast, TAG_FORECAST)
                 .hide(forecast)
+                .add(R.id.fragmentContainer, favourite, TAG_FAVOURITE)
+                .hide(favourite)
                 .add(R.id.fragmentContainer, home, TAG_HOME)
                 .commit()
 
@@ -120,8 +127,21 @@ class HomeActivity : BaseActivity() {
                 }
 
             val isForecastVisible = forecastFragment?.isVisible == true
-            activeFragment = if (isForecastVisible) forecastFragment else homeFragment
-            updateTabUI(if (isForecastVisible) 1 else 0)
+            val isFavouriteVisible = favouriteFragment?.isVisible == true
+
+            activeFragment = when {
+                isForecastVisible -> forecastFragment
+                isFavouriteVisible -> favouriteFragment
+                else -> homeFragment
+            }
+
+            val selectedTab = when {
+                isForecastVisible -> 1
+                isFavouriteVisible -> 2
+                else -> 0
+            }
+
+            updateTabUI(selectedTab)
         }
     }
 
@@ -139,6 +159,12 @@ class HomeActivity : BaseActivity() {
                 switchFragment(target, 1)
             }
         }
+        binding.tapfavourite.setOnClickListener {
+            val target = favouriteFragment ?: (supportFragmentManager.findFragmentByTag(TAG_FAVOURITE) as? FavouriteFragmaint)
+            if (target != null) {
+                switchFragment(target, 2)
+            }
+        }
     }
 
     private fun switchFragment(targetFragment: Fragment, tabIndex: Int) {
@@ -148,18 +174,37 @@ class HomeActivity : BaseActivity() {
         val transaction = supportFragmentManager.beginTransaction()
             .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
 
-        if (!targetFragment.isAdded) {
-            val tag = if (targetFragment is HomeFragment) TAG_HOME else TAG_FORECAST
-            transaction.add(R.id.fragmentContainer, targetFragment, tag)
-        }
+//        val tag = when (targetFragment) {
+//            is HomeFragment -> TAG_HOME
+//            is ForecastFragment -> TAG_FORECAST
+//            is FavouriteFragmaint -> TAG_FAVOURITE
+//            else -> return
+//        }
 
         homeFragment?.let { if (it.isAdded && it != targetFragment) transaction.hide(it) }
         forecastFragment?.let { if (it.isAdded && it != targetFragment) transaction.hide(it) }
-
+        favouriteFragment?.let { if (it.isAdded && it != targetFragment) { transaction.hide(it) }
+        }
         transaction.show(targetFragment).commit()
 
         activeFragment = targetFragment
         updateTabUI(tabIndex)
+
+        if (targetFragment is FavouriteFragmaint) {
+            targetFragment.reload()
+        } else if (targetFragment is HomeFragment) {
+            targetFragment.refreshFavoriteState()
+        }
+    }
+
+    fun navigateToHome(cityIndex: Int = -1) {
+        val target = homeFragment ?: (supportFragmentManager.findFragmentByTag(TAG_HOME) as? HomeFragment)
+        if (target != null) {
+            switchFragment(target, 0)
+            if (cityIndex >= 0) {
+                target.selectCityIndex(cityIndex)
+            }
+        }
     }
 
     private fun updateTabUI(selectedIndex: Int) {
@@ -177,12 +222,19 @@ class HomeActivity : BaseActivity() {
         binding.pillForecast.setBackgroundResource(if (isForecast) R.drawable.bg_nav_active_pill else android.R.color.transparent)
         binding.ivTabForecast.setColorFilter(if (isForecast) activeColor else inactiveColor)
         binding.tvTabForecast.setTextColor(if (isForecast) activeColor else inactiveColor)
+
+
+        val isFavourite  = selectedIndex == 2
+        binding.pillFavourite.setBackgroundResource(if (isFavourite) R.drawable.bg_nav_active_pill else android.R.color.transparent)
+        binding.ivTabFavourite.setColorFilter(if (isFavourite) activeColor else inactiveColor)
+        binding.tvTabFavourite.setTextColor(if (isFavourite) activeColor else inactiveColor)
     }
 
     companion object {
         const val EXTRA_OPEN_SETTINGS = "extra_open_settings"
         private const val TAG_HOME = "HOME"
         private const val TAG_FORECAST = "FORECAST"
+        private const val TAG_FAVOURITE = "FAVOURITE"
         const val TAG_SETTINGS = "SETTINGS"
     }
 }

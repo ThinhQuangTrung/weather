@@ -202,4 +202,24 @@ class HomeViewModel @JvmOverloads constructor(
     fun clearUserMessage() {
         _userMessage.value = null
     }
+
+    private val _favoriteCityChanged = MutableLiveData<Boolean>()
+    val favoriteCityChanged: LiveData<Boolean> = _favoriteCityChanged
+
+    fun isCityFavorite(cityName: String): Boolean {
+        return prefManager.isFavoriteCity(cityName)
+    }
+
+    fun toggleFavoriteCity(cityName: String) {
+        val trimmed = cityName.trim()
+        if (trimmed.isEmpty()) return
+
+        val isNowFav = prefManager.toggleFavoriteCity(trimmed)
+        _userMessage.value = if (isNowFav) {
+            "Đã thêm $trimmed vào danh sách yêu thích"
+        } else {
+            "Đã bỏ yêu thích $trimmed"
+        }
+        _favoriteCityChanged.value = isNowFav
+    }
 }

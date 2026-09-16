@@ -10,6 +10,7 @@
     android:focusable="true">
 
     <!-- Top Bar -->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBarCity"
         android:layout_width="match_parent"
@@ -17,7 +18,8 @@
         android:paddingHorizontal="20dp"
         android:paddingTop="20dp"
         android:paddingBottom="12dp"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
 
         <ImageView
             android:id="@+id/btnBack"

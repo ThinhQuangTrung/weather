@@ -48,6 +48,7 @@ android {
 dependencies {
     //Dịnh vị Location
     implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation("com.airbnb.android:lottie:6.1.0") // Cập nhật bản mới nhất nếu cần
 
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.appcompat)

@@ -65,12 +65,6 @@
         android:textStyle="bold"
         tools:text="24°C - 31°C" />
 
-    <ImageView
-        android:id="@+id/ivDailyArrow"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_chevron_right"
-        app:tint="@color/brand_section_title" />
+
 
 </LinearLayout>

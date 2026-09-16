@@ -160,6 +160,9 @@ class HomeFragment : Fragment() {
             },
             onLocationClick = { cityName, _ ->
                 viewModel.refresh(cityName)
+            },
+            onFavoriteClick = { cityName, _ ->
+                viewModel.toggleFavoriteCity(cityName)
             }
         )
 
@@ -312,6 +315,11 @@ class HomeFragment : Fragment() {
             }
         }
 
+        // Quan sát khi danh sách yêu thích thay đổi từ nút Favorite
+        viewModel.favoriteCityChanged.observe(viewLifecycleOwner) {
+            cityWeatherAdapter.notifyDataSetChanged()
+        }
+
         // Quan sát hộp thoại quyền vị trí
         viewModel.showLocationDialog.observe(viewLifecycleOwner) { dialogType ->
             activeDialog?.dismiss()
@@ -320,6 +328,31 @@ class HomeFragment : Fragment() {
                 LocationDialogType.ENABLE_GPS_SETTINGS -> showEnableGpsDialog()
                 null -> {}
             }
+        }
+    }
+
+    fun refreshFavoriteState() {
+        if (_binding != null && ::cityWeatherAdapter.isInitialized) {
+            cityWeatherAdapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            refreshFavoriteState()
+        }
+    }
+
+    fun selectCityIndex(index: Int) {
+        if (_binding == null) return
+        val cities = prefManager.getSavedCities()
+        cityWeatherAdapter.setCities(cities)
+        val target = index.coerceIn(0, (cities.size - 1).coerceAtLeast(0))
+        binding.viewPagerCities.setCurrentItem(target, true)
+        updatePageIndicator(target, cities.size)
+        if (target in cities.indices) {
+            viewModel.loadWeather(cities[target])
         }
     }
 

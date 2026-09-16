@@ -209,4 +209,13 @@
     <string name="app_version">App Version</string>
     <string name="app_version_info">SkyCast v1.0.0 • Open Source</string>
     <string name="information">Information</string>
+    <string name="favourite">Favourite</string>
+    <string name="favourite_title">Favourite</string>
+    <string name="favourite_count">%1$d Saved</string>
+    <string name="add_city">+ Add</string>
+    <string name="search_favourite_hint">Search saved cities...</string>
+    <string name="favourite_empty">No favourite cities found</string>
+    <string name="favourite_empty_desc">Add cities from Home or Search to track weather here</string>
+    <string name="city_added_to_favourite">%1$s added to favourites</string>
+    <string name="city_removed_from_favourite">%1$s removed from favourites</string>
 </resources>

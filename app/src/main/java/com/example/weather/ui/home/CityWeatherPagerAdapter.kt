@@ -18,7 +18,8 @@ class CityWeatherPagerAdapter(
     private val prefManager: WeatherPreferenceManager,
     private var tempUnit: TemperatureUnit,
     private val onAddCityClick: () -> Unit,
-    private val onLocationClick: (String, Int) -> Unit
+    private val onLocationClick: (String, Int) -> Unit,
+    private val onFavoriteClick: (String, Int) -> Unit = { _, _ -> }
 ) : RecyclerView.Adapter<CityWeatherPagerAdapter.WeatherPageViewHolder>() {
 
     private val weatherMap = mutableMapOf<String, Resource<WeatherResponse>>()
@@ -93,6 +94,18 @@ class CityWeatherPagerAdapter(
 
             val hasAnyTelemetry = showHumidity || showWind || showVisibility || showPressure || showAqi
             binding.tvTelemetrySectionTitle.visibility = if (hasAnyTelemetry) View.VISIBLE else View.GONE
+
+            // Favorite button state & click listener
+            val isFav = pref.isFavoriteCity(cityName)
+            val favTint = if (isFav) {
+                android.graphics.Color.parseColor("#EF4444")
+            } else {
+                androidx.core.content.ContextCompat.getColor(context, R.color.brand_section_title)
+            }
+            binding.btnFavorite.setColorFilter(favTint)
+            binding.btnFavorite.setOnClickListener {
+                onFavoriteClick(cityName, position)
+            }
 
             // Click listener for Add City button
             binding.addCity.setOnClickListener {

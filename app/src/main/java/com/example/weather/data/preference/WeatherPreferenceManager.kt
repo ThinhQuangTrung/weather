@@ -121,12 +121,80 @@ class WeatherPreferenceManager(context: Context) {
         return false
     }
 
+    /**
+     * Lấy danh sách thành phố yêu thích (không trùng lặp)
+     */
+    fun getFavoriteCities(): List<String> {
+        val raw = prefs.getString(KEY_FAVORITE_CITIES, null)
+        return if (raw.isNullOrEmpty()) {
+            emptyList()
+        } else {
+            raw.split(DELIMITER)
+                .map { it.trim() }
+                .filter { it.isNotBlank() }
+                .distinctBy { it.lowercase() }
+        }
+    }
+
+    /**
+     * Lưu danh sách thành phố yêu thích
+     */
+    fun saveFavoriteCities(cities: List<String>) {
+        val distinct = cities
+            .map { it.trim() }
+            .filter { it.isNotBlank() }
+            .distinctBy { it.lowercase() }
+        val raw = distinct.joinToString(DELIMITER)
+        prefs.edit().putString(KEY_FAVORITE_CITIES, raw).apply()
+    }
+
+    /**
+     * Kiểm tra thành phố có nằm trong danh sách yêu thích không
+     */
+    fun isFavoriteCity(cityName: String): Boolean {
+        val trimmed = cityName.trim()
+        if (trimmed.isEmpty()) return false
+        return getFavoriteCities().any { it.equals(trimmed, ignoreCase = true) }
+    }
+
+    /**
+     * Bật/Tắt trạng thái yêu thích của thành phố (trả về true nếu vừa được thêm, false nếu vừa bị gỡ)
+     */
+    fun toggleFavoriteCity(cityName: String): Boolean {
+        val trimmed = cityName.trim()
+        if (trimmed.isEmpty()) return false
+        val current = getFavoriteCities().toMutableList()
+        val exists = current.any { it.equals(trimmed, ignoreCase = true) }
+        val isNowFav: Boolean
+        if (exists) {
+            current.removeAll { it.equals(trimmed, ignoreCase = true) }
+            isNowFav = false
+        } else {
+            current.add(trimmed)
+            isNowFav = true
+        }
+        saveFavoriteCities(current)
+        return isNowFav
+    }
+
+    /**
+     * Xóa một thành phố khỏi danh sách yêu thích
+     */
+    fun removeFavoriteCity(cityName: String) {
+        val trimmed = cityName.trim()
+        if (trimmed.isEmpty()) return
+        val current = getFavoriteCities().toMutableList()
+        current.removeAll { it.equals(trimmed, ignoreCase = true) }
+        saveFavoriteCities(current)
+    }
+
     companion object {
         private const val PREF_NAME = "app_prefs"
         private const val KEY_LANGUAGE_SELECTED = "language_selected"
         private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
         private const val KEY_WEATHER_SETUP_COMPLETED = "weather_setup_completed"
         private const val KEY_SAVED_CITIES = "saved_cities"
+        private const val KEY_FAVORITE_CITIES = "favorite_cities"
         private const val KEY_SELECTED_CITY_INDEX = "selected_city_index"
         private const val DELIMITER = "|||"
 
