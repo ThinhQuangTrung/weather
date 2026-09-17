@@ -5,12 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.weather.MainActivity
 import com.example.weather.data.preference.WeatherPreferenceManager
 import com.example.weather.databinding.ActivitySplashBinding
-import com.example.weather.ui.base.BaseActivity
+import com.example.weather.core.base.BaseActivity
 import com.example.weather.ui.home.HomeActivity
 import com.example.weather.ui.language.LanguageActivity
 import com.example.weather.ui.setup.WeatherSetupActivity
@@ -18,8 +17,10 @@ import com.example.weather.utils.ICallBackItem
 import com.example.weather.utils.LocaleHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 
 @SuppressLint("CustomSplashScreen")
+@AndroidEntryPoint
 class SplashActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySplashBinding

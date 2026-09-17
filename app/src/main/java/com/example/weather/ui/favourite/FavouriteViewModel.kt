@@ -1,23 +1,31 @@
 package com.example.weather.ui.favourite
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.weather.data.preference.WeatherPreferenceManager
-import com.example.weather.data.repository.WeatherRepository
-import com.example.weather.ui.home.TemperatureUnit
-import com.example.weather.utils.Resource
+import com.example.weather.core.base.BaseViewModel
+import com.example.weather.core.common.Resource
+import com.example.weather.core.common.TemperatureUnit
+import com.example.weather.domain.model.CurrentWeather
+import com.example.weather.domain.repository.PreferenceRepository
+import com.example.weather.domain.usecase.GetCurrentWeatherUseCase
+import com.example.weather.domain.usecase.GetFavouriteCitiesUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FavouriteViewModel @JvmOverloads constructor(
-    application: Application,
-    private val repository: WeatherRepository = WeatherRepository(),
-    private val prefManager: WeatherPreferenceManager = WeatherPreferenceManager(application)
-) : AndroidViewModel(application) {
+/**
+ * ViewModel cho màn hình Favourite.
+ * Sử dụng UseCases thay vì gọi Repository trực tiếp.
+ */
+@HiltViewModel
+class FavouriteViewModel @Inject constructor(
+    private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
+    private val getFavouriteCitiesUseCase: GetFavouriteCitiesUseCase,
+    private val preferenceRepository: PreferenceRepository
+) : BaseViewModel() {
 
     private val allFavourites = mutableListOf<FavouriteUiModel>()
 
@@ -27,28 +35,27 @@ class FavouriteViewModel @JvmOverloads constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _userMessage = MutableLiveData<String?>()
-    val userMessage: LiveData<String?> = _userMessage
-
     private val _tempUnit = MutableLiveData(
-        if (prefManager.temperatureUnit == "fahrenheit") TemperatureUnit.FAHRENHEIT else TemperatureUnit.CELSIUS
+        if (preferenceRepository.temperatureUnit == "fahrenheit") TemperatureUnit.FAHRENHEIT
+        else TemperatureUnit.CELSIUS
     )
     val tempUnit: LiveData<TemperatureUnit> = _tempUnit
 
     private var currentQuery: String = ""
 
     fun syncTemperatureUnit() {
-        val unit = if (prefManager.temperatureUnit == "fahrenheit") TemperatureUnit.FAHRENHEIT else TemperatureUnit.CELSIUS
+        val unit = if (preferenceRepository.temperatureUnit == "fahrenheit")
+            TemperatureUnit.FAHRENHEIT else TemperatureUnit.CELSIUS
         if (_tempUnit.value != unit) {
             _tempUnit.value = unit
         }
     }
 
     /**
-     * Tải dữ liệu thời tiết cho tất cả thành phố trong danh sách yêu thích
+     * Tải dữ liệu thời tiết cho tất cả thành phố trong danh sách yêu thích.
      */
     fun loadFavourites() {
-        val favoriteCities = prefManager.getFavoriteCities()
+        val favoriteCities = getFavouriteCitiesUseCase()
         if (favoriteCities.isEmpty()) {
             allFavourites.clear()
             _favouriteList.value = emptyList()
@@ -60,7 +67,7 @@ class FavouriteViewModel @JvmOverloads constructor(
             _isLoading.value = true
             syncTemperatureUnit()
 
-            // Tạo danh sách tạm ban đầu giữ các dữ liệu đã tải nếu có
+            // Tạo danh sách tạm ban đầu (giữ dữ liệu đã tải nếu có)
             val initialList = favoriteCities.map { cityKey ->
                 allFavourites.find { it.originalCityKey.equals(cityKey, ignoreCase = true) }
                     ?: FavouriteUiModel(originalCityKey = cityKey, cityName = cityKey, isLoading = true)
@@ -69,10 +76,10 @@ class FavouriteViewModel @JvmOverloads constructor(
             allFavourites.addAll(initialList)
             filterAndEmitList()
 
-            // Tải dữ liệu API song song cho các thành phố yêu thích
+            // Tải dữ liệu API song song
             val deferredList = favoriteCities.map { cityKey ->
                 async {
-                    val result = repository.getCurrentWeather(cityKey)
+                    val result = getCurrentWeatherUseCase(cityKey)
                     cityKey to result
                 }
             }
@@ -82,25 +89,19 @@ class FavouriteViewModel @JvmOverloads constructor(
 
             for ((cityKey, res) in results) {
                 if (res is Resource.Success) {
-                    val data = res.data
-                    val condition = data.weatherList?.firstOrNull()
-                    val main = data.main
-                    val wind = data.wind
-                    val sys = data.sys
-
+                    val data: CurrentWeather = res.data
                     updatedList.add(
                         FavouriteUiModel(
                             originalCityKey = cityKey,
                             cityName = data.cityName.ifEmpty { cityKey },
-                            countryCode = sys?.country ?: "VN",
-                            weatherDesc = condition?.description ?: "",
-                            windSpeed = wind?.speed ?: 0.0,
-                            temp = main?.temp ?: 0.0,
-                            tempMin = main?.tempMin ?: 0.0,
-                            tempMax = main?.tempMax ?: 0.0,
-                            iconCode = condition?.icon ?: "01d",
-                            weatherId = condition?.id,
-                            weatherResponse = data,
+                            countryCode = data.countryCode.ifEmpty { "VN" },
+                            weatherDesc = data.weatherDescription,
+                            windSpeed = data.windSpeed,
+                            temp = data.temp,
+                            tempMin = data.tempMin,
+                            tempMax = data.tempMax,
+                            iconCode = data.weatherIcon,
+                            weatherId = data.weatherId,
                             isLoading = false
                         )
                     )
@@ -117,7 +118,6 @@ class FavouriteViewModel @JvmOverloads constructor(
                 }
             }
 
-            // Loại bỏ trùng lặp nếu có
             val distinctList = updatedList.distinctBy { it.originalCityKey.lowercase() }
             allFavourites.clear()
             allFavourites.addAll(distinctList)
@@ -127,23 +127,22 @@ class FavouriteViewModel @JvmOverloads constructor(
     }
 
     /**
-     * Hủy yêu thích một thành phố từ màn hình Yêu thích ngay trong 1 lần nhấn
+     * Hủy yêu thích một thành phố.
      */
     fun removeFavourite(cityKey: String) {
         val trimmed = cityKey.trim()
         if (trimmed.isEmpty()) return
-
-        prefManager.removeFavoriteCity(trimmed)
+        preferenceRepository.removeFavoriteCity(trimmed)
         allFavourites.removeAll {
             it.originalCityKey.equals(trimmed, ignoreCase = true) ||
-            it.cityName.equals(trimmed, ignoreCase = true)
+                    it.cityName.equals(trimmed, ignoreCase = true)
         }
         filterAndEmitList()
-        _userMessage.value = "Đã bỏ yêu thích $trimmed"
+        postUserMessage("Đã bỏ yêu thích $trimmed")
     }
 
     /**
-     * Tìm kiếm / lọc danh sách thành phố yêu thích
+     * Tìm kiếm / lọc danh sách thành phố yêu thích.
      */
     fun searchFavourites(query: String) {
         currentQuery = query.trim()
@@ -156,14 +155,10 @@ class FavouriteViewModel @JvmOverloads constructor(
         } else {
             val filtered = allFavourites.filter {
                 it.cityName.contains(currentQuery, ignoreCase = true) ||
-                it.originalCityKey.contains(currentQuery, ignoreCase = true) ||
-                it.countryCode.contains(currentQuery, ignoreCase = true)
+                        it.originalCityKey.contains(currentQuery, ignoreCase = true) ||
+                        it.countryCode.contains(currentQuery, ignoreCase = true)
             }
             _favouriteList.value = filtered
         }
-    }
-
-    fun clearUserMessage() {
-        _userMessage.value = null
     }
 }

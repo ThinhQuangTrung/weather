@@ -1,13 +1,10 @@
-﻿package com.example.weather
+package com.example.weather
 
 import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -15,17 +12,20 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weather.databinding.ActivityMainBinding
-import com.example.weather.ui.base.BaseActivity
+import androidx.activity.viewModels
+import com.example.weather.core.base.BaseActivity
 import com.example.weather.ui.home.HomeActivity
 import com.example.weather.ui.main.MainViewModel
 import com.example.weather.ui.onboarding.OnboardingAdapter
-import com.example.weather.utils.Resource
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
 
 /**
- * - TÃ¡ch biá»‡t logic vÃ o MainViewModel.
- * - Láº¯ng nghe vÃ  cáº­p nháº­t UI thÃ´ng qua LiveData Observer.
+ * Màn hình Onboarding.
+ * Tách biệt logic vào MainViewModel.
+ * Lắng nghe và cập nhật UI thông qua LiveData Observer.
  */
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -56,7 +56,6 @@ class MainActivity : BaseActivity() {
         }
         enableEdgeToEdge()
 
-        // Khá»Ÿi táº¡o ViewBinding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -72,29 +71,18 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupViews() {
-        dots = arrayOf(
-            binding.dot1,
-            binding.dot2,
-            binding.dot3
-        )
+        dots = arrayOf(binding.dot1, binding.dot2, binding.dot3)
 
         binding.btnGetStarted.setOnClickListener {
             val currentPage = binding.viewPagerFeatures.currentItem
             val totalPages = onboardingAdapter.itemCount
 
             if (currentPage < totalPages - 1) {
-                // Chuyá»ƒn sang slide tiáº¿p theo
                 binding.viewPagerFeatures.setCurrentItem(currentPage + 1, true)
             } else {
-                // ÄÃ¡nh dáº¥u Ä‘Ã£ xem Onboarding
                 val prefManager = com.example.weather.data.preference.WeatherPreferenceManager(this)
                 prefManager.isOnboardingCompleted = true
-
-                // ÄÃ£ á»Ÿ slide cuá»‘i â†’ chuyá»ƒn tiáº¿p sang MÃ n hÃ¬nh 4: Thiáº¿t láº­p thá»i tiáº¿t
-                val intent = Intent(
-                    this,
-                    com.example.weather.ui.setup.WeatherSetupActivity::class.java
-                )
+                val intent = Intent(this, com.example.weather.ui.setup.WeatherSetupActivity::class.java)
                 startActivity(intent)
                 finish()
             }
@@ -128,39 +116,14 @@ class MainActivity : BaseActivity() {
     }
 
     private fun observeViewModel() {
-        // Quan sÃ¡t danh sÃ¡ch tháº» onboarding tá»« ViewModel
         viewModel.onboardingItems.observe(this) { items ->
             onboardingAdapter.submitList(items)
             updatePageIndicator(binding.viewPagerFeatures.currentItem, items.size)
         }
 
-        // Quan sÃ¡t trang hiá»‡n táº¡i
         viewModel.currentPage.observe(this) { page ->
             updatePageIndicator(page, onboardingAdapter.itemCount)
             updateDots(page)
-        }
-
-        // Quan sÃ¡t tráº¡ng thÃ¡i táº£i thá»i tiáº¿t thá»±c táº¿ tá»« OpenWeatherMap API
-        viewModel.weatherState.observe(this) { resource ->
-            when (resource) {
-                is Resource.Loading -> {
-                    // Tráº¡ng thÃ¡i Ä‘ang táº£i
-                }
-                is Resource.Success -> {
-                    val weather = resource.data
-                    val temp = weather.main?.temp?.toInt() ?: 0
-                    val city = weather.cityName
-                    val desc = weather.weatherList?.firstOrNull()?.description ?: ""
-                    Toast.makeText(
-                        this,
-                        "Thá»i tiáº¿t táº¡i $city: ${temp}Â°C, $desc",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                is Resource.Error -> {
-                    Toast.makeText(this, resource.message, Toast.LENGTH_SHORT).show()
-                }
-            }
         }
     }
 
@@ -177,10 +140,8 @@ class MainActivity : BaseActivity() {
         for (i in dots.indices) {
             val dot = dots[i]
             val isSelected = i == activePosition
-
             val targetWidth = if (isSelected) activeWidth else inactiveWidth
             val targetDrawable = if (isSelected) R.drawable.bg_dot_active else R.drawable.bg_dot_inactive
-
             dot.setBackgroundResource(targetDrawable)
 
             val layoutParams = dot.layoutParams

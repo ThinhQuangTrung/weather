@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weather.R
 import com.example.weather.databinding.ItemFavouriteBinding
-import com.example.weather.ui.home.TemperatureUnit
+import com.example.weather.core.common.TemperatureUnit
 import com.example.weather.utils.WeatherIconUtil
 import kotlin.math.roundToInt
 // hiển thành phố lên item RecyclerView

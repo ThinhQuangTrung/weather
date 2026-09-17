@@ -19,29 +19,34 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.weather.R
+import com.example.weather.core.common.LocationDialogType
+import com.example.weather.core.common.Resource
+import com.example.weather.core.common.TemperatureUnit
 import com.example.weather.data.location.LocationBoundService
 import com.example.weather.data.location.LocationManager
 import com.example.weather.data.preference.WeatherPreferenceManager
 import com.example.weather.databinding.FragmentHomeBinding
-import com.example.weather.utils.Resource
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * - Bấm vào nút addCity để mở CityManagementFragment (thêm thành phố mới, chọn thành phố, nhấn giữ để xóa).
  * - Đồng bộ tức thì với cài đặt hiển thị widget và đơn vị nhiệt độ (°C / °F).
  */
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: HomeViewModel
+    private val viewModel: HomeViewModel by viewModels()
     private lateinit var cityWeatherAdapter: CityWeatherPagerAdapter
     private var activeDialog: AlertDialog? = null
-    private val prefManager by lazy { WeatherPreferenceManager(requireContext()) }
+    @Inject lateinit var prefManager: WeatherPreferenceManager
 
     // ─── Bound Service fields ────────────────────────────────────────────────
     private var locationService: LocationBoundService? = null
@@ -108,8 +113,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this)[HomeViewModel::class.java]
 
         setupTopHeaderListeners()
         setupViewPager()

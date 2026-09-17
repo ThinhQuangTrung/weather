@@ -1,4 +1,4 @@
-﻿package com.example.weather.ui.settings
+package com.example.weather.ui.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.example.weather.R
 import com.example.weather.databinding.FragmentSettingsBinding
 import com.example.weather.ui.home.HomeActivity
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * SettingsFragment:
@@ -17,12 +18,13 @@ import com.example.weather.ui.home.HomeActivity
  * - Cho phép người dùng tùy chỉnh: Ngôn ngữ, Chế độ giao diện (Sáng / Tối / Theo hệ thống), Đơn vị nhiệt độ (°C / °F).
  * - Tương tác trực tiếp và lưu dữ liệu thông qua SettingsViewModel.
  */
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: SettingsViewModel
+    private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,8 +38,8 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this)[SettingsViewModel::class.java]
-
+        val currentLang = com.example.weather.utils.LocaleHelper.getLanguage(requireContext())
+        viewModel.initLanguage(currentLang)
         setupListeners()
         observeViewModel()
         updateLanguageUI()

@@ -1,45 +1,31 @@
 package com.example.weather.ui.forecast
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.weather.R
-import com.example.weather.data.model.ForecastItem
-import com.example.weather.data.model.ForecastResponse
-import com.example.weather.data.preference.WeatherPreferenceManager
-import com.example.weather.data.repository.WeatherRepository
 import com.example.weather.databinding.FragmentForecastBinding
-import com.example.weather.utils.Resource
-import com.example.weather.utils.WeatherIconUtil
-import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
-import androidx.core.view.isVisible
-import kotlin.math.roundToInt
 
 /**
  * ForecastFragment:
- * - Hien thi du bao thoi tiet 5 ngay va du bao theo gio (24 gio toi)
- * - Su dung OpenWeatherMap 5-Day / 3-Hour Forecast API
- * -
+ * - Hiển thị dự báo thời tiết 5 ngày và dự báo theo giờ (24 giờ tới).
+ * - Đã được refactor: logic xử lý dữ liệu chuyển sang ForecastViewModel.
+ * - Fragment chỉ quan sát LiveData và cập nhật UI.
  */
+@AndroidEntryPoint
 class ForecastFragment : Fragment() {
 
     private var _binding: FragmentForecastBinding? = null
     private val binding get() = _binding!!
 
-    private val prefManager by lazy { WeatherPreferenceManager(requireContext()) }
-    private val repository by lazy { WeatherRepository() }
+    private val viewModel: ForecastViewModel by viewModels()
 
     private lateinit var hourlyAdapter: HourlyForecastAdapter
     private lateinit var dailyAdapter: DailyForecastAdapter
@@ -53,84 +39,81 @@ class ForecastFragment : Fragment() {
         return binding.root
     }
 
-    private var lastLoadedCity: String? = null
-    private var lastLoadedUnit: String? = null
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
         setupRecyclerViews()
         setupHourlyTouch()
-        loadForecastData()
+        observeViewModel()
+        viewModel.loadForecast()
+    }
+
+    private fun observeViewModel() {
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.pbLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
+            if (!error.isNullOrEmpty()) {
+                binding.tvErrorMessage.visibility = View.VISIBLE
+                binding.tvErrorMessage.text = error
+            } else {
+                binding.tvErrorMessage.visibility = View.GONE
+            }
+        }
+
+        viewModel.locationHeader.observe(viewLifecycleOwner) { header ->
+            binding.tvForecastLocation.text = header
+            binding.layoutForecastContent.visibility = View.VISIBLE
+        }
+
+        viewModel.hourlyList.observe(viewLifecycleOwner) { list ->
+            hourlyAdapter.submitList(list)
+        }
+
+        viewModel.dailyList.observe(viewLifecycleOwner) { list ->
+            dailyAdapter.submitList(list)
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupHourlyTouch() {
-
         var downX = 0f
         var downY = 0f
 
         binding.rvHourlyForecast.setOnTouchListener { view, event ->
-
             when (event.actionMasked) {
-
                 MotionEvent.ACTION_DOWN -> {
-
                     downX = event.x
                     downY = event.y
-
-                    // Ban đầu giữ touch cho RecyclerView 24h
                     view.parent.requestDisallowInterceptTouchEvent(true)
-
                     false
                 }
-
                 MotionEvent.ACTION_MOVE -> {
-
                     val dx = event.x - downX
                     val dy = event.y - downY
-
-                    if (abs(dx) > abs(dy)) {
-
-                        // Kéo ngang
-                        // RecyclerView 24h xử lý
-                        view.parent.requestDisallowInterceptTouchEvent(true)
-
-                    } else {
-
-                        // Kéo dọc
-                        // Cho NestedScrollView xử lý
-                        view.parent.requestDisallowInterceptTouchEvent(false)
-                    }
-
+                    view.parent.requestDisallowInterceptTouchEvent(abs(dx) > abs(dy))
                     false
                 }
-                MotionEvent.ACTION_UP,
-                MotionEvent.ACTION_CANCEL -> {
-
-                    // Trả lại trạng thái bình thường
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     view.parent.requestDisallowInterceptTouchEvent(false)
-
                     false
                 }
-
                 else -> false
             }
         }
     }
+
     override fun onResume() {
         super.onResume()
         if (!isHidden) {
-            loadForecastData()
+            viewModel.loadForecast()
         }
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        // Khi nguoi dung chuyen sang tab Forecast tren Bottom Navigation, tu dong dong bo thanh pho tu Home
         if (!hidden) {
-            loadForecastData()
+            viewModel.loadForecast()
         }
     }
 
@@ -145,225 +128,6 @@ class ForecastFragment : Fragment() {
         binding.rvDailyForecast.apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = dailyAdapter
-        }
-    }
-
-    private fun loadForecastData(force: Boolean = false) {
-        if (_binding == null) return
-
-        val cities = prefManager.getSavedCities()
-        val selectedIndex = prefManager.selectedCityIndex.coerceIn(0, (cities.size - 1).coerceAtLeast(0))
-        val currentCity = if (cities.isNotEmpty()) cities[selectedIndex] else "Hanoi"
-        val currentUnit = prefManager.temperatureUnit
-
-        // Neu da co du lieu va thanh pho + don vi khong thay doi thi giu nguyen
-        if (!force && currentCity.equals(lastLoadedCity, ignoreCase = true) &&
-            currentUnit == lastLoadedUnit && binding.layoutForecastContent.isVisible) {
-            return
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            binding.pbLoading.visibility = View.VISIBLE
-            binding.tvErrorMessage.visibility = View.GONE
-
-            when (val result = repository.getForecast(currentCity)) {
-                is Resource.Success -> {
-                    lastLoadedCity = currentCity
-                    lastLoadedUnit = currentUnit
-                    binding.pbLoading.visibility = View.GONE
-                    binding.layoutForecastContent.visibility = View.VISIBLE
-                    bindForecastData(result.data, currentCity)
-                }
-                is Resource.Error -> {
-                    binding.pbLoading.visibility = View.GONE
-                    binding.tvErrorMessage.visibility = View.VISIBLE
-                    binding.tvErrorMessage.text = result.message
-                }
-                is Resource.Loading -> {
-                    binding.pbLoading.visibility = View.VISIBLE
-                }
-            }
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun bindForecastData(data: ForecastResponse, defaultCity: String) {
-        val isFahrenheit = prefManager.temperatureUnit.equals("fahrenheit", ignoreCase = true)
-        val unitSymbol = if (isFahrenheit) "°F" else "°C"
-
-        // 1. Header Dia diem
-        val cityName = data.city?.name ?: defaultCity
-        val country = data.city?.country ?: "Việt Nam"
-        binding.tvForecastLocation.text = "$cityName, $country"
-
-        val forecastList = data.forecastList ?: emptyList()
-        if (forecastList.isEmpty()) {
-            binding.tvErrorMessage.visibility = View.VISIBLE
-            binding.tvErrorMessage.text = "Không có dữ liệu dự báo"
-            return
-        }
-
-        // 2. Du bao theo gio (24 gio toi - 8 moc 3-hour)
-        val hourlyList = processHourlyForecast(
-            requireContext(),
-            forecastList.take(8),
-            isFahrenheit,
-            unitSymbol
-        )
-        hourlyAdapter.submitList(hourlyList)
-
-        // 3. Danh sach 5 ngay (Daily Forecast)
-        val dailyList = processDailyForecast(forecastList, isFahrenheit, unitSymbol)
-        dailyAdapter.submitList(dailyList)
-    }
-
-    /**
-     * Xu ly danh sach 8 moc gio dau tien thanh du lieu theo gio
-     */
-    private fun processHourlyForecast(
-        context: Context,
-        items: List<ForecastItem>,
-        isFahrenheit: Boolean,
-        unitSymbol: String
-    ): List<HourlyForecastUiModel> {
-
-        val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-
-        return items.mapIndexed { index, item ->
-
-            val timeText = if (index == 0) {
-                context.getString(R.string.weather_now)
-            } else {
-                timeFormat.format(Date(item.timestamp * 1000L))
-            }
-
-            val rawTemp = item.main?.temp ?: 0.0
-
-            val displayTemp = if (isFahrenheit) {
-                WeatherIconUtil.celsiusToFahrenheit(rawTemp)
-            } else {
-                rawTemp
-            }
-
-            val tempString = "${displayTemp.roundToInt()}$unitSymbol"
-
-            val popPercent = ((item.pop ?: 0.0) * 100).roundToInt()
-
-            val popString = context.getString(
-                R.string.rain_chance,
-                popPercent
-            )
-
-            val iconCode = item.weatherList
-                ?.firstOrNull()
-                ?.icon
-
-            HourlyForecastUiModel(
-                time = timeText,
-                iconCode = iconCode,
-                tempString = tempString,
-                popString = popString
-            )
-        }
-    }
-
-    /**
-     * Gom nhom danh sach 40 items theo ngay va tao du lieu cho 5 ngay
-     */
-    private fun processDailyForecast(
-        items: List<ForecastItem>,
-        isFahrenheit: Boolean,
-        unitSymbol: String
-    ): List<DailyForecastUiModel> {
-        // Gom nhom theo Date String
-        val dayKeyFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val grouped = items.groupBy { item ->
-            dayKeyFormat.format(Date(item.timestamp * 1000L))
-        }
-
-        val result = mutableListOf<DailyForecastUiModel>()
-        var dayIndex = 0
-
-        for ((_, dayItems) in grouped) {
-            if (dayIndex >= 5) break
-
-            // Tinh nhiet do Min / Max cua ngay
-            val minTempRaw = dayItems.minOfOrNull { it.main?.tempMin ?: (it.main?.temp ?: 0.0) } ?: 0.0
-            val maxTempRaw = dayItems.maxOfOrNull { it.main?.tempMax ?: (it.main?.temp ?: 0.0) } ?: 0.0
-
-            val minTempDisplay = if (isFahrenheit) WeatherIconUtil.celsiusToFahrenheit(minTempRaw) else minTempRaw
-            val maxTempDisplay = if (isFahrenheit) WeatherIconUtil.celsiusToFahrenheit(maxTempRaw) else maxTempRaw
-            val tempRangeString = "${minTempDisplay.roundToInt()}$unitSymbol - ${maxTempDisplay.roundToInt()}$unitSymbol"
-
-            // Chon item dai dien buoi trua (12h - 15h) hoac item dau tien
-            val representativeItem = dayItems.firstOrNull { item ->
-                val hour = SimpleDateFormat("HH", Locale.getDefault()).format(Date(item.timestamp * 1000L)).toIntOrNull() ?: 0
-                hour in 11..15
-            } ?: dayItems.first()
-
-            val condition = representativeItem.weatherList?.firstOrNull()
-            val iconCode = condition?.icon
-
-            val description = condition?.id?.let{
-                getString(WeatherIconUtil.getWeatherDescription(it) )
-            }
-                ?: getString(R.string.weather_clear_sky)
-
-            // Tinh ten thu / tieu de ngay
-            val cal = Calendar.getInstance().apply {
-                timeInMillis = representativeItem.timestamp * 1000L
-            }
-            val dayName = formatDayLabel(dayIndex, cal)
-
-            result.add(
-                DailyForecastUiModel(
-                    dayName = dayName,
-                    description = description,
-                    iconCode = iconCode,
-                    tempRangeString = tempRangeString
-                )
-            )
-
-            dayIndex++
-        }
-
-        return result
-    }
-
-    /**
-     * Dinh dang ten ngay tieng Viet theo chuan thiet ke
-     */
-    private fun formatDayLabel(dayIndex: Int, cal: Calendar): String {
-        val dayOfWeek = cal.get(Calendar.DAY_OF_WEEK)
-        val fullDayName = when (dayOfWeek) {
-            Calendar.MONDAY -> getString(R.string.monday)
-            Calendar.TUESDAY -> getString(R.string.tuesday)
-            Calendar.WEDNESDAY -> getString(R.string.wednesday)
-            Calendar.THURSDAY -> getString(R.string.thursday)
-            Calendar.FRIDAY -> getString(R.string.friday)
-            Calendar.SATURDAY -> getString(R.string.saturday)
-            Calendar.SUNDAY -> getString(R.string.sunday)
-            else -> ""
-        }
-
-        val shortDay = when (dayOfWeek) {
-            Calendar.MONDAY -> getString(R.string.monday_short)
-            Calendar.TUESDAY -> getString(R.string.tuesday_short)
-            Calendar.WEDNESDAY -> getString(R.string.wednesday_short)
-            Calendar.THURSDAY -> getString(R.string.thursday_short)
-            Calendar.FRIDAY -> getString(R.string.friday_short)
-            Calendar.SATURDAY -> getString(R.string.saturday_short)
-            Calendar.SUNDAY -> getString(R.string.sunday_short)
-            else -> ""
-        }
-
-        return when (dayIndex) {
-            0 -> getString(R.string.today)
-            1 -> getString(
-                R.string.tomorrow_with_day,
-                shortDay
-            )
-            else -> fullDayName
         }
     }
 

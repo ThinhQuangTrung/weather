@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
+        android:name=".WeatherApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Weather">
 
-        <!-- 1. Splash Activity (Khởi động ứng dụng) -->
+        <!-- 1. Splash Activity -->
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
@@ -28,31 +29,31 @@
             </intent-filter>
         </activity>
 
-        <!-- 2. Language Selection Activity (Chọn ngôn ngữ) -->
+        <!-- 2. Language Selection Activity -->
         <activity
             android:name=".ui.language.LanguageActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- 3. Onboarding Activity (Giới thiệu app) -->
+        <!-- 3. Onboarding Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- 4. Weather Setup Activity (Thiết lập thời tiết) -->
+        <!-- 4. Weather Setup Activity -->
         <activity
             android:name=".ui.setup.WeatherSetupActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- 5. Main Home Activity (Màn hình chính) -->
+        <!-- 5. Main Home Activity -->
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
-        <!-- Location Bound Service (Ràng buộc theo vòng đời Fragment) -->
+        <!-- Location Bound Service -->
         <service
             android:name=".data.location.LocationBoundService"
             android:exported="false" />

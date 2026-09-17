@@ -1,7 +1,10 @@
 package com.example.weather.ui.favourite
 
-import com.example.weather.data.model.WeatherResponse
-
+/**
+ * UI Model cho màn hình Favourite.
+ * Đã loại bỏ WeatherResponse (raw API DTO) — chỉ giữ các field cần thiết cho UI.
+ * Dữ liệu được map từ domain.model.CurrentWeather trong FavouriteViewModel.
+ */
 data class FavouriteUiModel(
     val originalCityKey: String,
     val cityName: String,
@@ -13,6 +16,5 @@ data class FavouriteUiModel(
     val tempMax: Double = 0.0,
     val iconCode: String = "01d",
     val weatherId: Int? = null,
-    val weatherResponse: WeatherResponse? = null,
     val isLoading: Boolean = false
 )

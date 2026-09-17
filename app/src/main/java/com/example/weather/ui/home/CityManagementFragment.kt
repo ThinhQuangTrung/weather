@@ -15,23 +15,27 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weather.R
-import com.example.weather.data.model.GeocodingItem
+import com.example.weather.core.common.Resource
 import com.example.weather.data.preference.WeatherPreferenceManager
-import com.example.weather.data.repository.WeatherRepository
 import com.example.weather.databinding.FragmentCityManagementBinding
-import com.example.weather.utils.Resource
+import com.example.weather.domain.model.CityLocation
+import com.example.weather.domain.usecase.SearchCityUseCase
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CityManagementFragment : Fragment() {
 
     private var _binding: FragmentCityManagementBinding? = null
     private val binding get() = _binding!!
 
-    private val prefManager by lazy { WeatherPreferenceManager(requireContext()) }
-    private val repository by lazy { WeatherRepository() }
+    @Inject lateinit var prefManager: WeatherPreferenceManager
+    @Inject lateinit var searchCityUseCase: SearchCityUseCase
+
     private lateinit var cityAdapter: CityAdapter
     private lateinit var suggestionAdapter: CitySuggestionAdapter
 
@@ -70,10 +74,10 @@ class CityManagementFragment : Fragment() {
             onCityClick = { cityName, position ->
                 selectCityAndReturn(cityName, position)
             },
-            onCityLongClick = { cityName, position ->
+            onCityLongClick = { cityName, _ ->
                 showDeleteConfirmDialog(cityName)
             },
-            onDeleteClick = { cityName, position ->
+            onDeleteClick = { cityName, _ ->
                 showDeleteConfirmDialog(cityName)
             }
         )
@@ -96,15 +100,13 @@ class CityManagementFragment : Fragment() {
 
     private fun setupSuggestedChips() {
         binding.chipGroupSuggested.removeAllViews()
-        for (city in suggestedCities) {
+        for (cityName in suggestedCities) {
             val chip = Chip(requireContext()).apply {
-                text = city
-                isCheckable = false
+                text = cityName
                 isClickable = true
-                setChipBackgroundColorResource(R.color.badge_blue_bg)
-                setTextColor(androidx.core.content.ContextCompat.getColor(requireContext(), R.color.stat_primary))
+                isCheckable = false
                 setOnClickListener {
-                    onSuggestedCitySelected(city)
+                    onSuggestedCitySelected(cityName)
                 }
             }
             binding.chipGroupSuggested.addView(chip)
@@ -137,13 +139,12 @@ class CityManagementFragment : Fragment() {
             }
         }
 
-        // TextWatcher de goi API tim kiem sau 500ms debounce
+        // TextWatcher để gọi API tìm kiếm sau 500ms debounce
         binding.etCityInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 val query = s?.toString()?.trim() ?: ""
-                // Huy runnable cu neu co
                 searchRunnable?.let { searchHandler.removeCallbacks(it) }
 
                 if (query.length < 2) {
@@ -151,7 +152,6 @@ class CityManagementFragment : Fragment() {
                     return
                 }
 
-                // Dat debounce 500ms de tranh goi API lien tuc
                 searchRunnable = Runnable {
                     performCitySearch(query)
                 }
@@ -161,7 +161,7 @@ class CityManagementFragment : Fragment() {
     }
 
     /**
-     * Goi Geocoding API de tim kiem thanh pho theo tu khoa
+     * Gọi Geocoding UseCase để tìm kiếm thành phố theo từ khóa
      */
     private fun performCitySearch(query: String) {
         searchJob?.cancel()
@@ -169,7 +169,7 @@ class CityManagementFragment : Fragment() {
             binding.progressSearch.visibility = View.VISIBLE
             hideSuggestions()
 
-            when (val result = repository.searchCity(query)) {
+            when (val result = searchCityUseCase(query)) {
                 is Resource.Success -> {
                     binding.progressSearch.visibility = View.GONE
                     val items = result.data
@@ -185,7 +185,7 @@ class CityManagementFragment : Fragment() {
                     hideSuggestions()
                 }
                 is Resource.Loading -> {
-                    // Do nothing, loading indicator already showing
+                    // Do nothing
                 }
             }
         }
@@ -197,9 +197,9 @@ class CityManagementFragment : Fragment() {
     }
 
     /**
-     * Xu ly khi nguoi dung chon mot goi y tu API search
+     * Xử lý khi người dùng chọn một gợi ý từ danh sách tìm kiếm
      */
-    private fun onSuggestionSelected(item: GeocodingItem) {
+    private fun onSuggestionSelected(item: CityLocation) {
         val cityName = item.name
         hideSuggestions()
         binding.etCityInput.setText(cityName)

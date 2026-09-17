@@ -5,17 +5,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.weather.R
 import com.example.weather.data.preference.WeatherPreferenceManager
 import com.example.weather.databinding.ActivityWeatherSetupBinding
-import com.example.weather.ui.base.BaseActivity
+import com.example.weather.core.base.BaseActivity
 import com.example.weather.ui.home.HomeActivity
 import com.example.weather.utils.LocaleHelper
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class WeatherSetupActivity : BaseActivity() {
 
     private lateinit var binding: ActivityWeatherSetupBinding
@@ -53,7 +53,7 @@ class WeatherSetupActivity : BaseActivity() {
             binding.btnContinueSetup.text = getString(R.string.btn_continue)
         }
 
-        // Tải các giá trị đã lưu
+        // Táº£i cÃ¡c giÃ¡ trá»‹ Ä‘Ã£ lÆ°u
         binding.cbOptionTemp.isChecked = prefManager.showTemperature
         binding.cbOptionHumidity.isChecked = prefManager.showHumidity
         binding.cbOptionWind.isChecked = prefManager.showWind
@@ -132,7 +132,7 @@ class WeatherSetupActivity : BaseActivity() {
     }
 
     private fun savePreferencesAndProceed() {
-        // Lưu cấu hình
+        // LÆ°u cáº¥u hÃ¬nh
         prefManager.showTemperature = binding.cbOptionTemp.isChecked
         prefManager.showHumidity = binding.cbOptionHumidity.isChecked
         prefManager.showWind = binding.cbOptionWind.isChecked
@@ -147,7 +147,7 @@ class WeatherSetupActivity : BaseActivity() {
             setResult(RESULT_OK)
             finish()
         } else {
-            // Bước 5: Chuyển sang HomeActivity
+            // BÆ°á»›c 5: Chuyá»ƒn sang HomeActivity
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
             finish()
@@ -164,3 +164,4 @@ class WeatherSetupActivity : BaseActivity() {
         }
     }
 }
+

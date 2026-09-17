@@ -6,10 +6,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weather.R
-import com.example.weather.data.model.WeatherResponse
+import com.example.weather.core.common.Resource
+import com.example.weather.core.common.TemperatureUnit
 import com.example.weather.data.preference.WeatherPreferenceManager
 import com.example.weather.databinding.ItemHomeWeatherPageBinding
-import com.example.weather.utils.Resource
+import com.example.weather.domain.model.CurrentWeather
 import com.example.weather.utils.WeatherIconUtil
 import java.util.Locale
 
@@ -22,7 +23,7 @@ class CityWeatherPagerAdapter(
     private val onFavoriteClick: (String, Int) -> Unit = { _, _ -> }
 ) : RecyclerView.Adapter<CityWeatherPagerAdapter.WeatherPageViewHolder>() {
 
-    private val weatherMap = mutableMapOf<String, Resource<WeatherResponse>>()
+    private val weatherMap = mutableMapOf<String, Resource<CurrentWeather>>()
 
     fun setCities(newCities: List<String>) {
         this.cities = newCities
@@ -36,7 +37,7 @@ class CityWeatherPagerAdapter(
         notifyDataSetChanged()
     }
 
-    fun updateWeatherData(cityName: String, resource: Resource<WeatherResponse>) {
+    fun updateWeatherData(cityName: String, resource: Resource<CurrentWeather>) {
         weatherMap[cityName.lowercase()] = resource
         val index = cities.indexOfFirst { it.equals(cityName, ignoreCase = true) }
         if (index != -1) {
@@ -67,7 +68,7 @@ class CityWeatherPagerAdapter(
         fun bind(
             cityName: String,
             position: Int,
-            resource: Resource<WeatherResponse>?,
+            resource: Resource<CurrentWeather>?,
             unit: TemperatureUnit,
             pref: WeatherPreferenceManager
         ) {
@@ -156,23 +157,23 @@ class CityWeatherPagerAdapter(
                     binding.cardSunCycle.visibility = if (showSun) View.VISIBLE else View.GONE
 
                     // 1. Thẻ Vị trí
-                    val country = data.sys?.country ?: "VN"
+                    val country = if (data.countryCode.isNotBlank()) data.countryCode else "VN"
                     binding.tvLocationName.text = "${data.cityName}, $country"
                     val timeFormatted = WeatherIconUtil.formatTime(data.timestamp, data.timezone)
                     binding.tvLastUpdated.text = context.getString(R.string.last_updated_format, timeFormatted)
 
                     // 2. Thẻ Thời tiết chính (Hero Card)
-                    val condition = data.weatherList?.firstOrNull()
-
-                    val description = condition?.id?.let {
+                    val description = if (data.weatherId != 0) {
                         binding.root.context.getString(
-                            WeatherIconUtil.getWeatherDescription(it)
+                            WeatherIconUtil.getWeatherDescription(data.weatherId)
                         )
-                    } ?: binding.root.context.getString(R.string.weather_clear_sky)
+                    } else {
+                        data.weatherDescription.replaceFirstChar { it.uppercase() }
+                    }
                     binding.tvConditionDescription.text = description
 
                     // Icon OpenWeatherMap
-                    val iconCode = condition?.icon ?: "01d"
+                    val iconCode = if (data.weatherIcon.isNotBlank()) data.weatherIcon else "01d"
                     Glide.with(context)
                         .load(WeatherIconUtil.getIconUrl4x(iconCode))
                         .placeholder(WeatherIconUtil.getLocalDrawableForIcon(iconCode))
@@ -180,87 +181,74 @@ class CityWeatherPagerAdapter(
                         .into(binding.ivWeatherMainIcon)
 
                     // Nhiệt độ
-                    val main = data.main
-                    if (main != null) {
-                        val currentTemp = if (isFahrenheit) {
-                            WeatherIconUtil.celsiusToFahrenheit(main.temp)
-                        } else {
-                            main.temp
-                        }
-                        binding.tvMainTemp.text = Math.round(currentTemp).toString()
-                        binding.tvMainTempUnit.text = unitSymbol
-
-                        val feelsLikeTemp = if (isFahrenheit) {
-                            WeatherIconUtil.celsiusToFahrenheit(main.feelsLike)
-                        } else {
-                            main.feelsLike
-                        }
-                        binding.tvFeelsLike.text = context.getString(R.string.feels_like, Math.round(feelsLikeTemp).toInt(), unitSymbol)
-
-                        val tempMax = if (isFahrenheit) {
-                            WeatherIconUtil.celsiusToFahrenheit(main.tempMax)
-                        } else {
-                            main.tempMax
-                        }
-                        val tempMin = if (isFahrenheit) {
-                            WeatherIconUtil.celsiusToFahrenheit(main.tempMin)
-                        } else {
-                            main.tempMin
-                        }
-                        binding.tvTempHigh.text = context.getString(R.string.temp_high_format, Math.round(tempMax).toInt())
-                        binding.tvTempLow.text = context.getString(R.string.temp_low_format, Math.round(tempMin).toInt())
-
-                        // 3. Telemetry - Độ ẩm
-                        binding.tvHumidityVal.text = "${main.humidity}%"
-                        binding.pbHumidity.progress = main.humidity
-                        val dewPoint = WeatherIconUtil.calculateDewPoint(main.temp, main.humidity)
-                        val dewPointDisplay = if (isFahrenheit) {
-                            Math.round(WeatherIconUtil.celsiusToFahrenheit(dewPoint.toDouble())).toInt()
-                        } else {
-                            dewPoint
-                        }
-                        binding.tvDewPoint.text = context.getString(R.string.dew_point_format, dewPointDisplay, unitSymbol)
-
-                        // 4. Telemetry - Áp suất
-                        binding.tvPressureVal.text = "${main.pressure} hPa"
-                        val atm = main.pressure / 1013.25
-                        binding.tvPressureAtmBadge.text = String.format(Locale.US, "%.2f atm", atm)
-
-                        // 4.1. Chi tiết Áp suất biển & Mặt đất (sea_level & grnd_level)
-                        val seaLevel = main.seaLevel ?: main.pressure
-                        val groundLevel = main.groundLevel ?: main.pressure
-                        binding.tvSeaLevelVal.text = "🌊 MSL: $seaLevel hPa"
-                        binding.tvGroundLevelVal.text = "⛰ GND: $groundLevel hPa"
-                        val diff = seaLevel - groundLevel
-                        binding.tvPressureDiff.text = "Δ ${if (diff >= 0) "+$diff" else "$diff"} hPa"
+                    val currentTemp = if (isFahrenheit) {
+                        WeatherIconUtil.celsiusToFahrenheit(data.temp)
+                    } else {
+                        data.temp
                     }
+                    binding.tvMainTemp.text = Math.round(currentTemp).toString()
+                    binding.tvMainTempUnit.text = unitSymbol
+
+                    val feelsLikeTemp = if (isFahrenheit) {
+                        WeatherIconUtil.celsiusToFahrenheit(data.feelsLike)
+                    } else {
+                        data.feelsLike
+                    }
+                    binding.tvFeelsLike.text = context.getString(R.string.feels_like, Math.round(feelsLikeTemp).toInt(), unitSymbol)
+
+                    val tempMax = if (isFahrenheit) {
+                        WeatherIconUtil.celsiusToFahrenheit(data.tempMax)
+                    } else {
+                        data.tempMax
+                    }
+                    val tempMin = if (isFahrenheit) {
+                        WeatherIconUtil.celsiusToFahrenheit(data.tempMin)
+                    } else {
+                        data.tempMin
+                    }
+                    binding.tvTempHigh.text = context.getString(R.string.temp_high_format, Math.round(tempMax).toInt())
+                    binding.tvTempLow.text = context.getString(R.string.temp_low_format, Math.round(tempMin).toInt())
+
+                    // 3. Telemetry - Độ ẩm
+                    binding.tvHumidityVal.text = "${data.humidity}%"
+                    binding.pbHumidity.progress = data.humidity
+                    val dewPoint = WeatherIconUtil.calculateDewPoint(data.temp, data.humidity)
+                    val dewPointDisplay = if (isFahrenheit) {
+                        Math.round(WeatherIconUtil.celsiusToFahrenheit(dewPoint.toDouble())).toInt()
+                    } else {
+                        dewPoint
+                    }
+                    binding.tvDewPoint.text = context.getString(R.string.dew_point_format, dewPointDisplay, unitSymbol)
+
+                    // 4. Telemetry - Áp suất
+                    binding.tvPressureVal.text = "${data.pressure} hPa"
+                    val atm = data.pressure / 1013.25
+                    binding.tvPressureAtmBadge.text = String.format(Locale.US, "%.2f atm", atm)
+
+                    // 4.1. Chi tiết Áp suất biển & Mặt đất
+                    binding.tvSeaLevelVal.text = "🌊 MSL: ${data.pressure} hPa"
+                    binding.tvGroundLevelVal.text = "⛰ GND: ${data.pressure} hPa"
+                    binding.tvPressureDiff.text = "Δ 0 hPa"
 
                     // 5. Telemetry - Gió & Gió giật
-                    val wind = data.wind
-                    if (wind != null) {
-                        binding.tvWindSpeedVal.text = "${wind.speed} m/s"
-                        binding.tvWindDirectionDegree.text = "↗ ${WeatherIconUtil.getWindDirectionShort(wind.deg)}"
-                    }
+                    binding.tvWindSpeedVal.text = "${data.windSpeed} m/s"
+                    binding.tvWindDirectionDegree.text = "↗ ${WeatherIconUtil.getWindDirectionShort(data.windDeg)}"
 
                     // 6. Telemetry - Tầm nhìn
-                    val visibilityMeters = data.visibility ?: 10000
+                    val visibilityMeters = data.visibility
                     val visKm = visibilityMeters / 1000.0
                     binding.tvVisibilityVal.text = if (visKm >= 10.0) "${visKm.toInt()} km" else String.format(Locale.US, "%.1f km", visKm)
                     val (visDesc, visBadge) = WeatherIconUtil.getVisibilityEvaluation(visibilityMeters)
-                    binding.tvVisibilityDesc.text =
-                        binding.root.context.getString(visDesc)
+                    binding.tvVisibilityDesc.text = binding.root.context.getString(visDesc)
+                    binding.tvVisibilityBadge.text = binding.root.context.getString(visBadge)
 
-                    binding.tvVisibilityBadge.text =
-                        binding.root.context.getString(visBadge)
-
-                    // 7. Telemetry - Độ che phủ mây (Cloud Cover)
-                    val clouds = data.clouds
-                    val cloudiness = clouds?.cloudiness ?: 0
+                    // 7. Telemetry - Mây (Cloud Cover)
+                    val cloudiness = data.cloudiness
                     binding.tvCloudVal.text = "$cloudiness%"
                     binding.pbCloud.progress = cloudiness
                     val (_, cloudBadge) = WeatherIconUtil.getCloudCoverEvaluation(cloudiness)
-                    binding.tvCloudBadge.text =
-                        binding.root.context.getString(cloudBadge)
+                    binding.tvCloudBadge.text = binding.root.context.getString(cloudBadge)
+
                     // 8. Chất lượng không khí (AQI)
                     if (pref.showAirQuality) {
                         val aqiInfo = when {
@@ -283,19 +271,18 @@ class CityWeatherPagerAdapter(
                         )
                     }
 
-                    // 8. Mặt trời & Chu kỳ ngày
-                    val sys = data.sys
-                    if (sys != null) {
-                        val sunriseTime = WeatherIconUtil.formatTime(sys.sunrise, data.timezone)
-                        val sunsetTime = WeatherIconUtil.formatTime(sys.sunset, data.timezone)
+                    // 9. Mặt trời & Chu kỳ ngày
+                    if (data.sunrise > 0 && data.sunset > 0) {
+                        val sunriseTime = WeatherIconUtil.formatTime(data.sunrise, data.timezone)
+                        val sunsetTime = WeatherIconUtil.formatTime(data.sunset, data.timezone)
                         binding.tvSunriseTime.text = sunriseTime
                         binding.tvSunsetTime.text = sunsetTime
-                        binding.tvDaylightDuration.text = WeatherIconUtil.formatDaylightDuration(sys.sunrise, sys.sunset)
+                        binding.tvDaylightDuration.text = WeatherIconUtil.formatDaylightDuration(data.sunrise, data.sunset)
 
                         val nowSeconds = System.currentTimeMillis() / 1000L
-                        val progress = if (sys.sunset > sys.sunrise && nowSeconds in sys.sunrise..sys.sunset) {
-                            (nowSeconds - sys.sunrise).toFloat() / (sys.sunset - sys.sunrise).toFloat()
-                        } else if (nowSeconds >= sys.sunset) {
+                        val progress = if (data.sunset > data.sunrise && nowSeconds in data.sunrise..data.sunset) {
+                            (nowSeconds - data.sunrise).toFloat() / (data.sunset - data.sunrise).toFloat()
+                        } else if (nowSeconds >= data.sunset) {
                             1.0f
                         } else {
                             0.0f

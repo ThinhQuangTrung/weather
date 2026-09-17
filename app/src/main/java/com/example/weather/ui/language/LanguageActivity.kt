@@ -1,11 +1,10 @@
-﻿package com.example.weather.ui.language
+package com.example.weather.ui.language
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,10 +13,12 @@ import com.example.weather.R
 import com.example.weather.data.model.LanguageItem
 import com.example.weather.data.preference.WeatherPreferenceManager
 import com.example.weather.databinding.ActivityLanguageBinding
-import com.example.weather.ui.base.BaseActivity
+import com.example.weather.core.base.BaseActivity
 import com.example.weather.ui.home.HomeActivity
 import com.example.weather.utils.LocaleHelper
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LanguageActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLanguageBinding
@@ -129,3 +130,4 @@ class LanguageActivity : BaseActivity() {
         }
     }
 }
+

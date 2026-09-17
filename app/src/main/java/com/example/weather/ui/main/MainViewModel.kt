@@ -4,35 +4,25 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.weather.R
 import com.example.weather.data.model.OnboardingItem
-import com.example.weather.data.model.WeatherResponse
-import com.example.weather.data.repository.WeatherRepository
-import com.example.weather.utils.Resource
-import kotlinx.coroutines.launch
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 /**
- * - Lưu giữ và quản lý State (Trạng thái UI, Danh sách onboarding, Thời tiết thời gian thực).
- * - Sống sót qua các sự kiện cấu hình (Configuration changes như xoay màn hình).
- * - Giao tiếp với Repository để tải dữ liệu bất đồng bộ qua Coroutines.
+ * ViewModel cho màn hình Onboarding (MainActivity).
+ * Đã loại bỏ weatherState/WeatherResponse không cần thiết ở màn onboarding.
  */
-class MainViewModel @JvmOverloads constructor(
-    application: Application,
-    private val weatherRepository: WeatherRepository = WeatherRepository()
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    application: Application
 ) : AndroidViewModel(application) {
 
-    // Danh sách các mục onboarding
     private val _onboardingItems = MutableLiveData<List<OnboardingItem>>()
     val onboardingItems: LiveData<List<OnboardingItem>> = _onboardingItems
 
-    // Vị trí trang hiện tại
     private val _currentPage = MutableLiveData<Int>(0)
     val currentPage: LiveData<Int> = _currentPage
-
-    // Trạng thái dữ liệu thời tiết thực từ OpenWeatherMap API
-    private val _weatherState = MutableLiveData<Resource<WeatherResponse>>()
-    val weatherState: LiveData<Resource<WeatherResponse>> = _weatherState
 
     init {
         loadOnboardingData()
@@ -96,23 +86,9 @@ class MainViewModel @JvmOverloads constructor(
         _onboardingItems.value = items
     }
 
-    /**
-     * Cập nhật vị trí trang hiện tại
-     */
     fun onPageChanged(position: Int) {
         if (_currentPage.value != position) {
             _currentPage.value = position
-        }
-    }
-
-    /**
-     * Gọi API OpenWeatherMap để tải thông tin thời tiết thực tế
-     */
-    fun fetchWeather(cityName: String = "Hanoi") {
-        viewModelScope.launch {
-            _weatherState.value = Resource.Loading
-            val result = weatherRepository.getCurrentWeather(cityName)
-            _weatherState.value = result
         }
     }
 }

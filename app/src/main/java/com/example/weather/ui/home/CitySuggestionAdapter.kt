@@ -5,15 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weather.data.model.GeocodingItem
 import com.example.weather.databinding.ItemCitySuggestionBinding
+import com.example.weather.domain.model.CityLocation
 
 /**
- * Adapter cho danh sach goi y thanh pho tu Geocoding API
+ * Adapter cho danh sach goi y thanh pho tu Geocoding API (Domain Model: CityLocation)
  */
 class CitySuggestionAdapter(
-    private val onItemClick: (GeocodingItem) -> Unit
-) : ListAdapter<GeocodingItem, CitySuggestionAdapter.SuggestionViewHolder>(DIFF_CALLBACK) {
+    private val onItemClick: (CityLocation) -> Unit
+) : ListAdapter<CityLocation, CitySuggestionAdapter.SuggestionViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SuggestionViewHolder {
         val binding = ItemCitySuggestionBinding.inflate(
@@ -30,7 +30,7 @@ class CitySuggestionAdapter(
         private val binding: ItemCitySuggestionBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: GeocodingItem) {
+        fun bind(item: CityLocation) {
             binding.tvSuggestionName.text = item.name
             binding.tvSuggestionDetail.text = item.locationDetail
 
@@ -41,12 +41,12 @@ class CitySuggestionAdapter(
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GeocodingItem>() {
-            override fun areItemsTheSame(old: GeocodingItem, new: GeocodingItem): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CityLocation>() {
+            override fun areItemsTheSame(old: CityLocation, new: CityLocation): Boolean {
                 return old.lat == new.lat && old.lon == new.lon
             }
 
-            override fun areContentsTheSame(old: GeocodingItem, new: GeocodingItem): Boolean {
+            override fun areContentsTheSame(old: CityLocation, new: CityLocation): Boolean {
                 return old == new
             }
         }
