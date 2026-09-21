@@ -42,7 +42,7 @@ object LocaleHelper {
         persistLanguage(context, languageCode)
 
         val appLocale = LocaleListCompat.forLanguageTags(languageCode)
-        AppCompatDelegate.setApplicationLocales(appLocale)
+        AppCompatDelegate.setApplicationLocales(appLocale)// cập nhật lại ngôn ngữ cho toàn bộ ứng dụng
     }
 
     private fun persistLanguage(

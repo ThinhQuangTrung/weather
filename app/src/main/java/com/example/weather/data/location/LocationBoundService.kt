@@ -21,13 +21,14 @@ class LocationBoundService : Service() {
 
     private val binder = LocalBinder()
     private val serviceScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    private lateinit var locationManager: LocationManager
+    private lateinit var locationManager: LocationManager //Khai báo biến quản lý định vị, sẽ được khởi tạo sau khi Service được tạo
 
     inner class LocalBinder : Binder() {
         fun getService(): LocationBoundService = this@LocationBoundService
     }
 
     override fun onCreate() {
+//         khởi tạo và chỉ chạy duy nhất 1 lần sau khi service đc tạo ra
         super.onCreate()
         locationManager = LocationManager(applicationContext) //kiểm tra quyền GPS kiểm tra GPS có bật không và lấy vị trí hiện tại
     }

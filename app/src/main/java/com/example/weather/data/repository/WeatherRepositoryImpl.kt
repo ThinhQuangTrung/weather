@@ -9,6 +9,9 @@ import com.example.weather.domain.model.ForecastResult
 import com.example.weather.domain.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.IOException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -31,7 +34,8 @@ class WeatherRepositoryImpl @Inject constructor(
                     Resource.Error("Lỗi từ máy chủ: ${response.code()} ${response.message()}")
                 }
             } catch (e: Exception) {
-                Resource.Error(e.localizedMessage ?: "Đã xảy ra lỗi kết nối mạng", e)
+
+                mapNetworkError(e)
             }
         }
     }
@@ -46,7 +50,8 @@ class WeatherRepositoryImpl @Inject constructor(
                     Resource.Error("Lỗi từ máy chủ: ${response.code()} ${response.message()}")
                 }
             } catch (e: Exception) {
-                Resource.Error(e.localizedMessage ?: "Đã xảy ra lỗi kết nối mạng", e)
+
+                mapNetworkError(e)
             }
         }
     }
@@ -61,7 +66,7 @@ class WeatherRepositoryImpl @Inject constructor(
                     Resource.Error("Lỗi từ máy chủ: ${response.code()} ${response.message()}")
                 }
             } catch (e: Exception) {
-                Resource.Error(e.localizedMessage ?: "Đã xảy ra lỗi kết nối mạng", e)
+                mapNetworkError(e)
             }
         }
     }
@@ -76,7 +81,39 @@ class WeatherRepositoryImpl @Inject constructor(
                     Resource.Error("Lỗi tìm kiếm: ${response.code()} ${response.message()}")
                 }
             } catch (e: Exception) {
-                Resource.Error(e.localizedMessage ?: "Không thể tìm kiếm, kiểm tra kết nối mạng", e)
+                mapNetworkError(e)            }
+        }
+    }
+    private fun mapNetworkError(e: Exception): Resource.Error {
+
+        return when (e) {
+
+            is UnknownHostException -> {
+                Resource.Error(
+                    message = "Không có kết nối Internet",
+                    cause = e
+                )
+            }
+
+            is SocketTimeoutException -> {
+                Resource.Error(
+                    message = "Kết nối mạng quá thời gian",
+                    cause = e
+                )
+            }
+
+            is IOException -> {
+                Resource.Error(
+                    message = "Không thể kết nối đến máy chủ",
+                    cause = e
+                )
+            }
+
+            else -> {
+                Resource.Error(
+                    message = "Đã xảy ra lỗi, vui lòng thử lại",
+                    cause = e
+                )
             }
         }
     }
