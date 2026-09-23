@@ -74,7 +74,7 @@ class WeatherPreferenceManager(context: Context) {
     fun getSavedCities(): List<String> {
         val raw = prefs.getString(KEY_SAVED_CITIES, null)
         return if (raw.isNullOrEmpty()) {
-            listOf("Hanoi", "Ho Chi Minh", "Da Nang")
+            emptyList()
         } else {
             raw.split(DELIMITER).filter { it.isNotBlank() }
         }

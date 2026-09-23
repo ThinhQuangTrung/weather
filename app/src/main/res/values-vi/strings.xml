@@ -92,7 +92,6 @@
     <string name="current_location_title">Vị trí hiện tại của bạn</string>
     <string name="current_location_subtitle">Định vị thời tiết theo toạ độ GPS thực tế</string>
     <string name="add_city_hint">Nhập tên thành phố </string>
-    <string name="btn_add_city">Thêm</string>
     <string name="suggested_cities">Thành phố gợi ý</string>
     <string name="saved_cities">Thành phố đã lưu</string>
     <string name="hint_long_click_to_delete">Nhấn để xem trên Home • Nhấn giữ để xóa</string>

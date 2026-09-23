@@ -164,18 +164,6 @@
                     android:textColor="@color/card_title"
                     android:textColorHint="@color/brand_section_title"
                     android:textSize="15sp" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnAddCity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:background="@drawable/bg_btn_primary"
-                    android:paddingHorizontal="16dp"
-                    android:text="@string/btn_add_city"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
             </LinearLayout>
 
             <!-- Search Suggestions Dropdown -->

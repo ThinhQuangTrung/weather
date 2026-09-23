@@ -1,4 +1,4 @@
-package com.datnt.demoquotes.util.custom_view
+package com.example.weather.utils
 
 import android.content.Context
 import android.graphics.Canvas

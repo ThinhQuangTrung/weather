@@ -92,7 +92,6 @@
     <string name="current_location_title">Ihr aktueller Standort</string>
     <string name="current_location_subtitle">Echtzeit-Wetter über Geräte-GPS abrufen</string>
     <string name="add_city_hint">Stadtname eingeben</string>
-    <string name="btn_add_city">Hinzufügen</string>
     <string name="suggested_cities">Vorgeschlagene Städte</string>
     <string name="saved_cities">Gespeicherte Städte</string>
     <string name="hint_long_click_to_delete">Tippen zum Anzeigen • Gedrückt halten zum Löschen</string>

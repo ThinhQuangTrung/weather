@@ -11,12 +11,12 @@ class CityAdapter(
     private val onCityLongClick: (String, Int) -> Unit,
     private val onDeleteClick: (String, Int) -> Unit
 ) : RecyclerView.Adapter<CityAdapter.CityViewHolder>() {
-
+/*khi giao diện add city thây đối */
     fun updateCities(newCities: List<String>) {
         this.cities = newCities
-        notifyDataSetChanged()
+        notifyDataSetChanged()//ép giao diện vẽ lại toàn bộ danh sách
     }
-
+/*tao ra vung để dưa các item vào */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {
         val binding = ItemCityBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CityViewHolder(binding)
@@ -26,7 +26,7 @@ class CityAdapter(
         holder.bind(cities[position], position)
     }
 
-    override fun getItemCount(): Int = cities.size
+    override fun getItemCount(): Int = cities.size/*báo cho RecyclerView viết bao nhiêu dể chuẩn bị danh sách */
 
     inner class CityViewHolder(private val binding: ItemCityBinding) :
         RecyclerView.ViewHolder(binding.root) {

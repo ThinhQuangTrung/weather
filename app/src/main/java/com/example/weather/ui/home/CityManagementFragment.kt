@@ -126,19 +126,6 @@ class CityManagementFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
-        binding.btnAddCity.setOnClickListener {
-            addNewCityFromInput()
-        }
-
-        binding.etCityInput.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                addNewCityFromInput()
-                true
-            } else {
-                false
-            }
-        }
-
         // TextWatcher để gọi API tìm kiếm sau 500ms debounce
         binding.etCityInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -218,7 +205,8 @@ class CityManagementFragment : Fragment() {
             selectCityAndReturn(cityName, if (index >= 0) index else 0)
         } else {
             val cities = prefManager.getSavedCities()
-            val index = cities.indexOfFirst { it.equals(cityName, ignoreCase = true) }
+            val index = cities.indexOfFirst {
+                it.equals(cityName, ignoreCase = true) }
             if (index != -1) {
                 selectCityAndReturn(cityName, index)
             } else {
@@ -252,35 +240,6 @@ class CityManagementFragment : Fragment() {
         }
     }
 
-    private fun addNewCityFromInput() {
-        val input = binding.etCityInput.text.toString().trim()
-        if (input.isEmpty()) {
-            binding.etCityInput.error = getString(R.string.add_city_hint)
-            return
-        }
-
-        hideSuggestions()
-        val added = prefManager.addCity(input)
-        if (added) {
-            binding.etCityInput.text?.clear()
-            val updated = prefManager.getSavedCities()
-            cityAdapter.updateCities(updated)
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.city_added_success, input),
-                Toast.LENGTH_SHORT
-            ).show()
-            val newIndex = updated.indexOf(input)
-            selectCityAndReturn(input, if (newIndex >= 0) newIndex else updated.size - 1)
-        } else {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.city_already_exists),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
-
     private fun showDeleteConfirmDialog(cityName: String) {
         val cities = prefManager.getSavedCities()
         if (cities.size <= 1) {
@@ -297,7 +256,7 @@ class CityManagementFragment : Fragment() {
             .setTitle(getString(R.string.delete_city_title))
             .setMessage(getString(R.string.delete_city_confirm, cityName))
             .setPositiveButton(getString(R.string.btn_delete)) { dialog, _ ->
-                dialog.dismiss()
+                dialog.dismiss()// tắt hộp thoại sau khi bấm
                 val removed = prefManager.removeCity(cityName)
                 if (removed) {
                     val updated = prefManager.getSavedCities()

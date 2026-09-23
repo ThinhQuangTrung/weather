@@ -19,7 +19,6 @@
         android:textColor="@color/card_title"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/btnAddCity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,24 +31,8 @@
         android:text="3 Saved"
         android:textColor="@color/card_desc"
         android:textSize="13sp"
-        app:layout_constraintEnd_toStartOf="@id/btnAddCity"
         app:layout_constraintStart_toStartOf="@id/tvFavouriteTitle"
         app:layout_constraintTop_toBottomOf="@id/tvFavouriteTitle" />
-
-    <!-- Nút thêm thành phố -->
-    <Button
-        android:id="@+id/btnAddCity"
-        android:layout_width="wrap_content"
-        android:layout_height="44dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/btn_primary_bg"
-        android:text="@string/add_city"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:cornerRadius="22dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Thanh tìm kiếm -->
     <androidx.cardview.widget.CardView

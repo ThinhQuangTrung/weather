@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weather.R
 import com.example.weather.data.preference.WeatherPreferenceManager
 import com.example.weather.databinding.FragmaintFavouriteBinding
-import com.example.weather.ui.home.CityManagementFragment
 import com.example.weather.ui.home.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -79,17 +78,6 @@ class FavouriteFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        binding.btnAddCity.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .setCustomAnimations(
-                    android.R.anim.fade_in, android.R.anim.fade_out,
-                    android.R.anim.fade_in, android.R.anim.fade_out
-                )
-                .add(R.id.fragmentContainer, CityManagementFragment.newInstance(), "CITY_MGMT")
-                .addToBackStack("CITY_MGMT")
-                .commit()
-        }
-
         binding.etSearchCity.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}

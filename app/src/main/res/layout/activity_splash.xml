@@ -49,8 +49,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.datnt.demoquotes.util.custom_view.CustomLoadingSplash
-        android:id="@+id/vLoading"
+    <com.example.weather.utils.CustomLoadingSplash
+    android:id="@+id/vLoading"
         android:layout_width="0dp"
         android:layout_height="@dimen/_28sdp"
         android:layout_marginBottom="84dp"
