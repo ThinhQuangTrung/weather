@@ -57,6 +57,9 @@
         <service
             android:name=".data.location.LocationBoundService"
             android:exported="false" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-7478156485234880~4947408562"/>
     </application>
 
 </manifest>

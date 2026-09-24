@@ -61,8 +61,10 @@ class HomeActivity : BaseActivity() {
         if (supportFragmentManager.findFragmentByTag(TAG_SETTINGS) == null) {
             supportFragmentManager.beginTransaction()
                 .setCustomAnimations(
-                    android.R.anim.fade_in, android.R.anim.fade_out,
-                    android.R.anim.fade_in, android.R.anim.fade_out
+
+                android.R.anim.fade_in, android.R.anim.fade_out,
+                android.R.anim.fade_in, android.R.anim.fade_out
+
                 )
                 .add(R.id.fragmentContainer, SettingsFragment.newInstance(), TAG_SETTINGS)
                 .addToBackStack(TAG_SETTINGS)
@@ -167,7 +169,6 @@ class HomeActivity : BaseActivity() {
         if (current == targetFragment && targetFragment.isVisible) return
 
         val transaction = supportFragmentManager.beginTransaction()
-            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
 
         homeFragment?.let { if (it.isAdded && it != targetFragment) transaction.hide(it) }
         forecastFragment?.let { if (it.isAdded && it != targetFragment) transaction.hide(it) }

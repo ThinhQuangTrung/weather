@@ -52,47 +52,56 @@ class LocationManager(
     /**
      * Lấy toạ độ vị trí hiện tại dạng suspend coroutine an toàn sử dụng suspendCancellableCoroutine.
      * Ưu tiên lấy vị trí mới nhất có độ chính xác cao, nếu không thành công sẽ fallback sang lastLocation.
+     * Có giới hạn thời gian (timeout 5s) để tránh treo vô tận khi GPS mất kết nối.
      */
     @SuppressLint("MissingPermission")
-    suspend fun getCurrentLocation(): Location? = suspendCancellableCoroutine { continuation ->
-        if (!hasLocationPermission()) {
-            continuation.resume(null)
-            return@suspendCancellableCoroutine
-        }
+    suspend fun getCurrentLocation(): Location? {
+        if (!hasLocationPermission()) return null
 
-        val cancellationTokenSource = CancellationTokenSource()
+        return kotlinx.coroutines.withTimeoutOrNull(5000L) {
+            suspendCancellableCoroutine { continuation ->
+                val cancellationTokenSource = CancellationTokenSource()
 
-        fusedLocationClient.getCurrentLocation(
-            Priority.PRIORITY_HIGH_ACCURACY,
-            cancellationTokenSource.token
-        ).addOnSuccessListener { location ->
-            if (continuation.isActive) {
-                if (location != null) {
-                    continuation.resume(location)
-                } else {
-                    fusedLocationClient.lastLocation
-                        .addOnSuccessListener { lastLoc ->
-                            if (continuation.isActive) continuation.resume(lastLoc)
+                fusedLocationClient.getCurrentLocation(
+                    Priority.PRIORITY_BALANCED_POWER_ACCURACY,
+                    cancellationTokenSource.token
+                ).addOnSuccessListener { location ->
+                    if (continuation.isActive) {
+                        if (location != null) {
+                            continuation.resume(location)
+                        } else {
+                            fusedLocationClient.lastLocation
+                                .addOnSuccessListener { lastLoc ->
+                                    if (continuation.isActive) continuation.resume(lastLoc)
+                                }
+                                .addOnFailureListener {
+                                    if (continuation.isActive) continuation.resume(null)
+                                }
                         }
-                        .addOnFailureListener {
-                            if (continuation.isActive) continuation.resume(null)
-                        }
+                    }
+                }.addOnFailureListener {
+                    if (continuation.isActive) {
+                        fusedLocationClient.lastLocation
+                            .addOnSuccessListener { lastLoc ->
+                                if (continuation.isActive) continuation.resume(lastLoc)
+                            }
+                            .addOnFailureListener {
+                                if (continuation.isActive) continuation.resume(null)
+                            }
+                    }
+                }
+
+                continuation.invokeOnCancellation {
+                    cancellationTokenSource.cancel()
                 }
             }
-        }.addOnFailureListener {
-            if (continuation.isActive) {
+        } ?: run {
+            // Fallback lấy lastLocation khi getCurrentLocation bị quá thời gian (timeout)
+            suspendCancellableCoroutine { cont ->
                 fusedLocationClient.lastLocation
-                    .addOnSuccessListener { lastLoc ->
-                        if (continuation.isActive) continuation.resume(lastLoc)
-                    }
-                    .addOnFailureListener {
-                        if (continuation.isActive) continuation.resume(null)
-                    }
+                    .addOnSuccessListener { if (cont.isActive) cont.resume(it) }
+                    .addOnFailureListener { if (cont.isActive) cont.resume(null) }
             }
-        }
-
-        continuation.invokeOnCancellation {
-            cancellationTokenSource.cancel()
         }
     }
 

@@ -73,10 +73,18 @@ class WeatherPreferenceManager(context: Context) {
      */
     fun getSavedCities(): List<String> {
         val raw = prefs.getString(KEY_SAVED_CITIES, null)
-        return if (raw.isNullOrEmpty()) {
-            emptyList()
+        if (raw.isNullOrEmpty()) {
+            val defaultCities = listOf(DEFAULT_CITY)
+            saveCities(defaultCities)
+            return defaultCities
+        }
+        val list = raw.split(DELIMITER).map { it.trim() }.filter { it.isNotBlank() }
+        return if (list.isEmpty()) {
+            val defaultCities = listOf(DEFAULT_CITY)
+            saveCities(defaultCities)
+            defaultCities
         } else {
-            raw.split(DELIMITER).filter { it.isNotBlank() }
+            list
         }
     }
 
@@ -190,6 +198,7 @@ class WeatherPreferenceManager(context: Context) {
 
     companion object {
         private const val PREF_NAME = "app_prefs"
+        const val DEFAULT_CITY = "Hà Nội"
         private const val KEY_LANGUAGE_SELECTED = "language_selected"
         private const val KEY_ONBOARDING_COMPLETED = "onboarding_completed"
         private const val KEY_WEATHER_SETUP_COMPLETED = "weather_setup_completed"

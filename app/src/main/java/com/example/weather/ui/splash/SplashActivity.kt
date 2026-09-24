@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.lifecycleScope
 import com.example.weather.MainActivity
+import com.example.weather.ads.AppOpenAdManager
 import com.example.weather.data.preference.WeatherPreferenceManager
 import com.example.weather.databinding.ActivitySplashBinding
 import com.example.weather.core.base.BaseActivity
@@ -17,6 +18,7 @@ import com.example.weather.utils.ICallBackItem
 import com.example.weather.utils.LocaleHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import com.example.weather.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @SuppressLint("CustomSplashScreen")
@@ -25,6 +27,8 @@ class SplashActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySplashBinding
     private val prefManager by lazy { WeatherPreferenceManager(this) }
+    private val appOpenAdManager by lazy { AppOpenAdManager() }
+    private var isNavigated = false
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(LocaleHelper.onAttach(newBase))
@@ -38,6 +42,13 @@ class SplashActivity : BaseActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupSplashAnimation()
+        setupLoading()
+
+        checkFirstLaunch()
+    }
+
+    private fun setupSplashAnimation() {
         // Hiệu ứng nhẹ logo splash
         binding.ivSplashLogo.alpha = 0f
         binding.ivSplashLogo.scaleX = 0.8f
@@ -48,20 +59,37 @@ class SplashActivity : BaseActivity() {
             .scaleY(1f)
             .setDuration(600)
             .start()
+    }
 
-        lifecycleScope.launch {
-            delay(4500)
-            navigateNextScreen()
-        }
+    private fun setupLoading() {
         binding.vLoading.onProgress = object : ICallBackItem {
             override fun callBack(ob: Any?, position: Int) {
                 binding.tvProgress.text = "Loading (${position}%)..."
+                if (position >= 99 && !isNavigated) {
+                    navigateNextScreen()
+                }
             }
         }
+    }
 
+    private fun checkFirstLaunch() {
+        showAppOpenAd()
+    }
+
+    private fun showAppOpenAd() {
+        appOpenAdManager.loadAd(this) {
+
+            appOpenAdManager.showAdIfAvailable(this) {
+
+                navigateNextScreen()
+            }
+        }
     }
 
     private fun navigateNextScreen() {
+        if (isNavigated || isFinishing || isDestroyed) return
+        isNavigated = true
+
         val nextIntent = when {
             // Bước 2: Chưa chọn ngôn ngữ -> Mở màn hình Language
             !prefManager.isLanguageSelected -> {
@@ -79,6 +107,8 @@ class SplashActivity : BaseActivity() {
             else -> {
                 Intent(this, HomeActivity::class.java)
             }
+        }.apply {
+            addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         }
 
         startActivity(nextIntent)

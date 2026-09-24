@@ -147,7 +147,6 @@ class WeatherSetupActivity : BaseActivity() {
             setResult(RESULT_OK)
             finish()
         } else {
-            // BÆ°á»›c 5: Chuyá»ƒn sang HomeActivity
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
             finish()

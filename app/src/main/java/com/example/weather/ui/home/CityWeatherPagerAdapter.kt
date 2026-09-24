@@ -12,6 +12,7 @@ import com.example.weather.data.preference.WeatherPreferenceManager
 import com.example.weather.databinding.ItemHomeWeatherPageBinding
 import com.example.weather.domain.model.CurrentWeather
 import com.example.weather.utils.WeatherIconUtil
+import com.airbnb.lottie.LottieAnimationView
 import java.util.Locale
 
 class CityWeatherPagerAdapter(
@@ -39,7 +40,13 @@ class CityWeatherPagerAdapter(
 
     fun updateWeatherData(cityName: String, resource: Resource<CurrentWeather>) {
         weatherMap[cityName.lowercase()] = resource
-        val index = cities.indexOfFirst { it.equals(cityName, ignoreCase = true) }
+        if (resource is Resource.Success) {
+            weatherMap[resource.data.cityName.lowercase()] = resource
+        }
+        val index = cities.indexOfFirst {
+            it.equals(cityName, ignoreCase = true) ||
+                    (resource is Resource.Success && it.equals(resource.data.cityName, ignoreCase = true))
+        }
         if (index != -1) {
             notifyItemChanged(index)
         }
@@ -123,10 +130,12 @@ class CityWeatherPagerAdapter(
 
             when (resource) {
                 is Resource.Loading -> {
-                    binding.pbLoading.visibility = View.VISIBLE
+                    binding.lottieLoading.visibility = View.VISIBLE
+                    binding.lottieLoading.playAnimation()
                 }
                 is Resource.Success -> {
-                    binding.pbLoading.visibility = View.GONE
+                    binding.lottieLoading.visibility = View.GONE
+                    binding.lottieLoading.pauseAnimation()
                     val data = resource.data
 
                     // Áp dụng cấu hình hiển thị Widget từ WeatherPreferenceManager
@@ -291,10 +300,12 @@ class CityWeatherPagerAdapter(
                     }
                 }
                 is Resource.Error -> {
-                    binding.pbLoading.visibility = View.GONE
+                    binding.lottieLoading.visibility = View.GONE
+                    binding.lottieLoading.pauseAnimation()
                 }
                 null -> {
-                    binding.pbLoading.visibility = View.GONE
+                    binding.lottieLoading.visibility = View.GONE
+                    binding.lottieLoading.pauseAnimation()
                 }
             }
         }

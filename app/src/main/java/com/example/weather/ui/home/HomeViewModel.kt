@@ -51,7 +51,7 @@ class HomeViewModel @Inject constructor(
     private val _favoriteCityChanged = MutableLiveData<Boolean>()
     val favoriteCityChanged: LiveData<Boolean> = _favoriteCityChanged
 
-    private var currentCity: String = "Hanoi"
+    private var currentCity: String = preferenceRepository.getSavedCities().firstOrNull() ?: "Hà Nội"
     private var currentCoordinates: Pair<Double, Double>? = null
 
     /**
@@ -59,19 +59,20 @@ class HomeViewModel @Inject constructor(
      */
     fun fetchWeatherByCurrentLocation() {
         viewModelScope.launch {
+            val requestedCity = currentCity
             if (!locationManager.hasLocationPermission()) {
                 _showLocationDialog.value = LocationDialogType.OPEN_APP_SETTINGS
-                loadWeather(currentCity)
+                loadWeather(requestedCity)
                 return@launch
             }
 
             if (!locationManager.isLocationEnabled()) {
                 _showLocationDialog.value = LocationDialogType.ENABLE_GPS_SETTINGS
-                loadWeather(currentCity)
+                loadWeather(requestedCity)
                 return@launch
             }
 
-            _cityWeatherResult.value = Pair(currentCity, Resource.Loading)
+            _cityWeatherResult.value = Pair(requestedCity, Resource.Loading)
 
             val location = locationManager.getCurrentLocation()
             if (location != null) {
@@ -80,14 +81,17 @@ class HomeViewModel @Inject constructor(
                 if (result is Resource.Success) {
                     val resolvedCity = result.data.cityName
                     currentCity = resolvedCity
-                    _cityWeatherResult.value = Pair(resolvedCity, result)
+                    _cityWeatherResult.value = Pair(requestedCity, result)
+                    if (!resolvedCity.equals(requestedCity, ignoreCase = true)) {
+                        _cityWeatherResult.value = Pair(resolvedCity, result)
+                    }
                     _locationResolvedCity.value = resolvedCity
                 } else {
-                    _cityWeatherResult.value = Pair(currentCity, result)
+                    _cityWeatherResult.value = Pair(requestedCity, result)
                 }
             } else {
                 postUserMessage("Không thể lấy tọa độ GPS, hiển thị thời tiết mặc định")
-                loadWeather(currentCity)
+                loadWeather(requestedCity)
             }
         }
     }
@@ -101,16 +105,20 @@ class HomeViewModel @Inject constructor(
      */
     fun fetchWeatherByLocation(location: Location) {
         viewModelScope.launch {
+            val requestedCity = currentCity
             currentCoordinates = Pair(location.latitude, location.longitude)
-            _cityWeatherResult.value = Pair(currentCity, Resource.Loading)
+            _cityWeatherResult.value = Pair(requestedCity, Resource.Loading)
             val result = getWeatherByCoordsUseCase(location.latitude, location.longitude)
             if (result is Resource.Success) {
                 val resolvedCity = result.data.cityName
                 currentCity = resolvedCity
-                _cityWeatherResult.value = Pair(resolvedCity, result)
+                _cityWeatherResult.value = Pair(requestedCity, result)
+                if (!resolvedCity.equals(requestedCity, ignoreCase = true)) {
+                    _cityWeatherResult.value = Pair(resolvedCity, result)
+                }
                 _locationResolvedCity.value = resolvedCity
             } else {
-                _cityWeatherResult.value = Pair(currentCity, result)
+                _cityWeatherResult.value = Pair(requestedCity, result)
             }
         }
     }
