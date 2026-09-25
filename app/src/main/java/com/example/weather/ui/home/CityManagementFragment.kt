@@ -191,43 +191,22 @@ class CityManagementFragment : Fragment() {
         hideSuggestions()
         binding.etCityInput.setText(cityName)
         binding.etCityInput.clearFocus()
-
-        val added = prefManager.addCity(cityName)
-        if (added) {
-            val updated = prefManager.getSavedCities()
-            cityAdapter.updateCities(updated)
-            val index = updated.indexOf(cityName)
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.city_added_success, item.displayName),
-                Toast.LENGTH_SHORT
-            ).show()
-            selectCityAndReturn(cityName, if (index >= 0) index else 0)
-        } else {
-            val cities = prefManager.getSavedCities()
-            val index = cities.indexOfFirst {
-                it.equals(cityName, ignoreCase = true) }
-            if (index != -1) {
-                selectCityAndReturn(cityName, index)
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.city_already_exists),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+        addCityAndSelect(cityName, item.displayName)
     }
 
     private fun onSuggestedCitySelected(cityName: String) {
+        addCityAndSelect(cityName, cityName)
+    }
+
+    private fun addCityAndSelect(cityName: String, displayName: String) {
         val added = prefManager.addCity(cityName)
         if (added) {
             val updated = prefManager.getSavedCities()
             cityAdapter.updateCities(updated)
-            val index = updated.indexOf(cityName)
+            val index = updated.indexOf(cityName).coerceAtLeast(0)
             Toast.makeText(
                 requireContext(),
-                getString(R.string.city_added_success, cityName),
+                getString(R.string.city_added_success, displayName),
                 Toast.LENGTH_SHORT
             ).show()
             selectCityAndReturn(cityName, index)
@@ -236,6 +215,12 @@ class CityManagementFragment : Fragment() {
             val index = cities.indexOfFirst { it.equals(cityName, ignoreCase = true) }
             if (index != -1) {
                 selectCityAndReturn(cityName, index)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.city_already_exists),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

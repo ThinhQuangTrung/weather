@@ -15,19 +15,23 @@ class AppOpenAdManager {
 
     private var isShowingAd = false
 
-    fun isAdLoaded(): Boolean = appOpenAd != null
+    fun isAdLoaded(): Boolean {
+        return appOpenAd != null
+    }
 
     fun loadAd(
         context: Context,
-        onAdLoadFinished: () -> Unit
+        onAdLoadFinished: (() -> Unit)? = null
     ) {
 
+        // Đang load thì không load lại
         if (isLoadingAd) {
             return
         }
 
+        // Đã có Ads rồi thì không load lại
         if (appOpenAd != null) {
-            onAdLoadFinished()
+            onAdLoadFinished?.invoke()
             return
         }
 
@@ -42,19 +46,21 @@ class AppOpenAdManager {
             object : AppOpenAd.AppOpenAdLoadCallback() {
 
                 override fun onAdLoaded(ad: AppOpenAd) {
+
                     appOpenAd = ad
                     isLoadingAd = false
 
-                    onAdLoadFinished()
+                    onAdLoadFinished?.invoke()
                 }
 
                 override fun onAdFailedToLoad(
                     error: LoadAdError
                 ) {
+
                     appOpenAd = null
                     isLoadingAd = false
 
-                    onAdLoadFinished()
+                    onAdLoadFinished?.invoke()
                 }
             }
         )
@@ -65,12 +71,14 @@ class AppOpenAdManager {
         onAdShowed: (() -> Unit)? = null,
         onAdDismissed: () -> Unit
     ) {
+
         if (isShowingAd) {
             return
         }
 
         val ad = appOpenAd
 
+        // Không có Ads
         if (ad == null) {
             onAdDismissed()
             return
@@ -85,6 +93,7 @@ class AppOpenAdManager {
                 }
 
                 override fun onAdDismissedFullScreenContent() {
+
                     appOpenAd = null
                     isShowingAd = false
 
@@ -94,6 +103,7 @@ class AppOpenAdManager {
                 override fun onAdFailedToShowFullScreenContent(
                     adError: com.google.android.gms.ads.AdError
                 ) {
+
                     appOpenAd = null
                     isShowingAd = false
 

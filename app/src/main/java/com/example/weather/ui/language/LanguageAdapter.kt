@@ -17,39 +17,92 @@ class LanguageAdapter(
     var selectedCode: String = initialSelectedCode
         private set
 
-    inner class LanguageViewHolder(val binding: ItemLanguageBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class LanguageViewHolder(
+        val binding: ItemLanguageBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: LanguageItem) {
+
             val context = binding.root.context
-            val isSelected = item.code.equals(selectedCode, ignoreCase = true)
 
-            binding.tvLanguageName.text =
-                "${item.displayName}"
+            val isSelected =
+                item.code.equals(
+                    selectedCode,
+                    ignoreCase = true
+                )
 
+            binding.tvLanguageName.text = item.displayName
 
             binding.ivFlag.setImageResource(item.flagRes)
 
             if (isSelected) {
-                binding.layoutLanguageItem.setBackgroundResource(R.drawable.bg_language_item_selected)
-                binding.ivRadioStatus.setImageResource(R.drawable.ic_radio_checked)
-                binding.ivRadioStatus.setColorFilter(ContextCompat.getColor(context, R.color.stat_primary))
-                binding.tvLanguageName.setTextColor(ContextCompat.getColor(context, R.color.stat_primary))
+
+                binding.layoutLanguageItem.setBackgroundResource(
+                    R.drawable.bg_language_item_selected
+                )
+
+                binding.ivRadioStatus.setImageResource(
+                    R.drawable.ic_radio_checked
+                )
+
+                binding.ivRadioStatus.setColorFilter(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.stat_primary
+                    )
+                )
+
+                binding.tvLanguageName.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.stat_primary
+                    )
+                )
+
             } else {
-                binding.layoutLanguageItem.setBackgroundResource(R.drawable.bg_language_item_normal)
-                binding.ivRadioStatus.setImageResource(R.drawable.ic_radio_unchecked)
-                binding.ivRadioStatus.setColorFilter(ContextCompat.getColor(context, R.color.dot_inactive))
-                binding.tvLanguageName.setTextColor(ContextCompat.getColor(context, R.color.card_title))
+
+                binding.layoutLanguageItem.setBackgroundResource(
+                    R.drawable.bg_language_item_normal
+                )
+
+                binding.ivRadioStatus.setImageResource(
+                    R.drawable.ic_radio_unchecked
+                )
+
+                binding.ivRadioStatus.setColorFilter(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.dot_inactive
+                    )
+                )
+
+                binding.tvLanguageName.setTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.card_title
+                    )
+                )
             }
 
             binding.layoutLanguageItem.setOnClickListener {
-                if (selectedCode != item.code) {
-                    val oldPosition = languages.indexOfFirst { it.code.equals(selectedCode, ignoreCase = true) }
+
+                if (!selectedCode.equals(item.code, ignoreCase = true)) {
+
+                    val oldPosition = languages.indexOfFirst {
+                        it.code.equals(selectedCode, ignoreCase = true)
+                    }
+
                     selectedCode = item.code
+
                     val newPosition = adapterPosition
 
-                    if (oldPosition != -1) notifyItemChanged(oldPosition)
-                    if (newPosition != -1) notifyItemChanged(newPosition)
+                    if (oldPosition != -1) {
+                        notifyItemChanged(oldPosition)
+                    }
+
+                    if (newPosition != RecyclerView.NO_POSITION) {
+                        notifyItemChanged(newPosition)
+                    }
 
                     onItemClick?.invoke(item)
                 }
@@ -57,19 +110,28 @@ class LanguageAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LanguageViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): LanguageViewHolder {
+
         val binding = ItemLanguageBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
+
         return LanguageViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: LanguageViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: LanguageViewHolder,
+        position: Int
+    ) {
         holder.bind(languages[position])
     }
 
-    override fun getItemCount(): Int = languages.size
-
+    override fun getItemCount(): Int {
+        return languages.size
+    }
 }

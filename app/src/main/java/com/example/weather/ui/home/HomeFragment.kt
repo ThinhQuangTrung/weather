@@ -14,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import android.widget.Toast.makeText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -69,12 +68,7 @@ class HomeFragment : Fragment() {
                     viewModel.fetchWeatherByLocation(location)
                 } else {
                     if (!LocationManager.hasLocationPermission(requireContext())) {
-                        locationPermissionLauncher.launch(
-                            arrayOf(
-                                Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION
-                            )
-                        )
+                        locationPermissionLauncher.launch(LOCATION_PERMISSIONS)
                     } else {
                         viewModel.fetchWeatherByCurrentLocation()
                     }
@@ -228,12 +222,7 @@ class HomeFragment : Fragment() {
             val useCurrentLocation = bundle.getBoolean(CityManagementFragment.KEY_USE_CURRENT_LOCATION, false)
             if (useCurrentLocation) {
                 if (!LocationManager.hasLocationPermission(requireContext())) {
-                    locationPermissionLauncher.launch(
-                        arrayOf(
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION
-                        )
-                    )
+                    locationPermissionLauncher.launch(LOCATION_PERMISSIONS)
                 } else {
                     viewModel.fetchWeatherByCurrentLocation()
                 }
@@ -276,11 +265,7 @@ class HomeFragment : Fragment() {
         viewModel.cityWeatherResult.observe(viewLifecycleOwner) { (cityName, resource) ->
             cityWeatherAdapter.updateWeatherData(cityName, resource)
             if (resource is Resource.Error) {
-                makeText(
-                    requireContext(),
-                    resource.message,
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -313,7 +298,7 @@ class HomeFragment : Fragment() {
         // Quan sát thông báo người dùng
         viewModel.userMessage.observe(viewLifecycleOwner) { message ->
             if (!message.isNullOrEmpty()) {
-                makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 viewModel.clearUserMessage()
             }
         }
@@ -391,16 +376,21 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showAppSettingsDialog() {
+    private fun showLocationDialog(
+        titleRes: Int,
+        messageRes: Int,
+        positiveRes: Int,
+        onPositive: () -> Unit
+    ) {
         activeDialog = MaterialAlertDialogBuilder(requireContext())
             .setIcon(R.drawable.ic_location)
-            .setTitle(R.string.permission_location_title)
-            .setMessage(R.string.permission_location_message)
+            .setTitle(titleRes)
+            .setMessage(messageRes)
             .setCancelable(false)
-            .setPositiveButton(R.string.btn_open_settings) { dialog, _ ->
+            .setPositiveButton(positiveRes) { dialog, _ ->
                 dialog.dismiss()
                 viewModel.dismissLocationDialog()
-                openAppSettings()
+                onPositive()
             }
             .setNegativeButton(R.string.btn_later) { dialog, _ ->
                 dialog.dismiss()
@@ -409,38 +399,32 @@ class HomeFragment : Fragment() {
             .show()
     }
 
-    private fun showEnableGpsDialog() {
-        activeDialog = MaterialAlertDialogBuilder(requireContext())
-            .setIcon(R.drawable.ic_location)
-            .setTitle(R.string.gps_enable_title)
-            .setMessage(R.string.gps_enable_message)
-            .setCancelable(false)
-            .setPositiveButton(R.string.btn_enable_gps) { dialog, _ ->
-                dialog.dismiss()
-                viewModel.dismissLocationDialog()
-                openGpsSettings()
-            }
-            .setNegativeButton(R.string.btn_later) { dialog, _ ->
-                dialog.dismiss()
-                viewModel.dismissLocationDialog()
-            }
-            .show()
-    }
-
-    private fun openAppSettings() {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-            data = Uri.fromParts("package", requireContext().packageName, null)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    private fun showAppSettingsDialog() = showLocationDialog(
+        titleRes = R.string.permission_location_title,
+        messageRes = R.string.permission_location_message,
+        positiveRes = R.string.btn_open_settings,
+        onPositive = {
+            startActivity(
+                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = Uri.fromParts("package", requireContext().packageName, null)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+            )
         }
-        startActivity(intent)
-    }
+    )
 
-    private fun openGpsSettings() {
-        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    private fun showEnableGpsDialog() = showLocationDialog(
+        titleRes = R.string.gps_enable_title,
+        messageRes = R.string.gps_enable_message,
+        positiveRes = R.string.btn_enable_gps,
+        onPositive = {
+            startActivity(
+                Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+            )
         }
-        startActivity(intent)
-    }
+    )
 
     override fun onStart() {
         super.onStart()
@@ -477,5 +461,10 @@ class HomeFragment : Fragment() {
 
     companion object {
         fun newInstance() = HomeFragment()
+
+        private val LOCATION_PERMISSIONS = arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
     }
 }

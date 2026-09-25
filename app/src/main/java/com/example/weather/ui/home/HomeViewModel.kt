@@ -73,22 +73,10 @@ class HomeViewModel @Inject constructor(
             }
 
             _cityWeatherResult.value = Pair(requestedCity, Resource.Loading)
-
             val location = locationManager.getCurrentLocation()
             if (location != null) {
                 currentCoordinates = Pair(location.latitude, location.longitude)
-                val result = getWeatherByCoordsUseCase(location.latitude, location.longitude)
-                if (result is Resource.Success) {
-                    val resolvedCity = result.data.cityName
-                    currentCity = resolvedCity
-                    _cityWeatherResult.value = Pair(requestedCity, result)
-                    if (!resolvedCity.equals(requestedCity, ignoreCase = true)) {
-                        _cityWeatherResult.value = Pair(resolvedCity, result)
-                    }
-                    _locationResolvedCity.value = resolvedCity
-                } else {
-                    _cityWeatherResult.value = Pair(requestedCity, result)
-                }
+                handleCoordResult(requestedCity, getWeatherByCoordsUseCase(location.latitude, location.longitude))
             } else {
                 postUserMessage("Không thể lấy tọa độ GPS, hiển thị thời tiết mặc định")
                 loadWeather(requestedCity)
@@ -100,26 +88,28 @@ class HomeViewModel @Inject constructor(
         _locationResolvedCity.value = null
     }
 
-    /**
-     * Tải thời tiết từ đối tượng Location do Bound Service cung cấp.
-     */
     fun fetchWeatherByLocation(location: Location) {
         viewModelScope.launch {
             val requestedCity = currentCity
             currentCoordinates = Pair(location.latitude, location.longitude)
             _cityWeatherResult.value = Pair(requestedCity, Resource.Loading)
-            val result = getWeatherByCoordsUseCase(location.latitude, location.longitude)
-            if (result is Resource.Success) {
-                val resolvedCity = result.data.cityName
-                currentCity = resolvedCity
-                _cityWeatherResult.value = Pair(requestedCity, result)
-                if (!resolvedCity.equals(requestedCity, ignoreCase = true)) {
-                    _cityWeatherResult.value = Pair(resolvedCity, result)
-                }
-                _locationResolvedCity.value = resolvedCity
-            } else {
-                _cityWeatherResult.value = Pair(requestedCity, result)
+            handleCoordResult(requestedCity, getWeatherByCoordsUseCase(location.latitude, location.longitude))
+        }
+    }
+
+    /**
+     * Xử lý kết quả chung từ getWeatherByCoordsUseCase.
+     * Cập nhật LiveData thời tiết và city được xác định từ GPS.
+     */
+    private fun handleCoordResult(requestedCity: String, result: Resource<CurrentWeather>) {
+        _cityWeatherResult.value = Pair(requestedCity, result)
+        if (result is Resource.Success) {
+            val resolvedCity = result.data.cityName
+            currentCity = resolvedCity
+            if (!resolvedCity.equals(requestedCity, ignoreCase = true)) {
+                _cityWeatherResult.value = Pair(resolvedCity, result)
             }
+            _locationResolvedCity.value = resolvedCity
         }
     }
 

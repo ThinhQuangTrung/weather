@@ -44,7 +44,6 @@ class ForecastFragment : Fragment() {
         setupRecyclerViews()
         setupHourlyTouch()
         observeViewModel()
-        viewModel.loadForecast()
     }
 
     private fun observeViewModel() {

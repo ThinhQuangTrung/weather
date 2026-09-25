@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.lifecycle.lifecycleScope
 import com.example.weather.MainActivity
 import com.example.weather.ads.AppOpenAdManager
 import com.example.weather.data.preference.WeatherPreferenceManager
@@ -16,18 +15,20 @@ import com.example.weather.ui.language.LanguageActivity
 import com.example.weather.ui.setup.WeatherSetupActivity
 import com.example.weather.utils.ICallBackItem
 import com.example.weather.utils.LocaleHelper
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import com.example.weather.R
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import com.example.weather.WeatherApplication
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : BaseActivity() {
 
     private lateinit var binding: ActivitySplashBinding
-    private val prefManager by lazy { WeatherPreferenceManager(this) }
-    private val appOpenAdManager by lazy { AppOpenAdManager() }
+    @Inject lateinit var prefManager: WeatherPreferenceManager
+//    private val appOpenAdManager by lazy { AppOpenAdManager() }
+private val appOpenAdManager: AppOpenAdManager
+    get() = (application as WeatherApplication).appOpenAdManager
+
     private var isNavigated = false
 
     override fun attachBaseContext(newBase: Context) {
@@ -44,8 +45,8 @@ class SplashActivity : BaseActivity() {
 
         setupSplashAnimation()
         setupLoading()
-
-        checkFirstLaunch()
+        loadAppOpenAd()
+//        showAppOpenAd()
     }
 
     private fun setupSplashAnimation() {
@@ -71,20 +72,19 @@ class SplashActivity : BaseActivity() {
             }
         }
     }
-
-    private fun checkFirstLaunch() {
-        showAppOpenAd()
+    private fun loadAppOpenAd() {
+        appOpenAdManager.loadAd(this)
     }
 
-    private fun showAppOpenAd() {
-        appOpenAdManager.loadAd(this) {
-
-            appOpenAdManager.showAdIfAvailable(this) {
-
-                navigateNextScreen()
-            }
-        }
-    }
+//    private fun showAppOpenAd() {
+//        appOpenAdManager.loadAd(this) {
+//
+//            appOpenAdManager.showAdIfAvailable(this) {
+//
+//                navigateNextScreen()
+//            }
+//        }
+//    }
 
     private fun navigateNextScreen() {
         if (isNavigated || isFinishing || isDestroyed) return

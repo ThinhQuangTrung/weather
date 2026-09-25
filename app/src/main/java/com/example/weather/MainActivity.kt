@@ -17,7 +17,10 @@ import com.example.weather.core.base.BaseActivity
 import com.example.weather.ui.home.HomeActivity
 import com.example.weather.ui.main.MainViewModel
 import com.example.weather.ui.onboarding.OnboardingAdapter
+import com.example.weather.data.preference.WeatherPreferenceManager
+import com.example.weather.ui.setup.WeatherSetupActivity
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlin.math.abs
 
 /**
@@ -32,10 +35,7 @@ class MainActivity : BaseActivity() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var onboardingAdapter: OnboardingAdapter
     private lateinit var dots: Array<View>
-
-    private val prefs by lazy {
-        getSharedPreferences("app_prefs", MODE_PRIVATE)
-    }
+    @Inject lateinit var prefManager: WeatherPreferenceManager
 
     override fun attachBaseContext(newBase: android.content.Context) {
         super.attachBaseContext(com.example.weather.utils.LocaleHelper.onAttach(newBase))
@@ -43,13 +43,12 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val prefManager = com.example.weather.data.preference.WeatherPreferenceManager(this)
 
         if (prefManager.isOnboardingCompleted) {
             if (prefManager.isWeatherSetupCompleted) {
                 startActivity(Intent(this, HomeActivity::class.java))
             } else {
-                startActivity(Intent(this, com.example.weather.ui.setup.WeatherSetupActivity::class.java))
+                startActivity(Intent(this, WeatherSetupActivity::class.java))
             }
             finish()
             return
@@ -80,9 +79,8 @@ class MainActivity : BaseActivity() {
             if (currentPage < totalPages - 1) {
                 binding.viewPagerFeatures.setCurrentItem(currentPage + 1, true)
             } else {
-                val prefManager = com.example.weather.data.preference.WeatherPreferenceManager(this)
                 prefManager.isOnboardingCompleted = true
-                val intent = Intent(this, com.example.weather.ui.setup.WeatherSetupActivity::class.java)
+                val intent = Intent(this, WeatherSetupActivity::class.java)
                 startActivity(intent)
                 finish()
             }

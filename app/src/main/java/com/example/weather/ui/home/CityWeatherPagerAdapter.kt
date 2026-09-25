@@ -83,27 +83,34 @@ class CityWeatherPagerAdapter(
             val isFahrenheit = unit == TemperatureUnit.FAHRENHEIT
             val unitSymbol = if (isFahrenheit) "°F" else "°C"
 
-            // Widget Visibility Settings
-            val showTemp = pref.showTemperature
+            // Default display before data loaded
+            binding.tvLocationName.text = cityName
+
+            // Widget Visibility Settings — đọc một lần duy nhất, áp dụng cho mọi trạng thái
+            val showTemp     = pref.showTemperature
             val showHumidity = pref.showHumidity
-            val showWind = pref.showWind
-            val showVisibility = pref.showVisibility
+            val showWind     = pref.showWind
+            val showVis      = pref.showVisibility
             val showPressure = pref.showPressure
-            val showAqi = pref.showAirQuality
+            val showCloud    = pref.showCloudCover
+            val showAqi      = pref.showAirQuality
+            val showSun      = pref.showSunCycle
 
             binding.cardHeroWeather.visibility = if (showTemp) View.VISIBLE else View.GONE
             binding.cardHumidity.visibility = if (showHumidity) View.VISIBLE else View.GONE
             binding.cardWind.visibility = if (showWind) View.VISIBLE else View.GONE
             binding.layoutTelemetryRow1.visibility = if (showHumidity || showWind) View.VISIBLE else View.GONE
-            binding.cardVisibility.visibility = if (showVisibility) View.VISIBLE else View.GONE
+            binding.cardVisibility.visibility = if (showVis) View.VISIBLE else View.GONE
             binding.cardPressure.visibility = if (showPressure) View.VISIBLE else View.GONE
-            binding.layoutTelemetryRow2.visibility = if (showVisibility || showPressure) View.VISIBLE else View.GONE
+            binding.layoutTelemetryRow2.visibility = if (showVis || showPressure) View.VISIBLE else View.GONE
+            binding.cardCloudCover.visibility = if (showCloud) View.VISIBLE else View.GONE
+            binding.cardPressureDetail.visibility = if (showPressure) View.VISIBLE else View.GONE
+            binding.layoutTelemetryRow3.visibility = if (showCloud || showPressure) View.VISIBLE else View.GONE
             binding.cardAirQuality.visibility = if (showAqi) View.VISIBLE else View.GONE
+            binding.cardSunCycle.visibility = if (showSun) View.VISIBLE else View.GONE
+            binding.tvTelemetrySectionTitle.visibility =
+                if (showHumidity || showWind || showVis || showPressure || showAqi) View.VISIBLE else View.GONE
 
-            val hasAnyTelemetry = showHumidity || showWind || showVisibility || showPressure || showAqi
-            binding.tvTelemetrySectionTitle.visibility = if (hasAnyTelemetry) View.VISIBLE else View.GONE
-
-            // Favorite button state & click listener
             val isFav = pref.isFavoriteCity(cityName)
             val favTint = if (isFav) {
                 android.graphics.Color.parseColor("#EF4444")
@@ -125,9 +132,6 @@ class CityWeatherPagerAdapter(
                 onLocationClick(cityName, position)
             }
 
-            // Default display before data loaded
-            binding.tvLocationName.text = cityName
-
             when (resource) {
                 is Resource.Loading -> {
                     binding.lottieLoading.visibility = View.VISIBLE
@@ -137,33 +141,6 @@ class CityWeatherPagerAdapter(
                     binding.lottieLoading.visibility = View.GONE
                     binding.lottieLoading.pauseAnimation()
                     val data = resource.data
-
-                    // Áp dụng cấu hình hiển thị Widget từ WeatherPreferenceManager
-                    val showTemp = prefManager.showTemperature
-                    val showHum = prefManager.showHumidity
-                    val showWind = prefManager.showWind
-                    val showVis = prefManager.showVisibility
-                    val showPress = prefManager.showPressure
-                    val showCloud = prefManager.showCloudCover
-                    val showAqi = prefManager.showAirQuality
-                    val showSun = prefManager.showSunCycle
-
-                    binding.cardHeroWeather.visibility = if (showTemp) View.VISIBLE else View.GONE
-
-                    binding.cardHumidity.visibility = if (showHum) View.VISIBLE else View.GONE
-                    binding.cardWind.visibility = if (showWind) View.VISIBLE else View.GONE
-                    binding.layoutTelemetryRow1.visibility = if (showHum || showWind) View.VISIBLE else View.GONE
-
-                    binding.cardVisibility.visibility = if (showVis) View.VISIBLE else View.GONE
-                    binding.cardPressure.visibility = if (showPress) View.VISIBLE else View.GONE
-                    binding.layoutTelemetryRow2.visibility = if (showVis || showPress) View.VISIBLE else View.GONE
-
-                    binding.cardCloudCover.visibility = if (showCloud) View.VISIBLE else View.GONE
-                    binding.cardPressureDetail.visibility = if (showPress) View.VISIBLE else View.GONE
-                    binding.layoutTelemetryRow3.visibility = if (showCloud || showPress) View.VISIBLE else View.GONE
-
-                    binding.cardAirQuality.visibility = if (showAqi) View.VISIBLE else View.GONE
-                    binding.cardSunCycle.visibility = if (showSun) View.VISIBLE else View.GONE
 
                     // 1. Thẻ Vị trí
                     val country = if (data.countryCode.isNotBlank()) data.countryCode else "VN"
@@ -299,11 +276,7 @@ class CityWeatherPagerAdapter(
                         binding.sunPathView.setSunProgress(progress)
                     }
                 }
-                is Resource.Error -> {
-                    binding.lottieLoading.visibility = View.GONE
-                    binding.lottieLoading.pauseAnimation()
-                }
-                null -> {
+                is Resource.Error, null -> {
                     binding.lottieLoading.visibility = View.GONE
                     binding.lottieLoading.pauseAnimation()
                 }

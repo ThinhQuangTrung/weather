@@ -17,47 +17,100 @@ import com.example.weather.core.base.BaseActivity
 import com.example.weather.ui.home.HomeActivity
 import com.example.weather.utils.LocaleHelper
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LanguageActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLanguageBinding
     private lateinit var adapter: LanguageAdapter
-    private val prefManager by lazy { WeatherPreferenceManager(this) }
+
+    @Inject
+    lateinit var prefManager: WeatherPreferenceManager
 
     private var isFromSettings = false
 
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(LocaleHelper.onAttach(newBase))
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
 
         binding = ActivityLanguageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.layoutLanguageRoot) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+        ViewCompat.setOnApplyWindowInsetsListener(
+            binding.layoutLanguageRoot
+        ) { v, insets ->
+
+            val systemBars =
+                insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+                )
+
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom
+            )
+
             insets
         }
 
-        isFromSettings = intent.getBooleanExtra(EXTRA_FROM_SETTINGS, false)
+        // Kiểm tra LanguageActivity được mở từ Settings hay không
+        isFromSettings = intent.getBooleanExtra(
+            EXTRA_FROM_SETTINGS,
+            false
+        )
 
         setupUI()
         setupLanguageList()
     }
 
+    /**
+     * Thiết lập UI của màn hình Language.
+     */
     private fun setupUI() {
-        if (!isFromSettings && !prefManager.isLanguageSelected) {
+
+        // ==============================
+        // BUTTON BACK
+        // ==============================
+
+        if (
+            !isFromSettings &&
+            !prefManager.isLanguageSelected
+        ) {
+
+            // Lần đầu vào app
+            // Không cho quay lại
             binding.btnBack.visibility = View.GONE
+
         } else {
+
+            // Đã chọn language trước đó
+            // hoặc mở từ Settings
             binding.btnBack.visibility = View.VISIBLE
+
             binding.btnBack.setOnClickListener {
                 finish()
             }
+        }
+
+        // ==============================
+        // BUTTON APPLY
+        // ==============================
+
+        if (!prefManager.isLanguageSelected) {
+
+            // Lần đầu:
+            // Chưa chọn language → ẩn Apply
+            binding.btnApplyLanguage.visibility = View.GONE
+
+        } else {
+
+            // Đã chọn language trước đó
+            // → hiện Apply
+            binding.btnApplyLanguage.visibility = View.VISIBLE
         }
 
         binding.btnApplyLanguage.setOnClickListener {
@@ -65,8 +118,13 @@ class LanguageActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Thiết lập danh sách ngôn ngữ.
+     */
     private fun setupLanguageList() {
+
         val languageList = listOf(
+
             LanguageItem("en", "English", "English", R.drawable.english),
             LanguageItem("de", "German", "Deutsch", R.drawable.german),
             LanguageItem("fr", "French", "Français", R.drawable.french),
@@ -88,46 +146,149 @@ class LanguageActivity : BaseActivity() {
             LanguageItem("pt-BR", "Portuguese (Brazil)", "Português do Brasil", R.drawable.brazil)
         )
 
-        val currentSavedLang = LocaleHelper.getLanguage(this)
+        /*
+         * Nếu người dùng đã chọn language trước đó
+         * → lấy language hiện tại.
+         *
+         * Nếu là lần đầu:
+         * → không chọn item nào.
+         */
+        val initialSelectedCode =
+            if (prefManager.isLanguageSelected) {
+                LocaleHelper.getLanguage(this)
+            } else {
+                ""
+            }
 
-        adapter = LanguageAdapter(languageList, currentSavedLang)
-        binding.rvLanguages.layoutManager = LinearLayoutManager(this)
+        adapter = LanguageAdapter(
+            languages = languageList,
+            initialSelectedCode = initialSelectedCode,
+
+            onItemClick = {
+
+                // User vừa chọn một language
+                // → hiện nút Apply
+                binding.btnApplyLanguage.visibility =
+                    View.VISIBLE
+            }
+        )
+
+        binding.rvLanguages.layoutManager =
+            LinearLayoutManager(this)
+
         binding.rvLanguages.adapter = adapter
 
-        val selectedIndex = languageList.indexOfFirst { it.code.equals(currentSavedLang, ignoreCase = true) }
-        if (selectedIndex != -1) {
-            binding.rvLanguages.scrollToPosition(selectedIndex)
+        // ==============================
+        // SCROLL ĐẾN LANGUAGE ĐANG CHỌN
+        // ==============================
+
+        if (initialSelectedCode.isNotEmpty()) {
+
+            val selectedIndex =
+                languageList.indexOfFirst {
+
+                    it.code.equals(
+                        initialSelectedCode,
+                        ignoreCase = true
+                    )
+                }
+
+            if (selectedIndex != -1) {
+
+                binding.rvLanguages.scrollToPosition(
+                    selectedIndex
+                )
+            }
         }
     }
 
+    /**
+     * Áp dụng language mà người dùng đã chọn.
+     */
     private fun applySelectedLanguage() {
+
         val selectedCode = adapter.selectedCode
-        LocaleHelper.setLocale(this, selectedCode)
+
+        // Không có language được chọn
+        if (selectedCode.isEmpty()) {
+            return
+        }
+
+        // ==============================
+        // ĐỔI LANGUAGE
+        // ==============================
+
+        LocaleHelper.setLocale(
+            this,
+            selectedCode
+        )
+
+        // Đánh dấu app đã chọn language
         prefManager.isLanguageSelected = true
 
+        // ==============================
+        // CHUYỂN MÀN HÌNH
+        // ==============================
+
         if (isFromSettings) {
-            // Quay lại HomeActivity nhưng tự động mở màn Cài đặt (SettingsFragment) với ngôn ngữ mới
-            val intent = Intent(this, HomeActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                putExtra(HomeActivity.EXTRA_OPEN_SETTINGS, true)
-            }
+
+            val intent =
+                Intent(
+                    this,
+                    HomeActivity::class.java
+                ).apply {
+
+                    flags =
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                                Intent.FLAG_ACTIVITY_NEW_TASK
+
+                    putExtra(
+                        HomeActivity.EXTRA_OPEN_SETTINGS,
+                        true
+                    )
+                }
+
             startActivity(intent)
+
             finish()
+
         } else {
-            val intent = Intent(this, MainActivity::class.java)
+
+            val intent =
+                Intent(
+                    this,
+                    MainActivity::class.java
+                )
+
             startActivity(intent)
+
             finish()
         }
     }
 
     companion object {
-        const val EXTRA_FROM_SETTINGS = "extra_from_settings"
 
-        fun createIntent(context: Context, fromSettings: Boolean = false): Intent {
-            return Intent(context, LanguageActivity::class.java).apply {
-                putExtra(EXTRA_FROM_SETTINGS, fromSettings)
+        const val EXTRA_FROM_SETTINGS =
+            "extra_from_settings"
+
+        /**
+         * Tạo Intent để mở LanguageActivity.
+         */
+        fun createIntent(
+            context: Context,
+            fromSettings: Boolean = false
+        ): Intent {
+
+            return Intent(
+                context,
+                LanguageActivity::class.java
+            ).apply {
+
+                putExtra(
+                    EXTRA_FROM_SETTINGS,
+                    fromSettings
+                )
             }
         }
     }
 }
-

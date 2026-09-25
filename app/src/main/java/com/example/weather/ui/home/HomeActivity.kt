@@ -13,6 +13,8 @@ import com.example.weather.ui.favourite.FavouriteFragment
 import com.example.weather.ui.forecast.ForecastFragment
 import com.example.weather.ui.settings.SettingsFragment
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.weather.WeatherApplication
+import com.example.weather.ads.AppOpenAdManager
 
 /**
  * HomeActivity:
@@ -24,15 +26,16 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeActivity : BaseActivity() {
 
     private lateinit var binding: ActivityHomeBinding
-
+    private val appOpenAdManager: AppOpenAdManager
+        get() = (application as WeatherApplication).appOpenAdManager
     private var homeFragment: HomeFragment? = null
     private var forecastFragment: ForecastFragment? = null
     private var favouriteFragment: FavouriteFragment? = null
     private var activeFragment: Fragment? = null
 
-    override fun attachBaseContext(newBase: android.content.Context) {
-        super.attachBaseContext(com.example.weather.utils.LocaleHelper.onAttach(newBase))
-    }
+//    override fun attachBaseContext(newBase: android.content.Context) {
+//        super.attachBaseContext(com.example.weather.utils.LocaleHelper.onAttach(newBase))
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +58,18 @@ class HomeActivity : BaseActivity() {
         if (savedInstanceState == null && intent.getBooleanExtra(EXTRA_OPEN_SETTINGS, false)) {
             openSettings()
         }
+        showAppOpenAd()
+    }
+    private fun showAppOpenAd() {
+        appOpenAdManager.showAdIfAvailable(
+            activity = this,
+            onAdShowed = {
+                // Ads bắt đầu hiển thị
+            },
+            onAdDismissed = {
+                // Người dùng đóng Ads
+            }
+        )
     }
 
     fun openSettings() {
