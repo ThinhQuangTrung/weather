@@ -23,10 +23,6 @@ class WeatherSetupActivity : BaseActivity() {
 
     private var isFromSettings = false
 
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(LocaleHelper.onAttach(newBase))
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -53,7 +49,6 @@ class WeatherSetupActivity : BaseActivity() {
             binding.btnContinueSetup.text = getString(R.string.btn_continue)
         }
 
-        // Táº£i cÃ¡c giÃ¡ trá»‹ Ä‘Ã£ lÆ°u
         binding.cbOptionTemp.isChecked = prefManager.showTemperature
         binding.cbOptionHumidity.isChecked = prefManager.showHumidity
         binding.cbOptionWind.isChecked = prefManager.showWind
@@ -132,7 +127,6 @@ class WeatherSetupActivity : BaseActivity() {
     }
 
     private fun savePreferencesAndProceed() {
-        // LÆ°u cáº¥u hÃ¬nh
         prefManager.showTemperature = binding.cbOptionTemp.isChecked
         prefManager.showHumidity = binding.cbOptionHumidity.isChecked
         prefManager.showWind = binding.cbOptionWind.isChecked

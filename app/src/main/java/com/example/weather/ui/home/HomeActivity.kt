@@ -33,10 +33,6 @@ class HomeActivity : BaseActivity() {
     private var favouriteFragment: FavouriteFragment? = null
     private var activeFragment: Fragment? = null
 
-//    override fun attachBaseContext(newBase: android.content.Context) {
-//        super.attachBaseContext(com.example.weather.utils.LocaleHelper.onAttach(newBase))
-//    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

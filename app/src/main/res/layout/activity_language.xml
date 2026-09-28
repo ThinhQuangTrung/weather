@@ -9,12 +9,16 @@
     android:fitsSystemWindows="true">
 
     <!-- Top App Bar -->
+
+    <!-- Language List -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:paddingHorizontal="16dp"
+        android:layout_marginTop="@dimen/_29sdp"
+        android:paddingHorizontal="19dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -25,7 +29,7 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Back"
-            android:padding="8dp"
+            android:padding="@dimen/_5sdp"
             android:src="@drawable/ic_arrow_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +44,7 @@
             android:layout_marginStart="12dp"
             android:text="@string/select_language"
             android:textColor="@color/card_title"
-            android:textSize="20sp"
+            android:textSize="@dimen/_18ssp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnApplyLanguage"
@@ -62,8 +66,8 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="25dp"
+                android:layout_height="26dp"
                 android:layout_gravity="center"
                 android:contentDescription="Apply language"
                 android:src="@drawable/ic_check"
@@ -72,7 +76,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Language List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLanguages"
         android:layout_width="match_parent"

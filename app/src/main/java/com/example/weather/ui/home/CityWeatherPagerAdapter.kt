@@ -37,18 +37,20 @@ class CityWeatherPagerAdapter(
         this.tempUnit = unit
         notifyDataSetChanged()
     }
-
+/**Cập nhật dữ liệu thời tiết mới cho một thành phố và cập nhật lại đúng item của thành phố đó trên RecyclerView.*/
     fun updateWeatherData(cityName: String, resource: Resource<CurrentWeather>) {
-        weatherMap[cityName.lowercase()] = resource
+        weatherMap[cityName.lowercase().trim()] = resource
         if (resource is Resource.Success) {
-            weatherMap[resource.data.cityName.lowercase()] = resource
+            weatherMap[resource.data.cityName.lowercase().trim()] = resource
         }
         val index = cities.indexOfFirst {
-            it.equals(cityName, ignoreCase = true) ||
-                    (resource is Resource.Success && it.equals(resource.data.cityName, ignoreCase = true))
+            it.trim().equals(cityName.trim(), ignoreCase = true) ||
+                    (resource is Resource.Success && it.trim().equals(resource.data.cityName.trim(), ignoreCase = true))
         }
         if (index != -1) {
             notifyItemChanged(index)
+        } else {
+            notifyDataSetChanged()
         }
     }
 

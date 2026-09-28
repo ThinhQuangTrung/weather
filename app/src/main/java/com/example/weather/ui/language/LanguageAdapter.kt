@@ -33,7 +33,18 @@ class LanguageAdapter(
 
             binding.tvLanguageName.text = item.displayName
 
-            binding.ivFlag.setImageResource(item.flagRes)
+            if (item.flagAssetPath.isNotEmpty()) {
+                try {
+                    context.assets.open(item.flagAssetPath).use { inputStream ->
+                        val drawable = android.graphics.drawable.Drawable.createFromStream(inputStream, null)
+                        binding.ivFlag.setImageDrawable(drawable)
+                    }
+                } catch (_: Exception) {
+                    binding.ivFlag.setImageDrawable(null)
+                }
+            } else {
+                binding.ivFlag.setImageDrawable(null)
+            }
 
             if (isSelected) {
 

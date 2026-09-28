@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
 import android.os.LocaleList
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import java.util.Locale
 
 /**
@@ -38,11 +36,9 @@ object LocaleHelper {
     fun setLocale(
         context: Context,
         languageCode: String
-    ) {
+    ): Context {
         persistLanguage(context, languageCode)
-
-        val appLocale = LocaleListCompat.forLanguageTags(languageCode)
-        AppCompatDelegate.setApplicationLocales(appLocale)// cập nhật lại ngôn ngữ cho toàn bộ ứng dụng
+        return updateResources(context, languageCode)
     }
 
     private fun persistLanguage(
@@ -59,7 +55,7 @@ object LocaleHelper {
     }
 
     private fun updateResources(context: Context, language: String): Context {
-        val locale = Locale(language)
+        val locale = Locale.forLanguageTag(language)
         Locale.setDefault(locale)
 
         val resources = context.resources
@@ -70,6 +66,10 @@ object LocaleHelper {
             val localeList = LocaleList(locale)
             LocaleList.setDefault(localeList)
             configuration.setLocales(localeList)
+            try {
+                @Suppress("DEPRECATION")
+                context.applicationContext.resources.updateConfiguration(configuration, resources.displayMetrics)
+            } catch (_: Exception) { }
             context.createConfigurationContext(configuration)
         } else {
             @Suppress("DEPRECATION")

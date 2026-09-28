@@ -1,5 +1,6 @@
 package com.example.weather.core.base
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -7,8 +8,13 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.example.weather.data.preference.WeatherPreferenceManager
+import com.example.weather.utils.LocaleHelper
 
 abstract class BaseActivity : AppCompatActivity() {
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.onAttach(newBase))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Áp dụng theme TRƯỚC super.onCreate() để Android inflate đúng theme ngay từ đầu,

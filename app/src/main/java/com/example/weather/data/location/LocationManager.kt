@@ -58,7 +58,7 @@ class LocationManager(
     suspend fun getCurrentLocation(): Location? {
         if (!hasLocationPermission()) return null
 
-        return kotlinx.coroutines.withTimeoutOrNull(5000L) {
+        val freshLocation = kotlinx.coroutines.withTimeoutOrNull(4000L) {
             suspendCancellableCoroutine { continuation ->
                 val cancellationTokenSource = CancellationTokenSource()
 
@@ -67,27 +67,11 @@ class LocationManager(
                     cancellationTokenSource.token
                 ).addOnSuccessListener { location ->
                     if (continuation.isActive) {
-                        if (location != null) {
-                            continuation.resume(location)
-                        } else {
-                            fusedLocationClient.lastLocation
-                                .addOnSuccessListener { lastLoc ->
-                                    if (continuation.isActive) continuation.resume(lastLoc)
-                                }
-                                .addOnFailureListener {
-                                    if (continuation.isActive) continuation.resume(null)
-                                }
-                        }
+                        continuation.resume(location)
                     }
                 }.addOnFailureListener {
                     if (continuation.isActive) {
-                        fusedLocationClient.lastLocation
-                            .addOnSuccessListener { lastLoc ->
-                                if (continuation.isActive) continuation.resume(lastLoc)
-                            }
-                            .addOnFailureListener {
-                                if (continuation.isActive) continuation.resume(null)
-                            }
+                        continuation.resume(null)
                     }
                 }
 
@@ -95,8 +79,12 @@ class LocationManager(
                     cancellationTokenSource.cancel()
                 }
             }
-        } ?: run {
-            // Fallback lấy lastLocation khi getCurrentLocation bị quá thời gian (timeout)
+        }
+
+        if (freshLocation != null) return freshLocation
+
+        // Fallback lấy lastLocation với timeout an toàn 2s để tránh bị treo vĩnh viễn
+        return kotlinx.coroutines.withTimeoutOrNull(2000L) {
             suspendCancellableCoroutine { cont ->
                 fusedLocationClient.lastLocation
                     .addOnSuccessListener { if (cont.isActive) cont.resume(it) }

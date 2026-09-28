@@ -1,71 +1,220 @@
 <resources>
     <string name="app_name">天気</string>
     <string name="app_subtitle">スマート天気予報</string>
-    <string name="section_core_features">主要機能</string>
+    <string name="section_core_features">主な機能</string>
     <string name="page_counter_format">%1$d / %2$d</string>
-    
+
+    <!-- Language Selection -->
     <string name="select_language">言語を選択</string>
     <string name="search_language">言語を検索…</string>
 
-    <string name="card1_tag">状況</string>
+    <!-- Card 1 -->
+    <string name="card1_tag">ステータス</string>
     <string name="card1_title">リアルタイム天気</string>
     <string name="card1_desc">現在の気温、湿度、風速、UV指数をリアルタイムで確認できます。</string>
-    <string name="card1_stat1">14 km/h 風</string>
-    <string name="card1_stat2">68% 湿度</string>
+    <string name="card1_stat1">風速 14 km/h</string>
+    <string name="card1_stat2">湿度 68%</string>
     <string name="card1_stat3">UV 4</string>
-    
-    <string name="card2_tag">降水 &amp; グラフ</string>
-    <string name="card2_title">5日間 / 3時間予報</string>
-    <string name="card2_desc">気温の推移グラフと3時間ごとの予報で1週間の予定を立てましょう。</string>
-    <string name="card2_stat1">監視</string>
-    <string name="card2_stat2">気温推移</string>
+
+    <!-- Card 2 -->
+    <string name="card2_tag">雨と傾向</string>
+    <string name="card2_title">5日間 / 3時間ごとの予報</string>
+    <string name="card2_desc">気温の推移グラフと3時間ごとの天気予報で、1週間の予定を立てられます。</string>
+    <string name="card2_stat1">モニタリング</string>
+    <string name="card2_stat2">気温の傾向</string>
     <string name="card2_stat3">降水確率</string>
-    
+
+    <!-- Card 3 -->
     <string name="card3_tag">グローバルGPS</string>
-    <string name="card3_title">検索 &amp; お気に入り保存</string>
-    <string name="card3_desc">世界中のあらゆる場所の天気を正確なデータで検索できます。</string>
-    <string name="card3_stat1">世界中</string>
-    <string name="card3_stat2">自動GPS</string>
+    <string name="card3_title">検索してお気に入りに保存</string>
+    <string name="card3_desc">世界中の場所の天気を検索し、詳細なデータとリアルタイム更新を確認できます。</string>
+    <string name="card3_stat1">世界対応</string>
+    <string name="card3_stat2">GPS自動取得</string>
     <string name="card3_stat3">複数都市</string>
-    
-    <string name="btn_start_now">今すぐ始める</string>
-    <string name="btn_continue">次へ</string>
+
+    <!-- Buttons & Actions -->
+    <string name="btn_start_now">始める</string>
+    <string name="btn_continue">続ける</string>
     <string name="btn_next">次へ</string>
     <string name="btn_skip">スキップ</string>
     <string name="footer_version">v1.0.0 • オープンソース</string>
 
+    <!-- Weather Setup Screen -->
     <string name="weather_setup_title">天気設定</string>
     <string name="weather_setup_subtitle">ホーム画面に表示する項目を選択してください</string>
     <string name="param_temperature">気温</string>
-    <string name="param_temperature_desc">現在の気温、体感温度、最高/最低気温</string>
+    <string name="param_temperature_desc">現在の気温、体感温度、最高・最低気温</string>
     <string name="param_humidity">湿度</string>
-    <string name="param_humidity_desc">相対湿度と露点温度</string>
+    <string name="param_humidity_desc">相対湿度と露点</string>
     <string name="param_wind">風</string>
-    <string name="param_wind_desc">風速と風向</string>
+    <string name="param_wind_desc">風速と風向き</string>
     <string name="param_visibility">視程</string>
-    <string name="param_visibility_desc">見通し距離と空気の透明度</string>
+    <string name="param_visibility_desc">視程距離と視界の状態</string>
     <string name="param_pressure">気圧</string>
-    <string name="param_pressure_desc">大気圧 (hPa) および標準気圧 (atm)</string>
-    <string name="param_air_quality">空気質</string>
-    <string name="param_air_quality_desc">空気質指数 (AQI) と健康アドバイス</string>
+    <string name="param_pressure_desc">気圧（hPa）とatm換算値</string>
+    <string name="param_air_quality">大気質</string>
+    <string name="param_air_quality_desc">大気質指数（AQI）と健康への注意レベル</string>
+    <string name="param_cloud_cover">雲量</string>
+    <string name="param_cloud_cover_desc">雲量の割合と空の状態</string>
+    <string name="param_sun_cycle">日照と昼間</string>
+    <string name="param_sun_cycle_desc">日の出、日の入り時刻、日照時間</string>
 
+    <!-- Home & Telemetry -->
     <string name="home_title">ホーム</string>
-    <string name="telemetry_section_title">詳細指標</string>
-    <string name="air_quality_title">空気質 (AQI)</string>
+    <string name="telemetry_section_title">詳細情報</string>
+    <string name="air_quality_title">大気質（AQI）</string>
     <string name="aqi_good">良好</string>
     <string name="aqi_fair">普通</string>
-    <string name="aqi_moderate">やや注意</string>
-    <string name="aqi_poor">悪い</string>
-    <string name="aqi_very_poor">非常に悪い</string>
-    <string name="aqi_good_desc">空気質は非常に良好で、屋外活動に適しています。</string>
-    <string name="aqi_fair_desc">大半の人にとって問題のないレベルです。</string>
-    <string name="aqi_moderate_desc">敏感な方は軽い症状が現れる可能性があります。</string>
-    <string name="aqi_poor_desc">敏感な方の健康に影響を与える恐れがあります。</string>
-    <string name="aqi_very_poor_desc">健康警報: 屋外活動を極力控えてください。</string>
+    <string name="aqi_moderate">やや不良</string>
+    <string name="aqi_poor">不良</string>
+    <string name="aqi_very_poor">非常に不良</string>
+    <string name="aqi_good_desc">空気の質は良好で、健康へのリスクはほとんどありません。</string>
+    <string name="aqi_fair_desc">ほとんどの人にとって許容できる空気の質です。</string>
+    <string name="aqi_moderate_desc">敏感な人は軽い症状を感じる場合があります。</string>
+    <string name="aqi_poor_desc">敏感な人に不快感や健康への影響を引き起こす可能性があります。</string>
+    <string name="aqi_very_poor_desc">健康注意報：誰もが深刻な影響を受ける可能性があります。</string>
+    <string name="cloud_cover_title">雲量</string>
+    <string name="cloud_overcast">曇り</string>
+    <string name="cloud_mostly_cloudy">おおむね曇り</string>
+    <string name="cloud_partly_cloudy">晴れ時々曇り</string>
+    <string name="cloud_mostly_clear">おおむね晴れ</string>
+    <string name="cloud_clear">快晴</string>
 
+    <!-- Settings -->
     <string name="settings_title">設定</string>
     <string name="settings_language">言語</string>
     <string name="settings_theme">テーマ</string>
     <string name="settings_unit">温度単位</string>
-    <string name="settings_weather_setup">天気ウィジェットのカスタマイズ</string>
+    <string name="settings_weather_setup">天気ウィジェットをカスタマイズ</string>
+
+    <!-- City Management -->
+    <string name="city_management_title">都市管理</string>
+    <string name="current_location_title">現在地</string>
+    <string name="current_location_subtitle">端末のGPSを使用してリアルタイムの天気を取得</string>
+    <string name="add_city_hint">都市名を入力 </string>
+    <string name="suggested_cities">おすすめの都市</string>
+    <string name="saved_cities">保存した都市</string>
+    <string name="hint_long_click_to_delete">タップしてホームで表示 • 長押しして削除</string>
+    <string name="delete_city_title">都市を削除</string>
+    <string name="delete_city_confirm">「%1$s」をリストから削除してもよろしいですか？</string>
+    <string name="btn_delete">削除</string>
+    <string name="btn_cancel">キャンセル</string>
+    <string name="city_already_exists">この都市はすでにリストにあります</string>
+    <string name="city_added_success">%1$sを追加しました</string>
+    <string name="city_deleted_success">%1$sを削除しました</string>
+    <string name="cannot_delete_last_city">最後の1都市は削除できません</string>
+    <string name="feels_like">体感温度 %1$d%2$s</string>
+
+    <!-- Location Dialogs & Errors -->
+    <string name="permission_location_title">位置情報の許可が必要です</string>
+    <string name="permission_location_message">正確な現在地の天気を提供するため、位置情報へのアクセスが必要です。\n\n「設定を開く」をタップして権限を許可してください。</string>
+    <string name="btn_open_settings">設定を開く</string>
+    <string name="btn_later">後で</string>
+    <string name="gps_enable_title">GPSを有効にする</string>
+    <string name="gps_enable_message">端末のGPSがオフになっています。現在地の天気を自動的に更新するには、GPSを有効にしてください。</string>
+    <string name="btn_enable_gps">GPSを有効にする</string>
+    <string name="weather_server_error">%1$sの天気情報サービスに接続できませんでした</string>
+
+    <!-- Telemetry Extra Labels -->
+    <string name="last_updated_format">🕒 更新時刻 %1$s</string>
+    <string name="temp_high_format">↑ 最高: %1$d°</string>
+    <string name="temp_low_format">↓ 最低: %1$d°</string>
+    <string name="dew_point_format">露点: %1$d%2$s</string>
+    <string name="wind_gust_format">（突風 %1$.1f m/s）</string>
+    <string name="sunrise_label">日の出</string>
+    <string name="sunset_label">日の入り</string>
+    <string name="daylight_duration_label">日照時間</string>
+    <string name="pressure_detail_title">詳細な気圧</string>
+
+    <string name="monday">月曜日</string>
+    <string name="tuesday">火曜日</string>
+    <string name="wednesday">水曜日</string>
+    <string name="thursday">木曜日</string>
+    <string name="friday">金曜日</string>
+    <string name="saturday">土曜日</string>
+    <string name="sunday">日曜日</string>
+
+    <string name="today">今日</string>
+    <string name="tomorrow_with_day">明日（%1$s）</string>
+    <string name="loading">読み込み中…</string>
+
+    <string name="monday_short">月</string>
+    <string name="tuesday_short">火</string>
+    <string name="wednesday_short">水</string>
+    <string name="thursday_short">木</string>
+    <string name="friday_short">金</string>
+    <string name="saturday_short">土</string>
+    <string name="sunday_short">日</string>
+    <string name="five_day_list">5日間の予報</string>
+    <string name="hourly_forecast">時間別予報</string>
+    <string name="dew_point">露点: 22°C</string>
+    <string name="home">ホーム</string>
+    <string name="forecast">予報</string>
+    <string name="clear_sky">快晴</string>
+    <string name="weather_now">現在</string>
+    <string name="rain_chance">%1$d%% 降水</string>
+
+    <string name="weather_thunderstorm">雷雨</string>
+    <string name="weather_drizzle">小雨</string>
+    <string name="weather_light_rain">弱い雨</string>
+    <string name="weather_moderate_rain">雨</string>
+    <string name="weather_heavy_rain">強い雨</string>
+    <string name="weather_freezing_rain">凍雨</string>
+    <string name="weather_shower_rain">にわか雨</string>
+    <string name="weather_snow">雪</string>
+    <string name="weather_fog">霧</string>
+    <string name="weather_smoke">煙</string>
+    <string name="weather_haze">もや</string>
+    <string name="weather_dust">ほこり</string>
+    <string name="weather_tornado">竜巻</string>
+    <string name="weather_clear_sky">快晴</string>
+    <string name="weather_few_clouds">薄曇り</string>
+    <string name="weather_scattered_clouds">ところどころ曇り</string>
+    <string name="weather_broken_clouds">曇り</string>
+    <string name="weather_default">安定した天気</string>
+
+    <string name="visibility_very_good">非常に良好な視界</string>
+    <string name="visibility_clear">良好</string>
+    <string name="visibility_good">良好な視界</string>
+    <string name="visibility_normal">通常</string>
+    <string name="visibility_moderate">やや悪い視界</string>
+    <string name="visibility_hazy">やや霞んだ視界</string>
+    <string name="visibility_limited">視界不良</string>
+    <string name="visibility_foggy">霧による視界不良</string>
+
+    <string name="cloud_clear_sky">快晴</string>
+    <string name="cloud_few_clouds_description">雲が少なく晴れ</string>
+    <string name="cloud_few_clouds">雲が少ない</string>
+    <string name="cloud_scattered_description">ところどころに雲</string>
+    <string name="cloud_scattered_clouds">ところどころ曇り</string>
+    <string name="pressure_stable">気圧は安定</string>
+    <string name="cloud_many_description">おおむね曇り</string>
+    <string name="cloud_many">曇り</string>
+    <string name="gust_calm">風: 穏やか</string>
+    <string name="cloud_overcast_description">厚い雲に覆われています</string>
+
+    <string name="choose_theme">テーマを選択</string>
+    <string name="theme_system">システム設定</string>
+    <string name="theme_light">ライト</string>
+    <string name="theme_dark">ダーク</string>
+    <string name="cancel">キャンセル</string>
+
+    <string name="settings">設定</string>
+    <string name="general_settings">一般設定</string>
+    <string name="language">言語</string>
+    <string name="theme">テーマ</string>
+    <string name="weather_widgets">気温、湿度、風、気圧…</string>
+    <string name="app_version">アプリバージョン</string>
+    <string name="app_version_info">SkyCast v1.0.0 • オープンソース</string>
+    <string name="information">情報</string>
+
+    <string name="favourite">お気に入り</string>
+    <string name="favourite_title">お気に入り</string>
+    <string name="favourite_count">%1$d件保存済み</string>
+    <string name="add_city">+ 追加</string>
+    <string name="search_favourite_hint">保存した都市を検索…</string>
+    <string name="favourite_empty">お気に入りの都市が見つかりません</string>
+    <string name="favourite_empty_desc">ホームまたは検索から都市を追加して、ここで天気を確認できます</string>
+    <string name="city_added_to_favourite">%1$sをお気に入りに追加しました</string>
+    <string name="city_removed_from_favourite">%1$sをお気に入りから削除しました</string>
 </resources>

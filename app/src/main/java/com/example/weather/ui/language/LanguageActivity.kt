@@ -76,41 +76,28 @@ class LanguageActivity : BaseActivity() {
         // BUTTON BACK
         // ==============================
 
-        if (
-            !isFromSettings &&
-            !prefManager.isLanguageSelected
-        ) {
-
-            // Lần đầu vào app
-            // Không cho quay lại
-            binding.btnBack.visibility = View.GONE
-
-        } else {
-
-            // Đã chọn language trước đó
-            // hoặc mở từ Settings
+        if (isFromSettings) {
+        // mởi cài đặt cho quay lại
             binding.btnBack.visibility = View.VISIBLE
-
             binding.btnBack.setOnClickListener {
                 finish()
             }
+
+        } else {
+            //còn không -> thoát
+            binding.btnBack.visibility = View.GONE
         }
 
         // ==============================
         // BUTTON APPLY
         // ==============================
 
-        if (!prefManager.isLanguageSelected) {
-
-            // Lần đầu:
-            // Chưa chọn language → ẩn Apply
-            binding.btnApplyLanguage.visibility = View.GONE
-
-        } else {
-
-            // Đã chọn language trước đó
-            // → hiện Apply
+        if (isFromSettings) {
+            // Mở từ Cài đặt -> hiển thị sẵn nút Apply
             binding.btnApplyLanguage.visibility = View.VISIBLE
+        } else {
+            // Lần đầu mở app / chưa chọn ngôn ngữ -> ẩn nút Apply, chỉ hiện khi người dùng chọn 1 ngôn ngữ
+            binding.btnApplyLanguage.visibility = View.GONE
         }
 
         binding.btnApplyLanguage.setOnClickListener {
@@ -124,37 +111,33 @@ class LanguageActivity : BaseActivity() {
     private fun setupLanguageList() {
 
         val languageList = listOf(
-
-            LanguageItem("en", "English", "English", R.drawable.english),
-            LanguageItem("de", "German", "Deutsch", R.drawable.german),
-            LanguageItem("fr", "French", "Français", R.drawable.french),
-            LanguageItem("es", "Spanish", "Español", R.drawable.spanish),
-            LanguageItem("it", "Italian", "Italiano", R.drawable.ic_flag_italy),
-            LanguageItem("nl", "Dutch", "Nederlands", R.drawable.ic_flag_netherlands),
-            LanguageItem("pt", "Portuguese", "Português", R.drawable.portuguese),
-            LanguageItem("ar", "Arabic", "العربية", R.drawable.arabic),
-            LanguageItem("ko", "Korean", "한국어", R.drawable.south_korea),
-            LanguageItem("ja", "Japanese", "日本語", R.drawable.japan),
-            LanguageItem("hi", "Hindi", "हिन्दी", R.drawable.hindi),
-            LanguageItem("id", "Indonesia", "Bahasa Indonesia", R.drawable.indonesia),
-            LanguageItem("vi", "Vietnamese", "Tiếng Việt", R.drawable.ic_flag_vietnam),
-            LanguageItem("zh", "Chinese (Simplified)", "简体中文", R.drawable.china_simplified),
-            LanguageItem("zh-TW", "Chinese (Traditional)", "繁體中文", R.drawable.china_traditional),
-            LanguageItem("ru", "Russian", "Русский", R.drawable.russia),
-            LanguageItem("tr", "Turkish", "Türkçe", R.drawable.turkey),
-            LanguageItem("bn", "Bengali", "বাংলা", R.drawable.bangladesh),
-            LanguageItem("pt-BR", "Portuguese (Brazil)", "Português do Brasil", R.drawable.brazil)
+            LanguageItem("en", "English (United States)", "English", "flag_language/english.webp"),
+            LanguageItem("de", "Deutsch (Germany)", "Deutsch", "flag_language/german.webp"),
+            LanguageItem("fr", "Français (France)", "Français", "flag_language/french.webp"),
+            LanguageItem("es", "Español (Spain)", "Español", "flag_language/spanish.webp"),
+            LanguageItem("pt", "Português (Portugal)", "Português", "flag_language/portuguese.webp"),
+            LanguageItem("pt-BR", "Português (Brazil)", "Português do Brasil", "flag_language/brazil.webp"),
+            LanguageItem("ar", "العربية (Arabic)", "العربية", "flag_language/arabic.webp"),
+            LanguageItem("ko", "한국어 (South Korea)", "한국어", "flag_language/south_korea.webp"),
+            LanguageItem("ja", "日本語 (Japan)", "日本語", "flag_language/japan.webp"),
+            LanguageItem("hi", "हिन्दी (India)", "हिन्दी", "flag_language/hindi.webp"),
+            LanguageItem("id", "Bahasa Indonesia (Indonesia)", "Bahasa Indonesia", "flag_language/indonesia.webp"),
+            LanguageItem("zh", "简体中文 (China)", "简体中文", "flag_language/china_simplified.webp"),
+            LanguageItem("zh-TW", "繁體中文 (Taiwan)", "繁體中文", "flag_language/china_traditional.webp"),
+            LanguageItem("ru", "Русский (Russia)", "Русский", "flag_language/russia.webp"),
+            LanguageItem("tr", "Türkçe (Turkey)", "Türkçe", "flag_language/turkey.webp"),
+            LanguageItem("bn", "বাংলা (Bangladesh)", "বাংলা", "flag_language/bangladesh.webp")
         )
 
         /*
-         * Nếu người dùng đã chọn language trước đó
-         * → lấy language hiện tại.
+         * Nếu mở từ Cài đặt:
+         * → lấy language hiện tại đang dùng.
          *
-         * Nếu là lần đầu:
-         * → không chọn item nào.
+         * Nếu là lần đầu mở app:
+         * → không chọn item nào sẵn, để trống để người dùng bấm chọn.
          */
         val initialSelectedCode =
-            if (prefManager.isLanguageSelected) {
+            if (isFromSettings) {
                 LocaleHelper.getLanguage(this)
             } else {
                 ""
@@ -164,12 +147,12 @@ class LanguageActivity : BaseActivity() {
             languages = languageList,
             initialSelectedCode = initialSelectedCode,
 
-            onItemClick = {
+            onItemClick = { selectedLanguage ->
 
                 // User vừa chọn một language
+                binding.tvSelectLanguageTitle.text = selectedLanguage.displayName
                 // → hiện nút Apply
-                binding.btnApplyLanguage.visibility =
-                    View.VISIBLE
+                binding.btnApplyLanguage.visibility = View.VISIBLE
             }
         )
 
@@ -183,6 +166,12 @@ class LanguageActivity : BaseActivity() {
         // ==============================
 
         if (initialSelectedCode.isNotEmpty()) {
+
+            val selectedLanguage =
+                languageList.firstOrNull {
+                    it.code.equals( initialSelectedCode, ignoreCase = true ) }
+            if (selectedLanguage != null)
+            { binding.tvSelectLanguageTitle.text = selectedLanguage.displayName}
 
             val selectedIndex =
                 languageList.indexOfFirst {
@@ -230,40 +219,11 @@ class LanguageActivity : BaseActivity() {
         // CHUYỂN MÀN HÌNH
         // ==============================
 
-        if (isFromSettings) {
-
-            val intent =
-                Intent(
-                    this,
-                    HomeActivity::class.java
-                ).apply {
-
-                    flags =
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                                Intent.FLAG_ACTIVITY_NEW_TASK
-
-                    putExtra(
-                        HomeActivity.EXTRA_OPEN_SETTINGS,
-                        true
-                    )
-                }
-
-            startActivity(intent)
-
-            finish()
-
-        } else {
-
-            val intent =
-                Intent(
-                    this,
-                    MainActivity::class.java
-                )
-
-            startActivity(intent)
-
-            finish()
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
+        startActivity(intent)
+        finish()
     }
 
     companion object {

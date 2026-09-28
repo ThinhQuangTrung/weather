@@ -37,22 +37,9 @@ class MainActivity : BaseActivity() {
     private lateinit var dots: Array<View>
     @Inject lateinit var prefManager: WeatherPreferenceManager
 
-    override fun attachBaseContext(newBase: android.content.Context) {
-        super.attachBaseContext(com.example.weather.utils.LocaleHelper.onAttach(newBase))
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (prefManager.isOnboardingCompleted) {
-            if (prefManager.isWeatherSetupCompleted) {
-                startActivity(Intent(this, HomeActivity::class.java))
-            } else {
-                startActivity(Intent(this, WeatherSetupActivity::class.java))
-            }
-            finish()
-            return
-        }
         enableEdgeToEdge()
 
         binding = ActivityMainBinding.inflate(layoutInflater)

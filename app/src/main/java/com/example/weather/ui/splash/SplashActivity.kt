@@ -31,10 +31,6 @@ private val appOpenAdManager: AppOpenAdManager
 
     private var isNavigated = false
 
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(LocaleHelper.onAttach(newBase))
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,24 +39,12 @@ private val appOpenAdManager: AppOpenAdManager
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupSplashAnimation()
         setupLoading()
         loadAppOpenAd()
 //        showAppOpenAd()
     }
 
-    private fun setupSplashAnimation() {
-        // Hiệu ứng nhẹ logo splash
-        binding.ivSplashLogo.alpha = 0f
-        binding.ivSplashLogo.scaleX = 0.8f
-        binding.ivSplashLogo.scaleY = 0.8f
-        binding.ivSplashLogo.animate()
-            .alpha(1f)
-            .scaleX(1f)
-            .scaleY(1f)
-            .setDuration(600)
-            .start()
-    }
+
 
     private fun setupLoading() {
         binding.vLoading.onProgress = object : ICallBackItem {
@@ -90,24 +74,7 @@ private val appOpenAdManager: AppOpenAdManager
         if (isNavigated || isFinishing || isDestroyed) return
         isNavigated = true
 
-        val nextIntent = when {
-            // Bước 2: Chưa chọn ngôn ngữ -> Mở màn hình Language
-            !prefManager.isLanguageSelected -> {
-                Intent(this, LanguageActivity::class.java)
-            }
-            // Bước 3: Chưa hoàn thành Onboarding -> Mở màn hình Onboarding (MainActivity)
-            !prefManager.isOnboardingCompleted -> {
-                Intent(this, MainActivity::class.java)
-            }
-            // Bước 4: Chưa thiết lập thông số thời tiết -> Mở màn hình Thiết lập thời tiết
-            !prefManager.isWeatherSetupCompleted -> {
-                Intent(this, WeatherSetupActivity::class.java)
-            }
-            // Bước 5: Đã hoàn tất toàn bộ -> Vào thẳng màn hình Home
-            else -> {
-                Intent(this, HomeActivity::class.java)
-            }
-        }.apply {
+        val nextIntent = Intent(this, LanguageActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         }
 
