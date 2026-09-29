@@ -1,66 +1,35 @@
 package com.example.weather.ui.onboarding
 
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weather.data.model.OnboardingItem
 import com.example.weather.databinding.ItemOnboardingCardBinding
 
 /**
- * Adapter hiển thị các thẻ onboarding bằng
+ * Adapter hiển thị các thẻ onboarding bằng ViewPager2.
+ *
+ * @param onNextClick Callback khi người dùng bấm Next — nhận vào vị trí trang hiện tại.
  */
 class OnboardingAdapter(
-    private var items: List<OnboardingItem> = emptyList()
+    private var items: List<OnboardingItem> = emptyList(),
+    private val onNextClick: (currentPage: Int) -> Unit = {}
 ) : RecyclerView.Adapter<OnboardingAdapter.OnboardingViewHolder>() {
 
-    class OnboardingViewHolder(
+    inner class OnboardingViewHolder(
         private val binding: ItemOnboardingCardBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: OnboardingItem) {
-            val context = binding.root.context
-
+        fun bind(item: OnboardingItem, position: Int) {
             with(binding) {
-                // Icon badge
-                ivBadgeIcon.setImageResource(item.iconRes)
-                ivBadgeIcon.imageTintList = ColorStateList.valueOf(
-                    ContextCompat.getColor(context, item.iconTintRes)
-                )
-                ivBadgeIcon.backgroundTintList = ColorStateList.valueOf(
-                    ContextCompat.getColor(context, item.iconBgRes)
-                )
+                tvName.setText(item.titleRes)
+                tvIntroduction.setText(item.descriptionRes)
+                ivIllustration.setImageResource(item.imageRes)
+                ivDotIndicator.setImageResource(item.dotRes)
 
-                // Tag pill
-                tvTag.text = item.tagText
-                tvTag.backgroundTintList = ColorStateList.valueOf(
-                    ContextCompat.getColor(context, item.tagBgRes)
-                )
-                tvTag.setTextColor(ContextCompat.getColor(context, item.tagTextColorRes))
-
-                // Title & Description
-                tvCardTitle.text = item.title
-                tvCardDesc.text = item.description
-
-                // Bottom stats
-                val statColor = ContextCompat.getColor(context, item.statColorRes)
-                val statColorStateList = ColorStateList.valueOf(statColor)
-
-                ivStat1.setImageResource(item.stat1Icon)
-                ivStat1.imageTintList = statColorStateList
-                tvStat1.text = item.stat1Text
-                tvStat1.setTextColor(statColor)
-
-                ivStat2.setImageResource(item.stat2Icon)
-                ivStat2.imageTintList = statColorStateList
-                tvStat2.text = item.stat2Text
-                tvStat2.setTextColor(statColor)
-
-                ivStat3.setImageResource(item.stat3Icon)
-                ivStat3.imageTintList = statColorStateList
-                tvStat3.text = item.stat3Text
-                tvStat3.setTextColor(statColor)
+                tvNext.setOnClickListener {
+                    onNextClick(position)
+                }
             }
         }
     }
@@ -75,7 +44,7 @@ class OnboardingAdapter(
     }
 
     override fun onBindViewHolder(holder: OnboardingViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], position)
     }
 
     override fun getItemCount(): Int = items.size

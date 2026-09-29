@@ -1,20 +1,15 @@
 package com.example.weather.ui.splash
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import com.example.weather.MainActivity
 import com.example.weather.ads.AppOpenAdManager
 import com.example.weather.data.preference.WeatherPreferenceManager
 import com.example.weather.databinding.ActivitySplashBinding
 import com.example.weather.core.base.BaseActivity
-import com.example.weather.ui.home.HomeActivity
 import com.example.weather.ui.language.LanguageActivity
-import com.example.weather.ui.setup.WeatherSetupActivity
 import com.example.weather.utils.ICallBackItem
-import com.example.weather.utils.LocaleHelper
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import com.example.weather.WeatherApplication

@@ -8,7 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.weather.MainActivity
+import com.example.weather.ui.onboarding.OnboardingActivity
 import com.example.weather.R
 import com.example.weather.data.model.LanguageItem
 import com.example.weather.data.preference.WeatherPreferenceManager
@@ -219,7 +219,7 @@ class LanguageActivity : BaseActivity() {
         // CHUYỂN MÀN HÌNH
         // ==============================
 
-        val intent = Intent(this, MainActivity::class.java).apply {
+        val intent = Intent(this, OnboardingActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         startActivity(intent)

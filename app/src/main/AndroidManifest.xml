@@ -33,24 +33,28 @@
         <activity
             android:name=".ui.language.LanguageActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
         <!-- 3. Onboarding Activity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.onboarding.OnboardingActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
         <!-- 4. Weather Setup Activity -->
         <activity
             android:name=".ui.setup.WeatherSetupActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
         <!-- 5. Main Home Activity -->
         <activity
             android:name=".ui.home.HomeActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
         <!-- Location Bound Service -->

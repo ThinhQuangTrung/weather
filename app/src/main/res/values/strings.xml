@@ -2,8 +2,7 @@
     <string name="app_name">Weather</string>
     <string name="app_subtitle">Smart Weather Forecast</string>
     <string name="section_core_features">CORE FEATURES</string>
-    <string name="page_counter_format">%1$d / %2$d</string>
-    
+
     <!-- Language Selection -->
     <string name="select_language">Select Language</string>
     <string name="search_language">Search language…</string>
@@ -11,7 +10,7 @@
     <!-- Card 1 -->
     <string name="card1_tag">Status</string>
     <string name="card1_title">Real-time Weather</string>
-    <string name="card1_desc">Track current temperature, humidity, wind speed, and UV index with instant live updates.</string>
+    <string name="card1_desc">Manage the weather list for favorite locations.</string>
     <string name="card1_stat1">14 km/h Wind</string>
     <string name="card1_stat2">68% Humidity</string>
     <string name="card1_stat3">UV 4</string>
@@ -19,7 +18,7 @@
     <!-- Card 2 -->
     <string name="card2_tag">Rain &amp; Trends</string>
     <string name="card2_title">5-Day / 3-Hour Forecast</string>
-    <string name="card2_desc">Plan your week with temperature trend charts and visual 3-hour forecasts.</string>
+    <string name="card2_desc">Check the weather using an intuitive map-based view..</string>
     <string name="card2_stat1">Monitoring</string>
     <string name="card2_stat2">Temp Trend</string>
     <string name="card2_stat3">Rain Probability</string>
@@ -27,7 +26,7 @@
     <!-- Card 3 -->
     <string name="card3_tag">Global GPS</string>
     <string name="card3_title">Search &amp; Save Favorites</string>
-    <string name="card3_desc">Lookup weather anywhere worldwide with detailed data and real-time updates.</string>
+    <string name="card3_desc">Quickly track the Air Quality Index (AQI).</string>
     <string name="card3_stat1">Global</string>
     <string name="card3_stat2">Auto GPS</string>
     <string name="card3_stat3">Multi-city</string>
@@ -38,6 +37,15 @@
     <string name="btn_next">Next</string>
     <string name="btn_skip">Skip</string>
     <string name="footer_version">v1.0.0 • Open Source</string>
+    <string name="page_counter_format">%1$d / %2$d</string>
+
+    <!-- Card 4 -->
+    <string name="card4_tag">Alerts</string>
+    <string name="card4_title">Smart Notifications</string>
+    <string name="card4_desc">Accurate hourly weather and temperature updates.</string>
+    <string name="card4_stat1">Rain Alert</string>
+    <string name="card4_stat2">Storm Warning</string>
+    <string name="card4_stat3">UV Alert</string>
 
     <!-- Weather Setup Screen -->
     <string name="weather_setup_title">Weather Setup</string>
@@ -217,4 +225,7 @@
     <string name="favourite_empty_desc">Add cities from Home or Search to track weather here</string>
     <string name="city_added_to_favourite">%1$s added to favourites</string>
     <string name="city_removed_from_favourite">%1$s removed from favourites</string>
+    <string name="CityWeather">CityWeather</string>
+    <string name="favorite">Manage the list of favorite weather locations.</string>
+    <string name="next">Next</string>
 </resources>
