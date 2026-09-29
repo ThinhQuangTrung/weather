@@ -141,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/bg_setup_card_selected"
+                android:background="@drawable/bg_setup_card_normal"
                 android:clickable="true"
                 android:elevation="1dp"
                 android:focusable="true"
@@ -193,7 +193,7 @@
                     android:id="@+id/cbOptionHumidity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
+                    android:checked="false"
                     android:clickable="false"
                     android:focusable="false"
                     app:buttonTint="#2563EB"
@@ -208,7 +208,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/bg_setup_card_selected"
+                android:background="@drawable/bg_setup_card_normal"
                 android:clickable="true"
                 android:elevation="1dp"
                 android:focusable="true"
@@ -260,7 +260,7 @@
                     android:id="@+id/cbOptionWind"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
+                    android:checked="false"
                     android:clickable="false"
                     android:focusable="false"
                     app:buttonTint="#2563EB"
@@ -270,6 +270,10 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- 4. Tầm nhìn (Visibility) -->
+
+            <!-- 5. Áp suất (Pressure) -->
+
+            <!-- 6. Chất lượng KK (Air Quality) -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardOptionVisibility"
                 android:layout_width="match_parent"
@@ -336,13 +340,12 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- 5. Áp suất (Pressure) -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardOptionPressure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/bg_setup_card_selected"
+                android:background="@drawable/bg_setup_card_normal"
                 android:clickable="true"
                 android:elevation="1dp"
                 android:focusable="true"
@@ -394,7 +397,7 @@
                     android:id="@+id/cbOptionPressure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
+                    android:checked="false"
                     android:clickable="false"
                     android:focusable="false"
                     app:buttonTint="#2563EB"
@@ -403,7 +406,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- 6. Chất lượng KK (Air Quality) -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardOptionAirQuality"
                 android:layout_width="match_parent"
@@ -476,7 +478,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/bg_setup_card_selected"
+                android:background="@drawable/bg_setup_card_normal"
                 android:clickable="true"
                 android:elevation="1dp"
                 android:focusable="true"
@@ -528,7 +530,7 @@
                     android:id="@+id/cbOptionCloud"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
+                    android:checked="false"
                     android:clickable="false"
                     android:focusable="false"
                     app:buttonTint="#2563EB"
@@ -543,7 +545,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/bg_setup_card_selected"
+                android:background="@drawable/bg_setup_card_normal"
                 android:clickable="true"
                 android:elevation="1dp"
                 android:focusable="true"
@@ -595,7 +597,7 @@
                     android:id="@+id/cbOptionSunCycle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
+                    android:checked="false"
                     android:clickable="false"
                     android:focusable="false"
                     app:buttonTint="#2563EB"
